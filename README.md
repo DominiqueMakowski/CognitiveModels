@@ -34,7 +34,7 @@ Remains to be decided. Some ideas:
 
 - **Chapter 1**: Pieces of Puzzle
 
-1. Very quick intro to Julia
+1. Very quick intro to Julia and Turing
 2. Linear Regression: understand what the parameters mean (intercept, slopes, sigma)
 3. Boostrapping: Introduce concepts related to pseudo-posterior distribution description.
 4. Hierarchical Models: Simpson's paradox, random effects, how to leverage them to model interindividual differences
