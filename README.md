@@ -1,6 +1,6 @@
 # Cognitive Models with Julia
 
-![](https://img.shields.io/badge/status-looking_for_collaborators-orange)
+[![](https://img.shields.io/badge/status-looking_for_collaborators-orange)](https://github.com/DominiqueMakowski/CognitiveModels/issues)
 
 The project is to write an open-access book on **cognitive models**, i.e., statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...).
 
@@ -28,7 +28,7 @@ As this is a fast-evolving field (both from the theoretical - with new models be
 This project can only be achieved by a team, and I suspect no single person has currently all the skills and knowledge to cover all the content. We need many people who have strengths in various aspects, such as Julia/Turing, theory, writing, making plots etc.
 Most importantly, this project can serve as a way for us to learn more about this approach to psychological science. 
 
-**So if you are *interested* in cognitive models, give us a shout-out!**
+**If you are *interested* in the project, let us know by [opening an issue](https://github.com/DominiqueMakowski/CognitiveModels/issues)!**
 
 ## Content
 
