@@ -1,5 +1,7 @@
 # Cognitive Models with Julia
 
+![](https://img.shields.io/badge/status-looking_for_collaborators-orange)
+
 The project is to write an open-access book on **cognitive models**, i.e., statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...).
 
 ## Why Julia?
