@@ -34,31 +34,46 @@ Most importantly, this project can serve as a way for us to learn more about thi
 
 Remains to be decided. Some ideas:
 
-- **Chapter 1**: Pieces of Puzzle
+### Chapter 1: Pieces of Puzzle
 
 1. Very quick intro to Julia and Turing
 2. Linear Regression: understand what the parameters mean (intercept, slopes, sigma)
-3. Boostrapping: Introduce concepts related to pseudo-posterior distribution description.
+3. Boostrapping: Introduce concepts related to pseudo-posterior distribution description
 4. Hierarchical Models: Simpson's paradox, random effects, how to leverage them to model interindividual differences
 5. Bayesian estimation: introduce Bayesian estimation and priors over parameters
 
-- **Chapter 2**: Predictors
+### Chapter 2: Predictors
 
 1. Bayesian mixed linear regression: put everything together
 2. Categorical predictors (+ monotonic effects)
 3. Interactions
 4. Non-linear relationships (polynomial, GAMs)
 
-- **Chapter 3**: Choice and Scales
+### Chapter 3: Choice and Scales
 
 1. Logistic models for binary data
 2. Beta models 
 3. OrdBeta models for slider scales
 
-- **Chapter 4**: Reaction Times
+### Chapter 4: Reaction Times
 
-1. ExGaussian and Wald
-2. DDM
-3. LBA
-4. ...
+#### Descriptive Models (ExGaussian, LogNormal, Wald)
 
+Linear models, by definition, will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
+
+![](media/rt_normal.gif)
+
+> Linear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).
+
+Rather than applying arbitrary data transformation, such as a log-transform (which lead to a loss of power, REFs), it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.
+
+#### Generative Models (DDM)
+
+Use DDM as a case study to introduce generative models
+
+#### Other Models
+
+### Chapter 5: Individual Parameters
+
+1. From mixed models
+2. As prior-informed individual Bayesian models
