@@ -8,7 +8,7 @@ This framework aims at moving away from a mere description of the data, to make 
 ## Why Julia?
 
 [**Julia**](https://julialang.org/) - the new cool kid on the scientific block - is a modern programming language with many benefits when compared with R or Python.
-Importantly, it is currently the only language in which we can fit all the cognitive models under a Bayesian framework using a unified interface like [**Turing**](https://turing.ml/).
+Importantly, it is currently the only language in which we can fit all the cognitive models under a Bayesian framework using a unified interface like [**Turing**](https://turing.ml/) and [**SSM**](https://github.com/itsdfish/SequentialSamplingModels.jl).
 
 ## Why Bayesian?
 
