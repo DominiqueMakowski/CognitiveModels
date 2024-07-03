@@ -23,7 +23,7 @@ function change_param(frame; frame_range=(0, 1), param_range=(0, 1))
     return p
 end
 
-# Make plot =====================================================================================
+# Normal =====================================================================================
 
 # Parameters
 μ = Observable(0.0)
@@ -46,7 +46,7 @@ ax = Axis(
 
 density!(ax, df.RT, bandwidth=0.01, npoints=1000, color=:grey)
 lines!(x, pdf.(fit(Normal, df.RT), x), linestyle=:dot, color=:red)  # Best fitting line
-lines!(x, y, linewidth=4)
+lines!(x, y, linewidth=4, color=:orange)
 fig
 
 function make_animation(frame)
@@ -68,8 +68,30 @@ end
 
 # animation settings
 frames = range(0, 1, length=60)
-
 record(make_animation, fig, "rt_normal.gif", frames; framerate=30)
 
-plot(cos.(range(1π, 2π, length=100)))
-plot(cos.(range(2π, 3π, length=100)))
+# LogNormal =====================================================================================
+
+# Parameters
+# μ = Observable(0.0)
+# σ = Observable(0.2)
+
+# x = range(-0.1, 0.8, length=100)
+# # y = @lift(pdf.(Normal($μ, $σ), x))
+
+# # Initialize the figure
+# fig = Figure()
+# ax = Axis(
+#     fig[1, 1],
+#     # title=@lift("LogNormal(μ = $(round($μ, digits = 1)), σ =  $(round($σ, digits = 2)))"),
+#     xlabel="RT (s)",
+#     ylabel="Distribution",
+#     yticksvisible=false,
+#     xticksvisible=false,
+#     yticklabelsvisible=false,
+# )
+
+# density!(ax, df.RT, bandwidth=0.01, npoints=1000, color=:grey)
+# lines!(x, pdf.(LogNormal(), x), linestyle=:dot, color=:red)  # Best fitting line
+# lines!(x, y, linewidth=4, color=:orange)
+# fig
