@@ -26,6 +26,6 @@ format:
 
 execute:
     cache: false
-    reeze: "auto"
+    # freeze: "auto"
 
 jupyter: julia-1.10
