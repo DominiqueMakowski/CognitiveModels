@@ -6,14 +6,13 @@ book:
     subtitle: "Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
     author: "Dominique Makowski"
     date: "03/07/2024"
-    # image: "media/cover.jpg"
     cover-image: "media/cover.jpg"
     chapters:
         - index.qmd
         - 1_introduction.qmd
         - 2_predictors.qmd
         - 3_scales.qmd
-        # - 4_rt.qmd
+        - 4_rt.qmd
         - 5_individual.qmd
         - references.qmd
 
@@ -25,9 +24,10 @@ format:
         code-fold: true
 
 execute:
-    execute: true
-    cache: false
-    freeze: false
-
-engine: julia
-jupyter: julia-1.10
+    cache: true
+    freeze: "auto"
+    # execute: true
+    # cache: false
+    # freeze: false
+# engine: julia
+# jupyter: julia-1.10
