@@ -28,3 +28,4 @@ execute:
     cache: false
     freeze: "auto"
 # jupyter: julia-1.10
+engine: julia
