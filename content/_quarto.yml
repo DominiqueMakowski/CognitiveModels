@@ -25,7 +25,7 @@ format:
         code-fold: true
 
 execute:
-    enabled: true
-    # jupyter: julia-1.10
-    # cache: false
-    # freeze: false # "auto"
+    cache: false
+    reeze: "auto"
+
+jupyter: julia-1.10

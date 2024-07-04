@@ -37,7 +37,3 @@ Most importantly, this project can serve as a way for us to learn more about thi
 ## Content
 
 See current WIP [**table of content**](https://dominiquemakowski.github.io/CognitiveModels/).
-
-## See Also
-
--  https://github.com/vasishth/bayescogsci
