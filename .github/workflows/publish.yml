@@ -38,7 +38,8 @@ jobs:
 
             - name: Install Julia dependencies
               run: |
-                  julia -e 'import Pkg; Pkg.add("IJulia"); Pkg.add("Plots")'
+                  julia --project=@quarto -e 'import Pkg; Pkg.add("QuartoNotebookRunner")'
+                  julia -e 'import Pkg; Pkg.add("Plots")'
                   julia -e '# import Pkg; Pkg.add("CSV"); Pkg.add("DataFrames")'
                   julia -e '# import Pkg; Pkg.add("Turing"); Pkg.add("Distributions")'
                   julia -e '# import Pkg; Pkg.add("CairoMakie")'
