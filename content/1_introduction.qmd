@@ -3,21 +3,12 @@
 1. Very quick intro to Julia and Turing
 
 ```{julia}
-# Julia test
-1+1
-```
-
-Another test
-
-```{julia}
 using Plots
 
 plot(1:10)
 ```
 
-```{python}
-1+1
-```
+
 
 
 2. Linear Regression: understand what the parameters mean (intercept, slopes, sigma)

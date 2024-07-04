@@ -22,7 +22,8 @@ bibliography: references.bib
 format:
     html:
         theme: cosmo
+        code-fold: true
 
 execute:
     cache: true
-    freeze: false
+    freeze: "auto"

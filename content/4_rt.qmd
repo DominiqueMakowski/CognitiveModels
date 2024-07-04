@@ -1,29 +1,115 @@
 # Reaction Times
 
+
+This repository contain the following vignettes:
+
+- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
+- [**Ex-Gaussian models in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html)
+
 ## Descriptive Models (ExGaussian, LogNormal, Wald)
 
 ### Modelling RT with a Bayesian Linear Model
 
-Write it...
+#### The Data
 
+```{julia}
+using Downloads, CSV, DataFrames
+using Turing, Distributions
+using CairoMakie
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/DoggoNogo/main/study1/data/data_game.csv"), DataFrame)
+first(df, 10)
+```
+
+
+#### The Model
+
+```{julia}
+#| code-fold: false
+
+@model function model_linear(rt; isi=nothing)
+
+    # Set priors on variance, intercept and effect of ISI
+    σ² ~ truncated(Normal(0, 1); lower=0)
+    intercept ~ truncated(Normal(0, 1); lower=0)
+    slope_isi ~ Normal(0, 0.5)
+
+    for i in 1:length(rt)
+        μ = intercept + slope_isi * isi[i]
+        rt[i] ~ Normal(μ, σ²)
+    end
+end
+
+model = model_linear(df.RT, isi=df.ISI)
+chain_linear = sample(model, NUTS(), 200)
+
+# Summary (95% CI)
+quantile(chain_linear; q=[0.025, 0.975])
+```
+
+::: {.callout-tip title="Code Tip"}
+We first initialize the model by passing the `RT` and `ISI` columns.
+:::
+
+#### Posterior Predictive Check
+
+```{julia}
+#| output: false
+
+pred = predict(model_linear([(missing) for i in 1:length(df.RT)]; isi=df.ISI), chain_linear)
+pred = Array(pred)
+```
+
+```{julia}
+#| fig-width: 10
+#| fig-height: 7
+
+f = Figure()
+ax = Axis(f[1, 1], title="Predicted Data by Linear Model",
+    xlabel="RT (s)",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false)
+
+CairoMakie.density!(df.RT, color="grey")
+for i in 1:length(chain_linear)
+    lines!(ax, Makie.KernelDensity.kde(pred[:, i]), color="orange", alpha=0.1)
+end
+CairoMakie.ylims!(ax, (0, nothing))
+f
+```
 
 ### The Problem with Linear Models
 
-Linear models, by definition, will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
+Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as *t*-test and ANOVAs. Importantly, linear models - by definition - will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
 
 ![](media/rt_normal.gif)
 
 > Linear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).
 
-Rather than applying arbitrary data transformation, such as a log-transform [which leads to a loss of power, @lo2015transform], it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.
+A popular mitigation method to account for the non-normality of RTs is to transform the data, using for instance the popular *log-transform*. 
+However, this practice should be avoided as it leads to various issues, including loss of power and distorted results interpretation [@lo2015transform; @schramm2019reaction].
+Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.
 
 
-### LogNormal
+### Shifted LogNormal Models
+
+One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.
 
 
+### Wald
+
+Moe from statistical models that *describe* to models that *generate* RT-like data.
 
 ### Generative Models (DDM)
 
 Use DDM as a case study to introduce generative models
 
 ### Other Models (LBA, LNR)
+
+
+## Additional Resources
+
+- [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
+- [**De Boeck & Jeon (2019)**](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full): A paper providing an overview of RT models.
