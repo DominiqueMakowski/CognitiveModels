@@ -211,10 +211,12 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#modelling-rt-with-a-bayesian-linear-model" id="toc-modelling-rt-with-a-bayesian-linear-model" class="nav-link" data-scroll-target="#modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.1.1</span> Modelling RT with a Bayesian Linear Model</a></li>
   <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">4.1.2</span> The Problem with Linear Models</a></li>
-  <li><a href="#lognormal" id="toc-lognormal" class="nav-link" data-scroll-target="#lognormal"><span class="header-section-number">4.1.3</span> LogNormal</a></li>
-  <li><a href="#generative-models-ddm" id="toc-generative-models-ddm" class="nav-link" data-scroll-target="#generative-models-ddm"><span class="header-section-number">4.1.4</span> Generative Models (DDM)</a></li>
-  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">4.1.5</span> Other Models (LBA, LNR)</a></li>
+  <li><a href="#shifted-lognormal-models" id="toc-shifted-lognormal-models" class="nav-link" data-scroll-target="#shifted-lognormal-models"><span class="header-section-number">4.1.3</span> Shifted LogNormal Models</a></li>
+  <li><a href="#wald" id="toc-wald" class="nav-link" data-scroll-target="#wald"><span class="header-section-number">4.1.4</span> Wald</a></li>
+  <li><a href="#generative-models-ddm" id="toc-generative-models-ddm" class="nav-link" data-scroll-target="#generative-models-ddm"><span class="header-section-number">4.1.5</span> Generative Models (DDM)</a></li>
+  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">4.1.6</span> Other Models (LBA, LNR)</a></li>
   </ul></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">4.2</span> Additional Resources</a></li>
   </ul>
 </nav>
     </div>
@@ -240,38 +242,126 @@ window.Quarto = {
 </header>
 
 
+<p>This repository contain the following vignettes:</p>
+<ul>
+<li><a href="https://dominiquemakowski.github.io/easyRT/articles/ddm.html"><strong>Drift Diffusion Model (DDM) in R: A Tutorial</strong></a></li>
+<li><a href="https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html"><strong>Ex-Gaussian models in R: A Tutorial</strong></a></li>
+</ul>
 <section id="descriptive-models-exgaussian-lognormal-wald" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.1</span> Descriptive Models (ExGaussian, LogNormal, Wald)</h2>
 <section id="modelling-rt-with-a-bayesian-linear-model" class="level3" data-number="4.1.1">
 <h3 data-number="4.1.1" class="anchored" data-anchor-id="modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.1.1</span> Modelling RT with a Bayesian Linear Model</h3>
-<p>Write it…</p>
+<section id="the-data" class="level4" data-number="4.1.1.1">
+<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1.1.1</span> The Data</h4>
+<pre class="{julia}"><code>using Downloads, CSV, DataFrames
+using Turing, Distributions
+using CairoMakie
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/DoggoNogo/main/study1/data/data_game.csv"), DataFrame)
+first(df, 10)</code></pre>
+</section>
+<section id="the-model" class="level4" data-number="4.1.1.2">
+<h4 data-number="4.1.1.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">4.1.1.2</span> The Model</h4>
+<pre class="{julia}"><code>#| code-fold: false
+
+@model function model_linear(rt; isi=nothing)
+
+    # Set priors on variance, intercept and effect of ISI
+    σ² ~ truncated(Normal(0, 1); lower=0)
+    intercept ~ truncated(Normal(0, 1); lower=0)
+    slope_isi ~ Normal(0, 0.5)
+
+    for i in 1:length(rt)
+        μ = intercept + slope_isi * isi[i]
+        rt[i] ~ Normal(μ, σ²)
+    end
+end
+
+model = model_linear(df.RT, isi=df.ISI)
+chain_linear = sample(model, NUTS(), 200)
+
+# Summary (95% CI)
+quantile(chain_linear; q=[0.025, 0.975])</code></pre>
+<div class="callout callout-style-default callout-tip callout-titled" title="Code Tip">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We first initialize the model by passing the <code>RT</code> and <code>ISI</code> columns.</p>
+</div>
+</div>
+</section>
+<section id="posterior-predictive-check" class="level4" data-number="4.1.1.3">
+<h4 data-number="4.1.1.3" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">4.1.1.3</span> Posterior Predictive Check</h4>
+<pre class="{julia}"><code>#| output: false
+
+pred = predict(model_linear([(missing) for i in 1:length(df.RT)]; isi=df.ISI), chain_linear)
+pred = Array(pred)</code></pre>
+<pre class="{julia}"><code>#| fig-width: 10
+#| fig-height: 7
+
+f = Figure()
+ax = Axis(f[1, 1], title="Predicted Data by Linear Model",
+    xlabel="RT (s)",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false)
+
+CairoMakie.density!(df.RT, color="grey")
+for i in 1:length(chain_linear)
+    lines!(ax, Makie.KernelDensity.kde(pred[:, i]), color="orange", alpha=0.1)
+end
+CairoMakie.ylims!(ax, (0, nothing))
+f</code></pre>
+</section>
 </section>
 <section id="the-problem-with-linear-models" class="level3" data-number="4.1.2">
 <h3 data-number="4.1.2" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.1.2</span> The Problem with Linear Models</h3>
-<p>Linear models, by definition, will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
+<p>Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as <em>t</em>-test and ANOVAs. Importantly, linear models - by definition - will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
 <p><img src="media/rt_normal.gif" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p>Linear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).</p>
 </blockquote>
-<p>Rather than applying arbitrary data transformation, such as a log-transform <span class="citation" data-cites="lo2015transform">(which leads to a loss of power, <a href="references.html#ref-lo2015transform" role="doc-biblioref">Lo and Andrews 2015</a>)</span>, it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.</p>
+<p>A popular mitigation method to account for the non-normality of RTs is to transform the data, using for instance the popular <em>log-transform</em>. However, this practice should be avoided as it leads to various issues, including loss of power and distorted results interpretation <span class="citation" data-cites="lo2015transform schramm2019reaction">(<a href="references.html#ref-lo2015transform" role="doc-biblioref">Lo and Andrews 2015</a>; <a href="references.html#ref-schramm2019reaction" role="doc-biblioref">Schramm and Rouder 2019</a>)</span>. Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.</p>
 </section>
-<section id="lognormal" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="lognormal"><span class="header-section-number">4.1.3</span> LogNormal</h3>
+<section id="shifted-lognormal-models" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="shifted-lognormal-models"><span class="header-section-number">4.1.3</span> Shifted LogNormal Models</h3>
+<p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.</p>
 </section>
-<section id="generative-models-ddm" class="level3" data-number="4.1.4">
-<h3 data-number="4.1.4" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.1.4</span> Generative Models (DDM)</h3>
+<section id="wald" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="wald"><span class="header-section-number">4.1.4</span> Wald</h3>
+<p>Moe from statistical models that <em>describe</em> to models that <em>generate</em> RT-like data.</p>
+</section>
+<section id="generative-models-ddm" class="level3" data-number="4.1.5">
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.1.5</span> Generative Models (DDM)</h3>
 <p>Use DDM as a case study to introduce generative models</p>
 </section>
-<section id="other-models-lba-lnr" class="level3" data-number="4.1.5">
-<h3 data-number="4.1.5" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.1.5</span> Other Models (LBA, LNR)</h3>
+<section id="other-models-lba-lnr" class="level3" data-number="4.1.6">
+<h3 data-number="4.1.6" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.1.6</span> Other Models (LBA, LNR)</h3>
+</section>
+</section>
+<section id="additional-resources" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">4.2</span> Additional Resources</h2>
+<ul>
+<li><a href="https://lindeloev.github.io/shiny-rt/"><strong>Lindelov’s overview of RT models</strong></a>: An absolute must-read.</li>
+<li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full"><strong>De Boeck &amp; Jeon (2019)</strong></a>: A paper providing an overview of RT models.</li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-lo2015transform" class="csl-entry" role="listitem">
 Lo, Steson, and Sally Andrews. 2015. <span>“To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.”</span> <em>Frontiers in Psychology</em> 6: 1171.
 </div>
+<div id="ref-schramm2019reaction" class="csl-entry" role="listitem">
+Schramm, Pele, and Jeffrey N Rouder. 2019. <span>“Are Reaction Time Transformations Really Beneficial?”</span>
 </div>
-</section>
+</div>
 </section>
 
 </main> <!-- /main -->
