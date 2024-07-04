@@ -14,7 +14,7 @@
     "href": "1_introduction.html",
     "title": "1  Pieces of Puzzle",
     "section": "",
-    "text": "Very quick intro to Julia and Turing\nLinear Regression: understand what the parameters mean (intercept, slopes, sigma)\nBoostrapping: Introduce concepts related to pseudo-posterior distribution description\nHierarchical Models: Simpson’s paradox, random effects, how to leverage them to model interindividual differences\nBayesian estimation: introduce Bayesian estimation and priors over parameters\nBayesian mixed linear regression: put everything together",
+    "text": "Very quick intro to Julia and Turing\n\n# Julia test\n1+1\n\nLinear Regression: understand what the parameters mean (intercept, slopes, sigma)\nBoostrapping: Introduce concepts related to pseudo-posterior distribution description\nHierarchical Models: Simpson’s paradox, random effects, how to leverage them to model interindividual differences\nBayesian estimation: introduce Bayesian estimation and priors over parameters\nBayesian mixed linear regression: put everything together",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Pieces of Puzzle</span>"
     ]
