@@ -2,7 +2,7 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "test",
+    "title": "Cognitive Models",
     "section": "",
     "text": "Preface\nThis is a Quarto book.\nTo learn more about Quarto books visit https://quarto.org/docs/books.",
     "crumbs": [
@@ -10,23 +10,93 @@
     ]
   },
   {
-    "objectID": "intro.html",
-    "href": "intro.html",
-    "title": "1  Introduction",
+    "objectID": "1_introduction.html",
+    "href": "1_introduction.html",
+    "title": "1  Pieces of Puzzle",
     "section": "",
-    "text": "This is a book created from markdown and executable code.\nSee Knuth (1984) for additional discussion of literate programming.\n\n\n\n\nKnuth, Donald E. 1984. “Literate Programming.” Comput. J. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "Very quick intro to Julia and Turing\nLinear Regression: understand what the parameters mean (intercept, slopes, sigma)\nBoostrapping: Introduce concepts related to pseudo-posterior distribution description\nHierarchical Models: Simpson’s paradox, random effects, how to leverage them to model interindividual differences\nBayesian estimation: introduce Bayesian estimation and priors over parameters\nBayesian mixed linear regression: put everything together",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Pieces of Puzzle</span>"
     ]
   },
   {
-    "objectID": "summary.html",
-    "href": "summary.html",
-    "title": "2  Summary",
+    "objectID": "2_predictors.html",
+    "href": "2_predictors.html",
+    "title": "2  Predictors",
     "section": "",
-    "text": "In summary, this book has no content whatsoever.",
+    "text": "2.1 Categorical predictors (Condition, Group, …)\nNested interactions, contrasts, …",
     "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Summary</span>"
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Predictors</span>"
+    ]
+  },
+  {
+    "objectID": "2_predictors.html#ordered-predictors-likert-scales",
+    "href": "2_predictors.html#ordered-predictors-likert-scales",
+    "title": "2  Predictors",
+    "section": "2.2 Ordered predictors (Likert Scales)",
+    "text": "2.2 Ordered predictors (Likert Scales)\nLikert scales, i.e., ordered multiple discrete choices are often used in surveys and questionnaires. While such data is often treated as a continuous variable, such assumption is not necessarily valid. Indeed, distance between the choices is not necessarily equal. For example, the difference between “strongly agree” and “agree” might not be the same as between “agree” and “neutral”. Even when using integers like 1, 2, 3, 4; people might implicitly process “4” as more extreme relative to “3” as “3” to “2”.\n\n\nThe probabilities assigned to discrete probability descriptors are not necessarily equidistant (https://github.com/zonination/perceptions)\n\nWhat can we do to better reflect the cognitive process underlying a Likert scale responses? Monothonic effects.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Predictors</span>"
+    ]
+  },
+  {
+    "objectID": "2_predictors.html#interactions",
+    "href": "2_predictors.html#interactions",
+    "title": "2  Predictors",
+    "section": "2.3 Interactions",
+    "text": "2.3 Interactions\nTodo.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Predictors</span>"
+    ]
+  },
+  {
+    "objectID": "2_predictors.html#non-linear-relationships-polynomial-gams",
+    "href": "2_predictors.html#non-linear-relationships-polynomial-gams",
+    "title": "2  Predictors",
+    "section": "2.4 Non-linear relationships (polynomial, GAMs)",
+    "text": "2.4 Non-linear relationships (polynomial, GAMs)\nTodo.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Predictors</span>"
+    ]
+  },
+  {
+    "objectID": "3_scales.html",
+    "href": "3_scales.html",
+    "title": "3  Choice and Scales",
+    "section": "",
+    "text": "Logistic models for binary data\nBeta models\nOrdBeta models for slider scales",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Choice and Scales</span>"
+    ]
+  },
+  {
+    "objectID": "4_rt.html",
+    "href": "4_rt.html",
+    "title": "4  Reaction Times",
+    "section": "",
+    "text": "4.1 Descriptive Models (ExGaussian, LogNormal, Wald)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
+    ]
+  },
+  {
+    "objectID": "4_rt.html#descriptive-models-exgaussian-lognormal-wald",
+    "href": "4_rt.html#descriptive-models-exgaussian-lognormal-wald",
+    "title": "4  Reaction Times",
+    "section": "",
+    "text": "4.1.1 The Problem with Linear Models\nLinear models, by definition, will try to predict the mean of the outcome variable by estimating the “best fitting” Normal distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean \\(\\mu\\) and standard deviation \\(\\sigma\\)) are not good descriptors of the data.\n\n\nLinear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).\n\nRather than applying arbitrary data transformation, such as a log-transform (which leads to a loss of power, Lo and Andrews 2015), it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.\n\n\n4.1.2 Bayesian Linear Model in Julia\nWrite it…\n\n\n4.1.3 LogNormal\n\n\n4.1.4 Generative Models (DDM)\nUse DDM as a case study to introduce generative models\n\n\n4.1.5 Other Models (LBA, LNR)\n\n\n\n\nLo, Steson, and Sally Andrews. 2015. “To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.” Frontiers in Psychology 6: 1171.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
+    ]
+  },
+  {
+    "objectID": "5_individual.html",
+    "href": "5_individual.html",
+    "title": "5  Individual Parameters",
+    "section": "",
+    "text": "From mixed models\nAs prior-informed individual Bayesian models",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Individual Parameters</span>"
     ]
   },
   {
@@ -34,7 +104,7 @@
     "href": "references.html",
     "title": "References",
     "section": "",
-    "text": "Knuth, Donald E. 1984. “Literate Programming.” Comput.\nJ. 27 (2): 97–111. https://doi.org/10.1093/comjnl/27.2.97.",
+    "text": "Lo, Steson, and Sally Andrews. 2015. “To Transform or Not to\nTransform: Using Generalized Linear Mixed Models to Analyse Reaction\nTime Data.” Frontiers in Psychology 6: 1171.",
     "crumbs": [
       "References"
     ]

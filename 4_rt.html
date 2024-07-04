@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>References – Cognitive Models</title>
+<title>4&nbsp; Reaction Times – Cognitive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -24,6 +24,7 @@ ul.task-list li input[type="checkbox"] {
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -49,7 +50,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./5_individual.html" rel="prev">
+<link href="./5_individual.html" rel="next">
+<link href="./3_scales.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -87,6 +89,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -99,7 +130,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4_rt.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reaction Times</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -150,7 +181,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4_rt.html" class="sidebar-item-text sidebar-link">
+  <a href="./4_rt.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reaction Times</span></span></a>
   </div>
 </li>
@@ -162,7 +193,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -171,15 +202,28 @@ div.csl-indent {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#descriptive-models-exgaussian-lognormal-wald" id="toc-descriptive-models-exgaussian-lognormal-wald" class="nav-link active" data-scroll-target="#descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.1</span> Descriptive Models (ExGaussian, LogNormal, Wald)</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">4.1.1</span> The Problem with Linear Models</a></li>
+  <li><a href="#bayesian-linear-model-in-julia" id="toc-bayesian-linear-model-in-julia" class="nav-link" data-scroll-target="#bayesian-linear-model-in-julia"><span class="header-section-number">4.1.2</span> Bayesian Linear Model in Julia</a></li>
+  <li><a href="#lognormal" id="toc-lognormal" class="nav-link" data-scroll-target="#lognormal"><span class="header-section-number">4.1.3</span> LogNormal</a></li>
+  <li><a href="#generative-models-ddm" id="toc-generative-models-ddm" class="nav-link" data-scroll-target="#generative-models-ddm"><span class="header-section-number">4.1.4</span> Generative Models (DDM)</a></li>
+  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">4.1.5</span> Other Models (LBA, LNR)</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reaction Times</span></h1>
 </div>
 
 
@@ -196,15 +240,39 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<section id="descriptive-models-exgaussian-lognormal-wald" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.1</span> Descriptive Models (ExGaussian, LogNormal, Wald)</h2>
+<section id="the-problem-with-linear-models" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.1.1</span> The Problem with Linear Models</h3>
+<p>Linear models, by definition, will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
+<p><img src="media/rt_normal.gif" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Linear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).</p>
+</blockquote>
+<p>Rather than applying arbitrary data transformation, such as a log-transform <span class="citation" data-cites="lo2015transform">(which leads to a loss of power, <a href="references.html#ref-lo2015transform" role="doc-biblioref">Lo and Andrews 2015</a>)</span>, it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.</p>
+</section>
+<section id="bayesian-linear-model-in-julia" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="bayesian-linear-model-in-julia"><span class="header-section-number">4.1.2</span> Bayesian Linear Model in Julia</h3>
+<p>Write it…</p>
+</section>
+<section id="lognormal" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="lognormal"><span class="header-section-number">4.1.3</span> LogNormal</h3>
+</section>
+<section id="generative-models-ddm" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.1.4</span> Generative Models (DDM)</h3>
+<p>Use DDM as a case study to introduce generative models</p>
+</section>
+<section id="other-models-lba-lnr" class="level3" data-number="4.1.5">
+<h3 data-number="4.1.5" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.1.5</span> Other Models (LBA, LNR)</h3>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
 <div id="ref-lo2015transform" class="csl-entry" role="listitem">
-Lo, Steson, and Sally Andrews. 2015. <span>“To Transform or Not to
-Transform: Using Generalized Linear Mixed Models to Analyse Reaction
-Time Data.”</span> <em>Frontiers in Psychology</em> 6: 1171.
+Lo, Steson, and Sally Andrews. 2015. <span>“To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.”</span> <em>Frontiers in Psychology</em> 6: 1171.
 </div>
 </div>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -629,11 +697,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./5_individual.html" class="pagination-link" aria-label="Individual Parameters">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span>
+      <a href="./3_scales.html" class="pagination-link" aria-label="Choice and Scales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./5_individual.html" class="pagination-link" aria-label="Individual Parameters">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
