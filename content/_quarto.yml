@@ -25,5 +25,6 @@ format:
         code-fold: true
 
 execute:
+    jupyter: julia-1.10
     cache: true
     freeze: "auto"
