@@ -22,3 +22,7 @@ bibliography: references.bib
 format:
     html:
         theme: cosmo
+
+execute:
+    cache: true
+    freeze: auto
