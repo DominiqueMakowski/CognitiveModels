@@ -27,6 +27,7 @@ format:
 execute:
     execute: true
     cache: false
-    freeze: "auto"
-# jupyter: julia-1.10
+    freeze: false
+
 engine: julia
+jupyter: julia-1.10
