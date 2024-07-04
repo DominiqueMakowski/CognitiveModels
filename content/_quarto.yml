@@ -27,5 +27,4 @@ format:
 execute:
     cache: false
     # freeze: "auto"
-
-jupyter: julia-1.10
+# jupyter: julia-1.10
