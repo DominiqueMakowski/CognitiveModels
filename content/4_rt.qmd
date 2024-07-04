@@ -1,0 +1,27 @@
+# Reaction Times
+
+## Descriptive Models (ExGaussian, LogNormal, Wald)
+
+### The Problem with Linear Models
+
+Linear models, by definition, will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
+
+![](media/rt_normal.gif)
+
+> Linear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).
+
+Rather than applying arbitrary data transformation, such as a log-transform [which leads to a loss of power, @lo2015transform], it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.
+
+### Bayesian Linear Model in Julia
+
+Write it...
+
+### LogNormal
+
+
+
+### Generative Models (DDM)
+
+Use DDM as a case study to introduce generative models
+
+### Other Models (LBA, LNR)

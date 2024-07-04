@@ -2,13 +2,19 @@ project:
     type: book
 
 book:
-    title: "test"
-    author: "Norah Jones"
+    title: "Cognitive Models"
+    subtitle: "Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
+    author: "Dominique Makowski"
     date: "03/07/2024"
+    # image: "media/cover.jpg"
+    cover-image: "media/cover.jpg"
     chapters:
         - index.qmd
-        - intro.qmd
-        - summary.qmd
+        - 1_introduction.qmd
+        - 2_predictors.qmd
+        - 3_scales.qmd
+        - 4_rt.qmd
+        - 5_individual.qmd
         - references.qmd
 
 bibliography: references.bib

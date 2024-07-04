@@ -1,0 +1,24 @@
+# Predictors
+
+
+## Categorical predictors (Condition, Group, ...)
+
+Nested interactions, contrasts, ...
+
+## Ordered predictors (Likert Scales)
+
+Likert scales, i.e., ordered multiple *discrete* choices are often used in surveys and questionnaires. While such data is often treated as a *continuous* variable, such assumption is not necessarily valid. Indeed, distance between the choices is not necessarily equal. For example, the difference between "strongly agree" and "agree" might not be the same as between "agree" and "neutral". Even when using integers like 1, 2, 3, 4; people might implicitly process "4" as more extreme relative to "3" as "3" to "2".
+
+![](media/probability_perception.png)
+
+> The probabilities assigned to discrete probability descriptors are not necessarily equidistant (https://github.com/zonination/perceptions)
+
+What can we do to better reflect the cognitive process underlying a Likert scale responses? [Monothonic effects](https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html).
+
+## Interactions
+
+Todo. 
+
+## Non-linear relationships (polynomial, GAMs)
+
+Todo. 

@@ -1,0 +1,5 @@
+# Choice and Scales
+
+1. Logistic models for binary data
+2. Beta models 
+3. OrdBeta models for slider scales
