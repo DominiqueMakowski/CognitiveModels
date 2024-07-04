@@ -26,6 +26,6 @@ format:
 
 execute:
     enabled: true
-    jupyter: julia-1.10
-    cache: false
-    freeze: false # "auto"
+    # jupyter: julia-1.10
+    # cache: false
+    # freeze: false # "auto"
