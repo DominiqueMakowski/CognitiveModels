@@ -24,6 +24,5 @@ format:
         theme: cosmo
 
 execute:
-    jupyter: julia-1.10
     cache: true
     freeze: false

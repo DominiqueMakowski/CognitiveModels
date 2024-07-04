@@ -33,6 +33,9 @@ jobs:
               with:
                   version: "1.10"
 
+            - name: Cache Julia packages
+              uses: julia-actions/cache@v2
+
             - name: Install Julia dependencies
               run: |
                   julia -e 'import Pkg; Pkg.add("Plots")'
