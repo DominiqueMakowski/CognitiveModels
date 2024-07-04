@@ -10,8 +10,9 @@
 Another test
 
 ```{julia}
-# Julia test
-println("Something")
+using Plots
+
+plot(1:10)
 ```
 
 
