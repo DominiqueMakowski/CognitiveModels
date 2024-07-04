@@ -70,53 +70,13 @@
     ]
   },
   {
-    "objectID": "4_rt.html",
-    "href": "4_rt.html",
-    "title": "4  Reaction Times",
-    "section": "",
-    "text": "4.1 Descriptive Models (ExGaussian, LogNormal, Wald)",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
-    ]
-  },
-  {
-    "objectID": "4_rt.html#descriptive-models-exgaussian-lognormal-wald",
-    "href": "4_rt.html#descriptive-models-exgaussian-lognormal-wald",
-    "title": "4  Reaction Times",
-    "section": "",
-    "text": "4.1.1 Modelling RT with a Bayesian Linear Model\n\n4.1.1.1 The Data\nusing Downloads, CSV, DataFrames\nusing Turing, Distributions\nusing CairoMakie\n\ndf = CSV.read(Downloads.download(\"https://raw.githubusercontent.com/RealityBending/DoggoNogo/main/study1/data/data_game.csv\"), DataFrame)\nfirst(df, 10)\n\n\n4.1.1.2 The Model\n#| code-fold: false\n\n@model function model_linear(rt; isi=nothing)\n\n    # Set priors on variance, intercept and effect of ISI\n    σ² ~ truncated(Normal(0, 1); lower=0)\n    intercept ~ truncated(Normal(0, 1); lower=0)\n    slope_isi ~ Normal(0, 0.5)\n\n    for i in 1:length(rt)\n        μ = intercept + slope_isi * isi[i]\n        rt[i] ~ Normal(μ, σ²)\n    end\nend\n\nmodel = model_linear(df.RT, isi=df.ISI)\nchain_linear = sample(model, NUTS(), 200)\n\n# Summary (95% CI)\nquantile(chain_linear; q=[0.025, 0.975])\n\n\n\n\n\n\nCode Tip\n\n\n\nWe first initialize the model by passing the RT and ISI columns.\n\n\n\n\n4.1.1.3 Posterior Predictive Check\n#| output: false\n\npred = predict(model_linear([(missing) for i in 1:length(df.RT)]; isi=df.ISI), chain_linear)\npred = Array(pred)\n#| fig-width: 10\n#| fig-height: 7\n\nf = Figure()\nax = Axis(f[1, 1], title=\"Predicted Data by Linear Model\",\n    xlabel=\"RT (s)\",\n    ylabel=\"Distribution\",\n    yticksvisible=false,\n    xticksvisible=false,\n    yticklabelsvisible=false)\n\nCairoMakie.density!(df.RT, color=\"grey\")\nfor i in 1:length(chain_linear)\n    lines!(ax, Makie.KernelDensity.kde(pred[:, i]), color=\"orange\", alpha=0.1)\nend\nCairoMakie.ylims!(ax, (0, nothing))\nf\n\n\n\n4.1.2 The Problem with Linear Models\nReaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as t-test and ANOVAs. Importantly, linear models - by definition - will try to predict the mean of the outcome variable by estimating the “best fitting” Normal distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean \\(\\mu\\) and standard deviation \\(\\sigma\\)) are not good descriptors of the data.\n\n\nLinear models try to find the best fitting Normal distribution for the data. However, for reaction times, even the best fitting Normal distribution (in red) does not capture well the actual data (in grey).\n\nA popular mitigation method to account for the non-normality of RTs is to transform the data, using for instance the popular log-transform. However, this practice should be avoided as it leads to various issues, including loss of power and distorted results interpretation (Lo and Andrews 2015; Schramm and Rouder 2019). Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.\n\n\n4.1.3 Shifted LogNormal Models\nOne of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.\n\n\n4.1.4 Wald\nMoe from statistical models that describe to models that generate RT-like data.\n\n\n4.1.5 Generative Models (DDM)\nUse DDM as a case study to introduce generative models\n\n\n4.1.6 Other Models (LBA, LNR)",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
-    ]
-  },
-  {
-    "objectID": "4_rt.html#additional-resources",
-    "href": "4_rt.html#additional-resources",
-    "title": "4  Reaction Times",
-    "section": "4.2 Additional Resources",
-    "text": "4.2 Additional Resources\n\nLindelov’s overview of RT models: An absolute must-read.\nDe Boeck & Jeon (2019): A paper providing an overview of RT models.\nhttps://github.com/vasishth/bayescogsci\n\n\n\n\n\nLo, Steson, and Sally Andrews. 2015. “To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.” Frontiers in Psychology 6: 1171.\n\n\nSchramm, Pele, and Jeffrey N Rouder. 2019. “Are Reaction Time Transformations Really Beneficial?”",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
-    ]
-  },
-  {
     "objectID": "5_individual.html",
     "href": "5_individual.html",
-    "title": "5  Individual Parameters",
+    "title": "4  Individual Parameters",
     "section": "",
     "text": "From mixed models\nAs prior-informed individual Bayesian models",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Individual Parameters</span>"
-    ]
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Lo, Steson, and Sally Andrews. 2015. “To Transform or Not to\nTransform: Using Generalized Linear Mixed Models to Analyse Reaction\nTime Data.” Frontiers in Psychology 6: 1171.\n\n\nSchramm, Pele, and Jeffrey N Rouder. 2019. “Are Reaction Time\nTransformations Really Beneficial?”",
-    "crumbs": [
-      "References"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Individual Parameters</span>"
     ]
   }
 ]
