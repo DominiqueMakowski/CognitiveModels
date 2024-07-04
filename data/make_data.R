@@ -12,9 +12,11 @@ df <- rtdists::speed_acc |>
          RT=rt,
          Error=as.character(response) != as.character(stim_cat),
          Frequency = str_remove_all(frequency, "nw_"),
-         Frequency = str_replace(frequency, "very_low", "Very Low"),
-         Frequency = str_replace(frequency, "low", "Low"),
-         Frequency = str_replace(frequency, "high", "High"),
+         Frequency = str_replace(Frequency, "very_low", "Very Low"),
+         Frequency = str_replace(Frequency, "low", "Low"),
+         Frequency = str_replace(Frequency, "high", "High"),
+         Condition = str_replace(Condition, "speed", "Speed"),
+         Condition = str_replace(Condition, "accuracy", "Accuracy"),
          .keep = "none") |>
   filter(Participant %in% c(1:6))
 
