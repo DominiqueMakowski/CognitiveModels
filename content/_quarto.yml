@@ -13,7 +13,7 @@ book:
         - 1_introduction.qmd
         - 2_predictors.qmd
         - 3_scales.qmd
-        - 4_rt.qmd
+        # - 4_rt.qmd
         - 5_individual.qmd
         - references.qmd
 
