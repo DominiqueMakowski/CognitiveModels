@@ -6,7 +6,7 @@ library(tidyverse)
 
 
 df <- rtdists::speed_acc |>
-  mutate(censor == FALSE) |>
+  filter(censor == "FALSE") |>
   mutate(Participant=id,
          Condition=condition,
          RT=rt,
@@ -21,3 +21,5 @@ df <- rtdists::speed_acc |>
   filter(Participant %in% c(1:6))
 
 write.csv(df, "wagenmakers2008_speedaccuracy.csv", row.names = FALSE)
+
+# summary(df)
