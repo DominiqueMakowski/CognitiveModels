@@ -113,3 +113,4 @@ Use DDM as a case study to introduce generative models
 
 - [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
 - [**De Boeck & Jeon (2019)**](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full): A paper providing an overview of RT models.
+- [https://github.com/vasishth/bayescogsci](https://github.com/vasishth/bayescogsci)

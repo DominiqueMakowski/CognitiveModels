@@ -38,10 +38,7 @@ jobs:
 
             - name: Install Julia dependencies
               run: |
-                  julia -e 'import Pkg; Pkg.add("IJulia"); Pkg.add("Plots")'
-                  julia -e 'import Pkg; Pkg.add("CSV"); Pkg.add("DataFrames")'
-                  julia -e 'import Pkg; Pkg.add("Turing"); Pkg.add("Distributions")'
-                  julia -e 'import Pkg; Pkg.add("CairoMakie")'
+                  julia -e 'import Pkg; Pkg.add("IJulia"); Pkg.add("Plots"); Pkg; Pkg.add("CSV"); Pkg.add("DataFrames"); Pkg.add("Turing"); Pkg.add("Distributions"); Pkg.add("CairoMakie")'
 
             - name: Render and Publish
               uses: quarto-dev/quarto-actions/publish@v2
