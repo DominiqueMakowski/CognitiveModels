@@ -38,7 +38,7 @@ jobs:
 
             - name: Install Julia dependencies
               run: |
-                  julia -e 'import Pkg; Pkg.add("QuartoNotebookRunner"); Pkg.add("Plots")'
+                  julia -e 'import Pkg; Pkg.add("IJulia"); Pkg.add("Plots")'
 
             - name: Render and Publish
               uses: quarto-dev/quarto-actions/publish@v2
