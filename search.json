@@ -94,7 +94,7 @@
     "href": "4_rt.html#additional-resources",
     "title": "4  Reaction Times",
     "section": "4.2 Additional Resources",
-    "text": "4.2 Additional Resources\n\nLindelov’s overview of RT models: An absolute must-read.\nDe Boeck & Jeon (2019): A paper providing an overview of RT models.\n\n\n\n\n\nLo, Steson, and Sally Andrews. 2015. “To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.” Frontiers in Psychology 6: 1171.\n\n\nSchramm, Pele, and Jeffrey N Rouder. 2019. “Are Reaction Time Transformations Really Beneficial?”",
+    "text": "4.2 Additional Resources\n\nLindelov’s overview of RT models: An absolute must-read.\nDe Boeck & Jeon (2019): A paper providing an overview of RT models.\nhttps://github.com/vasishth/bayescogsci\n\n\n\n\n\nLo, Steson, and Sally Andrews. 2015. “To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.” Frontiers in Psychology 6: 1171.\n\n\nSchramm, Pele, and Jeffrey N Rouder. 2019. “Are Reaction Time Transformations Really Beneficial?”",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Reaction Times</span>"
     ]
