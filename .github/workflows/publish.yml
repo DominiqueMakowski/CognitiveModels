@@ -30,6 +30,8 @@ jobs:
 
             - name: Install Julia
               uses: julia-actions/setup-julia@v2
+              with:
+                  version: "1.10"
 
             - name: Install Julia dependencies
               run: |
