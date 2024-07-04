@@ -2,6 +2,11 @@
 
 ## Descriptive Models (ExGaussian, LogNormal, Wald)
 
+### Modelling RT with a Bayesian Linear Model
+
+Write it...
+
+
 ### The Problem with Linear Models
 
 Linear models, by definition, will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
@@ -12,9 +17,6 @@ Linear models, by definition, will try to predict the *mean* of the outcome vari
 
 Rather than applying arbitrary data transformation, such as a log-transform [which leads to a loss of power, @lo2015transform], it would be better to swap the Normal distribution for a more appropriate one that can better capture the characteristics of a RT distribution.
 
-### Bayesian Linear Model in Julia
-
-Write it...
 
 ### LogNormal
 

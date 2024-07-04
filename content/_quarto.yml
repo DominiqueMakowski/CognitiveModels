@@ -25,4 +25,4 @@ format:
 
 execute:
     cache: true
-    freeze: auto
+    freeze: false

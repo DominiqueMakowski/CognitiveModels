@@ -1,4 +1,0 @@
-# Individual Parameters
-
-1. From mixed models
-2. As prior-informed individual Bayesian models
