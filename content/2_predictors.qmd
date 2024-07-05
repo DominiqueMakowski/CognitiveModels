@@ -13,7 +13,7 @@ Likert scales, i.e., ordered multiple *discrete* choices are often used in surve
 
 > The probabilities assigned to discrete probability descriptors are not necessarily equidistant (https://github.com/zonination/perceptions)
 
-What can we do to better reflect the cognitive process underlying a Likert scale responses? [Monothonic effects](https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html).
+What can we do to better reflect the cognitive process underlying a Likert scale responses? [Monotonic effects](https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html).
 
 ## Interactions
 

@@ -6,20 +6,61 @@ This repository contain the following vignettes:
 - [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
 - [**Ex-Gaussian models in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html)
 
+## The Data
+
+Data from @wagenmakers2008diffusion - Experiment 1.
+We excluded all trials with uninterpretable response time [see @theriault2024check] such as too fast response (<180 ms) and too slow response (>2 sec).
+
+```{julia}
+#| code-fold: false
+
+using Downloads, CSV, DataFrames
+using Turing, Distributions, SequentialSamplingModels
+using CairoMakie
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"), DataFrame)
+first(df, 10)
+```
+
+We create a new column, `Accuracy`, which is the "binarization" of the `Condition` column, and is equal to 1 when the condition is `"Accuracy"` and 0 when it is `"Speed"`.
+
+```{julia}
+#| output: false
+
+df = df[df.Error .== 0, :]
+df.Accuracy = df.Condition .== "Accuracy"
+```
+
+
+::: {.callout-tip title="Code Tip"}
+Note the usage of *vectorization* `.==` as we want to compare each element of the `Condition` vector to the target `"Accuracy"`.
+:::
+
+```{julia}
+function plot_distribution(df, title="Empirical Distribution of Data from Wagenmakers et al. (2018)")
+    fig = Figure()
+    ax = Axis(fig[1, 1], title=title,
+        xlabel="RT (s)",
+        ylabel="Distribution",
+        yticksvisible=false,
+        xticksvisible=false,
+        yticklabelsvisible=false)
+    CairoMakie.density!(df[df.Condition .== "Speed", :RT], color=("#EF5350", 0.7), label = "Speed")
+    CairoMakie.density!(df[df.Condition .== "Accuracy", :RT], color=("#66BB6A", 0.7), label = "Accuracy")
+    CairoMakie.axislegend("Condition"; position=:rt)
+    CairoMakie.ylims!(ax, (0, nothing))
+    return fig
+end
+
+plot_distribution(df, "Empirical Distribution of Data from Wagenmakers et al. (2018)")
+```
+
+
 ## Descriptive Models (ExGaussian, LogNormal, Wald)
 
 ### Modelling RT with a Bayesian Linear Model
 
 #### The Data
-
-```{julia}
-using Downloads, CSV, DataFrames
-using Turing, Distributions
-using CairoMakie
-
-df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/DoggoNogo/main/study1/data/data_game.csv"), DataFrame)
-first(df, 10)
-```
 
 
 #### The Model
@@ -27,36 +68,36 @@ first(df, 10)
 ```{julia}
 #| code-fold: false
 
-@model function model_linear(rt; isi=nothing)
+@model function model_linear(rt; condition=nothing)
 
     # Set priors on variance, intercept and effect of ISI
     σ² ~ truncated(Normal(0, 1); lower=0)
     intercept ~ truncated(Normal(0, 1); lower=0)
-    slope_isi ~ Normal(0, 0.5)
+    slope_accuracy ~ Normal(0, 0.5)
 
     for i in 1:length(rt)
-        μ = intercept + slope_isi * isi[i]
+        μ = intercept + slope_accuracy * condition[i]
         rt[i] ~ Normal(μ, σ²)
     end
 end
 
-model = model_linear(df.RT, isi=df.ISI)
+
+model = model_linear(df.RT, condition=df.Accuracy)
 chain_linear = sample(model, NUTS(), 200)
 
 # Summary (95% CI)
 quantile(chain_linear; q=[0.025, 0.975])
 ```
 
-::: {.callout-tip title="Code Tip"}
-We first initialize the model by passing the `RT` and `ISI` columns.
-:::
+The effect of Condition is significant, people are on average slower (higher RT) when condition is `"Accuracy"`.
+But is our model good?
 
 #### Posterior Predictive Check
 
 ```{julia}
 #| output: false
 
-pred = predict(model_linear([(missing) for i in 1:length(df.RT)]; isi=df.ISI), chain_linear)
+pred = predict(model_linear([(missing) for i in 1:length(df.RT)], condition=df.Accuracy), chain_linear)
 pred = Array(pred)
 ```
 
@@ -64,23 +105,14 @@ pred = Array(pred)
 #| fig-width: 10
 #| fig-height: 7
 
-f = Figure()
-ax = Axis(f[1, 1], title="Predicted Data by Linear Model",
-    xlabel="RT (s)",
-    ylabel="Distribution",
-    yticksvisible=false,
-    xticksvisible=false,
-    yticklabelsvisible=false)
-
-CairoMakie.density!(df.RT, color="grey")
+fig = plot_distribution(df, "Predictions made by Linear Model")
 for i in 1:length(chain_linear)
-    lines!(ax, Makie.KernelDensity.kde(pred[:, i]), color="orange", alpha=0.1)
+    lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
 end
-CairoMakie.ylims!(ax, (0, nothing))
-f
+fig
 ```
 
-### The Problem with Linear Models
+#### The Problem with Linear Models
 
 Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as *t*-test and ANOVAs. Importantly, linear models - by definition - will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
 
@@ -93,20 +125,22 @@ However, this practice should be avoided as it leads to various issues, includin
 Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.
 
 
-### Shifted LogNormal Models
+### Shifted LogNormal Model
 
 One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.
 
+### ExGaussian Model
 
-### Wald
+
+### Wald Model
 
 Moe from statistical models that *describe* to models that *generate* RT-like data.
 
-### Generative Models (DDM)
+## Generative Models (DDM)
 
 Use DDM as a case study to introduce generative models
 
-### Other Models (LBA, LNR)
+## Other Models (LBA, LNR)
 
 
 ## Additional Resources

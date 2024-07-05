@@ -21,6 +21,6 @@ df <- rtdists::speed_acc |>
          .keep = "none") |>
   filter(Participant %in% c(1:6))
 
-write.csv(df, "wagenmakers2008_speedaccuracy.csv", row.names = FALSE)
+write.csv(df, "wagenmakers2008.csv", row.names = FALSE)
 
 # summary(df)
