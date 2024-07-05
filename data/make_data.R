@@ -7,6 +7,7 @@ library(tidyverse)
 
 df <- rtdists::speed_acc |>
   filter(censor == "FALSE") |>
+  filter(rt < 2) |>
   mutate(Participant=id,
          Condition=condition,
          RT=rt,
