@@ -1,5 +1,9 @@
 # Choice and Scales
 
-1. Logistic models for binary data
-2. Beta models 
-3. OrdBeta models for slider scales
+![](https://img.shields.io/badge/status-not_started-red)
+
+1. Beta models 
+2. OrdBeta models for slider scales
+3. Logistic models for binary data
+
+Use the speed accuracy data that we use in the next chapter.

@@ -1,17 +1,55 @@
-# Pieces of Puzzle
+# Fundamentals of Bayesian Modeling in Julia
 
-1. Very quick intro to Julia and Turing
+![](https://img.shields.io/badge/status-not_started-red)
+
+
+## Very quick intro to Julia and Turing
+
+Goal is to teach just enough so that the reader understands the code.
+
+### Generate Data from Normal Distribution
 
 ```{julia}
-using Plots
+using Turing, Distributions, Random
+using Makie
 
-plot(1:10)
+# μ=100, σ=15
+iq = rand(Normal(100, 15), 500)
+```
+
+```{julia}
+fig = Figure()
+ax = Axis(fig[1, 1], title="Distribution")
+density!(ax, iq)
+fig
+```
+
+### Recover Distribution Parameters with Turing
+
+```{julia}
+@model function model_gaussian(x)
+    # Priors
+    μ ~ Uniform(0, 200)
+    σ ~ Uniform(0, 30)
+
+    # Check against data
+    for i in 1:length(x)
+        x[i] ~ Normal(μ, σ)
+    end
+end
+
+model = model_gaussian(iq)
+sampling_results = sample(model, NUTS(), 400)
+
+# Summary (95% CI)
+summarystats(sampling_results)
 ```
 
 
+## Linear Models
 
+Understand what the parameters mean (intercept, slopes, sigma).
 
-2. Linear Regression: understand what the parameters mean (intercept, slopes, sigma)
 3. Boostrapping: Introduce concepts related to pseudo-posterior distribution description
 4. Hierarchical Models: Simpson's paradox, random effects, how to leverage them to model interindividual differences
 5. Bayesian estimation: introduce Bayesian estimation and priors over parameters

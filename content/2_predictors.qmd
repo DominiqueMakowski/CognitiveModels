@@ -1,5 +1,6 @@
 # Predictors
 
+![](https://img.shields.io/badge/status-not_started-red)
 
 ## Categorical predictors (Condition, Group, ...)
 

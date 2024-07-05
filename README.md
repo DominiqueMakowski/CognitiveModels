@@ -1,6 +1,7 @@
 # Cognitive Models with Julia
 
 [![](https://img.shields.io/badge/status-looking_for_collaborators-orange)](https://github.com/DominiqueMakowski/CognitiveModels/issues)
+[![](https://img.shields.io/badge/access-open-green)](https://dominiquemakowski.github.io/CognitiveModels/)
 
 The project is to write an open-access book on **cognitive models**, i.e., statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...). 
 This framework aims at moving away from a mere description of the data, to make inferences about the underlying cognitive processes that led to its generation.

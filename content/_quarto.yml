@@ -14,19 +14,47 @@ book:
         - 3_scales.qmd
         - 4_rt.qmd
         - 5_individual.qmd
+        # - part: "Fundamentals"
+        #   chapters:
+        #       - 1_introduction.qmd
+        # - part: "Predictors"
+        #   chapters:
+        #       - 2_predictors.qmd
+        # - part: "Scales and Choices"
+        #   chapters:
+        #       - 3_scales.qmd
+        # - part: "Reaction Times"
+        #   chapters:
+        #       - 4_1_Normal.qmd
+        # - part: "Individual Differences"
+        #   chapters:
+        #       - 5_individual.qmd
         - references.qmd
+    sidebar:
+        search: true
+        title: "Cognitive Models"
+        logo: "media/cover.jpg"
+    navbar:
+        title: "Cognitive Models: Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
+        right:
+            - icon: github
+              href: https://github.com/DominiqueMakowski/CognitiveModels
+              aria-label: GitHub
+    description: "This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia."
+    downloads: pdf
 
 bibliography: references.bib
 
 format:
     html:
-        theme: cosmo
+        theme: pulse
         code-fold: true
+        number-depth: 3
 
 execute:
-    cache: true
+    # cache: true
     freeze: "auto"
-    # execute: true
+    execute: true
     # cache: false
     # freeze: false
 # engine: julia

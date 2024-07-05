@@ -1,4 +1,6 @@
 # Individual Parameters
 
+![](https://img.shields.io/badge/status-not_started-red)
+
 1. From mixed models
 2. As prior-informed individual Bayesian models

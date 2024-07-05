@@ -1,15 +1,11 @@
 # Reaction Times
 
-
-This repository contain the following vignettes:
-
-- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
-- [**Ex-Gaussian models in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html)
+![](https://img.shields.io/badge/status-WIP-orange)
 
 ## The Data
 
 Data from @wagenmakers2008diffusion - Experiment 1.
-We excluded all trials with uninterpretable response time [see @theriault2024check] such as too fast response (<180 ms) and too slow response (>2 sec).
+Using the same procedure as the authors, we excluded all trials with uninterpretable response time [see @theriault2024check], i.e., responses that are too fast response (<180 ms) or too slow (>2 sec instead of >3 sec). 
 
 ```{julia}
 #| code-fold: false
@@ -56,12 +52,9 @@ plot_distribution(df, "Empirical Distribution of Data from Wagenmakers et al. (2
 ```
 
 
-## Descriptive Models (ExGaussian, LogNormal, Wald)
+## Descriptive Models 
 
-### Modelling RT with a Bayesian Linear Model
-
-#### The Data
-
+### Bayesian Linear Models
 
 #### The Model
 
@@ -71,19 +64,19 @@ plot_distribution(df, "Empirical Distribution of Data from Wagenmakers et al. (2
 @model function model_linear(rt; condition=nothing)
 
     # Set priors on variance, intercept and effect of ISI
-    σ² ~ truncated(Normal(0, 1); lower=0)
+    σ ~ truncated(Normal(0, 1); lower=0)
     intercept ~ truncated(Normal(0, 1); lower=0)
     slope_accuracy ~ Normal(0, 0.5)
 
     for i in 1:length(rt)
         μ = intercept + slope_accuracy * condition[i]
-        rt[i] ~ Normal(μ, σ²)
+        rt[i] ~ Normal(μ, σ)
     end
 end
 
 
-model = model_linear(df.RT, condition=df.Accuracy)
-chain_linear = sample(model, NUTS(), 200)
+model = model_linear(df.RT; condition=df.Accuracy)
+chain_linear = sample(model, NUTS(), 400)
 
 # Summary (95% CI)
 quantile(chain_linear; q=[0.025, 0.975])
@@ -129,8 +122,66 @@ Instead, rather than applying arbitrary data transformation, it would be better 
 
 One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.
 
+New parameter, $\tau$ (Tau for delay), which corresponds to the "starting time". We need to set a prior for this parameter, which is usually truncated between 0 and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).
+
+```{julia}
+xaxis = range(0, 1, 1000)
+lines(xaxis, pdf.(Gamma(1.1, 11), xaxis))
+```
+
+#### Model
+
+```{julia}
+#| code-fold: false
+
+@model function model_lognormal(rt; min_rt=minimum(df.RT), condition=nothing)
+
+    # Priors 
+    σ ~ truncated(Normal(0, 0.5); lower=0)
+    τ ~ truncated(Gamma(1.1, 11); upper=min_rt)
+
+    intercept ~ Normal(0, 2)
+    slope_accuracy ~ Normal(0, 0.5)
+
+    for i in 1:length(rt)
+        μ = intercept + slope_accuracy * condition[i]
+        rt[i] ~ ShiftedLogNormal(μ, σ, τ)
+    end
+end
+
+model = model_lognormal(df.RT; condition=df.Accuracy)
+chain_lognormal = sample(model, NUTS(), 400)
+
+# Summary (95% CI)
+quantile(chain_lognormal; q=[0.025, 0.975])
+```
+
+```{julia}
+#| output: false
+
+# pred = predict(model_lognormal([(missing) for i in 1:length(df.RT)]; condition=df.Accuracy), chain_lognormal)
+# pred = Array(pred)
+```
+
+```{julia}
+#| fig-width: 10
+#| fig-height: 7
+
+# fig = plot_distribution(df, "Predictions made by Shifted LogNormal Model")
+# for i in 1:length(chain_lognormal)
+#     lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
+# end
+# fig
+```
+
+#### More Conditional Parameters
+
+
+
 ### ExGaussian Model
 
+
+- [**Ex-Gaussian models in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html)
 
 ### Wald Model
 
@@ -139,6 +190,8 @@ Moe from statistical models that *describe* to models that *generate* RT-like da
 ## Generative Models (DDM)
 
 Use DDM as a case study to introduce generative models
+
+- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
 
 ## Other Models (LBA, LNR)
 
