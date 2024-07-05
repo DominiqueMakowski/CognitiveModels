@@ -8,6 +8,7 @@
 
 <meta name="author" content="Dominique Makowski">
 <meta name="dcterms.date" content="2024-03-07">
+<meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
 <title>Cognitive Models</title>
 <style>
@@ -43,11 +44,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -73,10 +74,35 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Cognitive Models: Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DominiqueMakowski/CognitiveModels"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="./Cognitive-Models.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -92,13 +118,13 @@ ul.task-list li input[type="checkbox"] {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Cognitive Models</a> 
-    </div>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./media/cover.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -116,7 +142,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pieces of Puzzle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentals of Bayesian Modeling in Julia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -159,7 +185,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+  <ul class="collapse">
+  <li><a href="#why-julia" id="toc-why-julia" class="nav-link" data-scroll-target="#why-julia">Why Julia?</a></li>
+  <li><a href="#why-bayesian" id="toc-why-bayesian" class="nav-link" data-scroll-target="#why-bayesian">Why Bayesian?</a></li>
+  <li><a href="#the-plan" id="toc-the-plan" class="nav-link" data-scroll-target="#the-plan">The Plan</a></li>
+  <li><a href="#looking-for-coauthors" id="toc-looking-for-coauthors" class="nav-link" data-scroll-target="#looking-for-coauthors">Looking for Coauthors</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -172,6 +204,11 @@ ul.task-list li input[type="checkbox"] {
 <p class="subtitle lead">Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia</p>
 </div>
 
+<div>
+  <div class="description">
+    This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -201,10 +238,35 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1><p><img src="media/cover.jpg" title="Cognitive Models" class="quarto-cover-image img-fluid"></p>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
+<section id="why-julia" class="level2">
+<h2 class="anchored" data-anchor-id="why-julia">Why Julia?</h2>
+<p><a href="https://julialang.org/"><strong>Julia</strong></a> - the new cool kid on the scientific block - is a modern programming language with many benefits when compared with R or Python. Importantly, it is currently the only language in which we can fit all the cognitive models under a Bayesian framework using a unified interface like <a href="https://turing.ml/"><strong>Turing</strong></a> and <a href="https://github.com/itsdfish/SequentialSamplingModels.jl"><strong>SSM</strong></a>.</p>
+</section>
+<section id="why-bayesian" class="level2">
+<h2 class="anchored" data-anchor-id="why-bayesian">Why Bayesian?</h2>
+<p>Unfortunately, cognitive models often involve distributions for which Frequentist estimations are not yet implemented, and usually contain a lot of parameters (due to the presence of <strong>random effects</strong>), which makes traditional algorithms fail to converge. Simply put, the Bayesian approach is the only one currently robust enough to fit these somewhat complex models.</p>
+</section>
+<section id="the-plan" class="level2">
+<h2 class="anchored" data-anchor-id="the-plan">The Plan</h2>
+<p>As this is a fast-evolving field (both from the theoretical - with new models being proposed - and the technical side - with improvements to the packages and the algorithms), the book needs to be future-resilient and updatable to keep up with the latest best practices.</p>
+<ul class="task-list">
+<li><label><input type="checkbox">Decide on the framework to build the book in a reproducible and collaborative manner (Quarto?)</label></li>
+<li><label><input type="checkbox">Set up the infrastructure to automatically build it using GitHub actions and host it on GitHub pages</label></li>
+<li><label><input type="checkbox">Write the content of the book</label></li>
+<li><label><input type="checkbox">Referencing</label>
+<ul>
+<li>Add Zenodo DOI and reference (but how to deal with evolving author? Through versioning?)</li>
+<li>Publish a paper to present the book project (<a href="https://jose.theoj.org/">JOSE</a>)?</li>
+</ul></li>
+</ul>
+</section>
+<section id="looking-for-coauthors" class="level2">
+<h2 class="anchored" data-anchor-id="looking-for-coauthors">Looking for Coauthors</h2>
+<p>This project can only be achieved by a team, and I suspect no single person has currently all the skills and knowledge to cover all the content. We need many people who have strengths in various aspects, such as Julia/Turing, theory, writing, making plots etc. Most importantly, this project can serve as a way for us to learn more about this approach to psychological science.</p>
+<p><strong>If you are <em>interested</em> in the project, you can let us know by <a href="https://github.com/DominiqueMakowski/CognitiveModels/issues">opening an issue</a> or getting in touch.</strong></p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -632,8 +694,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./1_introduction.html" class="pagination-link" aria-label="Pieces of Puzzle">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pieces of Puzzle</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./1_introduction.html" class="pagination-link" aria-label="Fundamentals of Bayesian Modeling in Julia">
+        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentals of Bayesian Modeling in Julia</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

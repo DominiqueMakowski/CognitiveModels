@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
 <title>4&nbsp; Reaction Times – Cognitive Models</title>
 <style>
@@ -19,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -77,7 +44,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -96,11 +63,11 @@ div.csl-indent {
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -122,9 +89,6 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -158,10 +122,35 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Cognitive Models: Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/DominiqueMakowski/CognitiveModels"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="./Cognitive-Models.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -177,13 +166,13 @@ window.Quarto = {
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Cognitive Models</a> 
-    </div>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./media/cover.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
@@ -201,7 +190,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Pieces of Puzzle</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentals of Bayesian Modeling in Julia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,9 +234,9 @@ window.Quarto = {
    
   <ul>
   <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">4.1</span> The Data</a></li>
-  <li><a href="#descriptive-models-exgaussian-lognormal-wald" id="toc-descriptive-models-exgaussian-lognormal-wald" class="nav-link" data-scroll-target="#descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.2</span> Descriptive Models (ExGaussian, LogNormal, Wald)</a>
+  <li><a href="#descriptive-models" id="toc-descriptive-models" class="nav-link" data-scroll-target="#descriptive-models"><span class="header-section-number">4.2</span> Descriptive Models</a>
   <ul class="collapse">
-  <li><a href="#modelling-rt-with-a-bayesian-linear-model" id="toc-modelling-rt-with-a-bayesian-linear-model" class="nav-link" data-scroll-target="#modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.2.1</span> Modelling RT with a Bayesian Linear Model</a></li>
+  <li><a href="#bayesian-linear-models" id="toc-bayesian-linear-models" class="nav-link" data-scroll-target="#bayesian-linear-models"><span class="header-section-number">4.2.1</span> Bayesian Linear Models</a></li>
   <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">4.2.2</span> Shifted LogNormal Model</a></li>
   <li><a href="#exgaussian-model" id="toc-exgaussian-model" class="nav-link" data-scroll-target="#exgaussian-model"><span class="header-section-number">4.2.3</span> ExGaussian Model</a></li>
   <li><a href="#wald-model" id="toc-wald-model" class="nav-link" data-scroll-target="#wald-model"><span class="header-section-number">4.2.4</span> Wald Model</a></li>
@@ -280,136 +269,23 @@ window.Quarto = {
 </header>
 
 
-<p>This repository contain the following vignettes:</p>
-<ul>
-<li><a href="https://dominiquemakowski.github.io/easyRT/articles/ddm.html"><strong>Drift Diffusion Model (DDM) in R: A Tutorial</strong></a></li>
-<li><a href="https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html"><strong>Ex-Gaussian models in R: A Tutorial</strong></a></li>
-</ul>
+<p><img src="https://img.shields.io/badge/status-WIP-orange.png" class="img-fluid"></p>
 <section id="the-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
-<p>Data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1. We excluded all trials with uninterpretable response time <span class="citation" data-cites="theriault2024check">(see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a>)</span> such as too fast response (&lt;180 ms) and too slow response (&gt;2 sec).</p>
-<div id="0832bae0" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Downloads</span>, <span class="bu">CSV</span>, <span class="bu">DataFrames</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">SequentialSamplingModels</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CairoMakie</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="bu">Downloads</span>.<span class="fu">download</span>(<span class="st">"https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"</span>), DataFrame)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(df, <span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div><div style="float: left;"><span>10×5 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Participant</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Condition</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">RT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Error</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Frequency</th>
-</tr>
-<tr class="odd subheader headerLastRow">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Bool">Bool</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.7</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.392</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.46</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.455</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.505</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.773</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.39</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.587</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.603</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.435</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+<p>Data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1. Using the same procedure as the authors, we excluded all trials with uninterpretable response time <span class="citation" data-cites="theriault2024check">(see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a>)</span>, i.e., responses that are too fast response (&lt;180 ms) or too slow (&gt;2 sec instead of &gt;3 sec).</p>
+<pre class="{julia}"><code>#| code-fold: false
+
+using Downloads, CSV, DataFrames
+using Turing, Distributions, SequentialSamplingModels
+using CairoMakie
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"), DataFrame)
+first(df, 10)</code></pre>
 <p>We create a new column, <code>Accuracy</code>, which is the “binarization” of the <code>Condition</code> column, and is equal to 1 when the condition is <code>"Accuracy"</code> and 0 when it is <code>"Speed"</code>.</p>
-<div id="a89149c2" class="cell" data-execution_count="2">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df.Error <span class="op">.==</span> <span class="fl">0</span>, <span class="op">:</span>]</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.Accuracy <span class="op">=</span> df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Accuracy"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+<pre class="{julia}"><code>#| output: false
+
+df = df[df.Error .== 0, :]
+df.Accuracy = df.Condition .== "Accuracy"</code></pre>
 <div class="callout callout-style-default callout-tip callout-titled" title="Code Tip">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -423,120 +299,69 @@ Code Tip
 <p>Note the usage of <em>vectorization</em> <code>.==</code> as we want to compare each element of the <code>Condition</code> vector to the target <code>"Accuracy"</code>.</p>
 </div>
 </div>
-<div id="388d4559" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_distribution</span>(df, title<span class="op">=</span><span class="st">"Empirical Distribution of Data from Wagenmakers et al. (2018)"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], title<span class="op">=</span>title,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"RT (s)"</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        ylabel<span class="op">=</span><span class="st">"Distribution"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        yticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        xticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        yticklabelsvisible<span class="op">=</span><span class="cn">false</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">density!</span>(df[df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Speed"</span>, <span class="op">:</span>RT], color<span class="op">=</span>(<span class="st">"#EF5350"</span>, <span class="fl">0.7</span>), label <span class="op">=</span> <span class="st">"Speed"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">density!</span>(df[df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Accuracy"</span>, <span class="op">:</span>RT], color<span class="op">=</span>(<span class="st">"#66BB6A"</span>, <span class="fl">0.7</span>), label <span class="op">=</span> <span class="st">"Accuracy"</span>)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">axislegend</span>(<span class="st">"Condition"</span>; position<span class="op">=:</span>rt)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">ylims!</span>(ax, (<span class="fl">0</span>, <span class="cn">nothing</span>))</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_distribution</span>(df, <span class="st">"Empirical Distribution of Data from Wagenmakers et al. (2018)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>┌ Warning: Found `resolution` in the theme when creating a `Scene`. The `resolution` keyword for `Scene`s and `Figure`s has been deprecated. Use `Figure(; size = ...` or `Scene(; size = ...)` instead, which better reflects that this is a unitless size and not a pixel resolution. The key could also come from `set_theme!` calls or related theming functions.
-└ @ Makie C:\Users\domma\.julia\packages\Makie\VRavR\src\scenes.jl:220</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<div>
-<figure class="figure">
-<p><img src="4_rt_files/figure-html/cell-4-output-2.svg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<pre class="{julia}"><code>function plot_distribution(df, title="Empirical Distribution of Data from Wagenmakers et al. (2018)")
+    fig = Figure()
+    ax = Axis(fig[1, 1], title=title,
+        xlabel="RT (s)",
+        ylabel="Distribution",
+        yticksvisible=false,
+        xticksvisible=false,
+        yticklabelsvisible=false)
+    CairoMakie.density!(df[df.Condition .== "Speed", :RT], color=("#EF5350", 0.7), label = "Speed")
+    CairoMakie.density!(df[df.Condition .== "Accuracy", :RT], color=("#66BB6A", 0.7), label = "Accuracy")
+    CairoMakie.axislegend("Condition"; position=:rt)
+    CairoMakie.ylims!(ax, (0, nothing))
+    return fig
+end
+
+plot_distribution(df, "Empirical Distribution of Data from Wagenmakers et al. (2018)")</code></pre>
 </section>
-<section id="descriptive-models-exgaussian-lognormal-wald" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.2</span> Descriptive Models (ExGaussian, LogNormal, Wald)</h2>
-<section id="modelling-rt-with-a-bayesian-linear-model" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.2.1</span> Modelling RT with a Bayesian Linear Model</h3>
-<section id="the-data-1" class="level4" data-number="4.2.1.1">
-<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="the-data-1"><span class="header-section-number">4.2.1.1</span> The Data</h4>
-</section>
-<section id="the-model" class="level4" data-number="4.2.1.2">
-<h4 data-number="4.2.1.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">4.2.1.2</span> The Model</h4>
-<div id="ffb2b20a" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_linear</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set priors on variance, intercept and effect of ISI</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    σ² <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    slope_accuracy <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">0.5</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(rt)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        μ <span class="op">=</span> intercept <span class="op">+</span> slope_accuracy <span class="op">*</span> condition[i]</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        rt[i] <span class="op">~</span> <span class="fu">Normal</span>(μ, σ²)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="fu">model_linear</span>(df.RT, condition<span class="op">=</span>df.Accuracy)</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>chain_linear <span class="op">=</span> <span class="fu">sample</span>(model, <span class="fu">NUTS</span>(), <span class="fl">200</span>)</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(chain_linear; q<span class="op">=</span>[<span class="fl">0.025</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>┌ Info: Found initial step size
-└   ϵ = 0.00625
-Sampling:   0%|█                                        |  ETA: 0:01:00Sampling: 100%|█████████████████████████████████████████| Time: 0:00:01</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<div class="ansi-escaped-output">
-<pre>Quantiles
- <span class="ansi-bold">     parameters </span> <span class="ansi-bold">    2.5% </span> <span class="ansi-bold">   97.5% </span>
- <span class="ansi-bright-black-fg">         Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span>
-              σ²    0.1651    0.1699
-       intercept    0.5072    0.5166
-  slope_accuracy    0.1327    0.1451
-</pre>
-</div>
-</div>
-</div>
+<section id="descriptive-models" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="descriptive-models"><span class="header-section-number">4.2</span> Descriptive Models</h2>
+<section id="bayesian-linear-models" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="bayesian-linear-models"><span class="header-section-number">4.2.1</span> Bayesian Linear Models</h3>
+<section id="the-model" class="level4">
+<h4 class="anchored" data-anchor-id="the-model">The Model</h4>
+<pre class="{julia}"><code>#| code-fold: false
+
+@model function model_linear(rt; condition=nothing)
+
+    # Set priors on variance, intercept and effect of ISI
+    σ ~ truncated(Normal(0, 1); lower=0)
+    intercept ~ truncated(Normal(0, 1); lower=0)
+    slope_accuracy ~ Normal(0, 0.5)
+
+    for i in 1:length(rt)
+        μ = intercept + slope_accuracy * condition[i]
+        rt[i] ~ Normal(μ, σ)
+    end
+end
+
+
+model = model_linear(df.RT; condition=df.Accuracy)
+chain_linear = sample(model, NUTS(), 400)
+
+# Summary (95% CI)
+quantile(chain_linear; q=[0.025, 0.975])</code></pre>
 <p>The effect of Condition is significant, people are on average slower (higher RT) when condition is <code>"Accuracy"</code>. But is our model good?</p>
 </section>
-<section id="posterior-predictive-check" class="level4" data-number="4.2.1.3">
-<h4 data-number="4.2.1.3" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">4.2.1.3</span> Posterior Predictive Check</h4>
-<div id="be300190" class="cell" data-execution_count="5">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_linear</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)], condition<span class="op">=</span>df.Accuracy), chain_linear)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">Array</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="07909a8b" class="cell" data-fig-height="7" data-fig-width="10" data-execution_count="6">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">plot_distribution</span>(df, <span class="st">"Predictions made by Linear Model"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(chain_linear)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(Makie.KernelDensity.<span class="fu">kde</span>(pred[<span class="op">:</span>, i]), color<span class="op">=</span><span class="fu">ifelse</span>(df.Accuracy[i] <span class="op">==</span> <span class="fl">1</span>, <span class="st">"#388E3C"</span>, <span class="st">"#D32F2F"</span>), alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>┌ Warning: Found `resolution` in the theme when creating a `Scene`. The `resolution` keyword for `Scene`s and `Figure`s has been deprecated. Use `Figure(; size = ...` or `Scene(; size = ...)` instead, which better reflects that this is a unitless size and not a pixel resolution. The key could also come from `set_theme!` calls or related theming functions.
-└ @ Makie C:\Users\domma\.julia\packages\Makie\VRavR\src\scenes.jl:220</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<div>
-<figure class="figure">
-<p><img src="4_rt_files/figure-html/cell-7-output-2.svg" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="posterior-predictive-check" class="level4">
+<h4 class="anchored" data-anchor-id="posterior-predictive-check">Posterior Predictive Check</h4>
+<pre class="{julia}"><code>#| output: false
+
+pred = predict(model_linear([(missing) for i in 1:length(df.RT)], condition=df.Accuracy), chain_linear)
+pred = Array(pred)</code></pre>
+<pre class="{julia}"><code>#| fig-width: 10
+#| fig-height: 7
+
+fig = plot_distribution(df, "Predictions made by Linear Model")
+for i in 1:length(chain_linear)
+    lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
+end
+fig</code></pre>
 </section>
-<section id="the-problem-with-linear-models" class="level4" data-number="4.2.1.4">
-<h4 data-number="4.2.1.4" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.2.1.4</span> The Problem with Linear Models</h4>
+<section id="the-problem-with-linear-models" class="level4">
+<h4 class="anchored" data-anchor-id="the-problem-with-linear-models">The Problem with Linear Models</h4>
 <p>Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as <em>t</em>-test and ANOVAs. Importantly, linear models - by definition - will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
 <p><img src="media/rt_normal.gif" class="img-fluid"></p>
 <blockquote class="blockquote">
@@ -548,9 +373,55 @@ Sampling:   0%|█                                        |  ETA: 0:01:00Samplin
 <section id="shifted-lognormal-model" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">4.2.2</span> Shifted LogNormal Model</h3>
 <p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.</p>
+<p>New parameter, <span class="math inline">\(\tau\)</span> (Tau for delay), which corresponds to the “starting time”. We need to set a prior for this parameter, which is usually truncated between 0 and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).</p>
+<pre class="{julia}"><code>xaxis = range(0, 1, 1000)
+lines(xaxis, pdf.(Gamma(1.1, 11), xaxis))</code></pre>
+<section id="model" class="level4">
+<h4 class="anchored" data-anchor-id="model">Model</h4>
+<pre class="{julia}"><code>#| code-fold: false
+
+@model function model_lognormal(rt; min_rt=minimum(df.RT), condition=nothing)
+
+    # Priors 
+    σ ~ truncated(Normal(0, 0.5); lower=0)
+    τ ~ truncated(Gamma(1.1, 11); upper=min_rt)
+
+    intercept ~ Normal(0, 2)
+    slope_accuracy ~ Normal(0, 0.5)
+
+    for i in 1:length(rt)
+        μ = intercept + slope_accuracy * condition[i]
+        rt[i] ~ ShiftedLogNormal(μ, σ, τ)
+    end
+end
+
+model = model_lognormal(df.RT; condition=df.Accuracy)
+chain_lognormal = sample(model, NUTS(), 400)
+
+# Summary (95% CI)
+quantile(chain_lognormal; q=[0.025, 0.975])</code></pre>
+<pre class="{julia}"><code>#| output: false
+
+# pred = predict(model_lognormal([(missing) for i in 1:length(df.RT)]; condition=df.Accuracy), chain_lognormal)
+# pred = Array(pred)</code></pre>
+<pre class="{julia}"><code>#| fig-width: 10
+#| fig-height: 7
+
+# fig = plot_distribution(df, "Predictions made by Shifted LogNormal Model")
+# for i in 1:length(chain_lognormal)
+#     lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
+# end
+# fig</code></pre>
+</section>
+<section id="more-conditional-parameters" class="level4">
+<h4 class="anchored" data-anchor-id="more-conditional-parameters">More Conditional Parameters</h4>
+</section>
 </section>
 <section id="exgaussian-model" class="level3" data-number="4.2.3">
 <h3 data-number="4.2.3" class="anchored" data-anchor-id="exgaussian-model"><span class="header-section-number">4.2.3</span> ExGaussian Model</h3>
+<ul>
+<li><a href="https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html"><strong>Ex-Gaussian models in R: A Tutorial</strong></a></li>
+</ul>
 </section>
 <section id="wald-model" class="level3" data-number="4.2.4">
 <h3 data-number="4.2.4" class="anchored" data-anchor-id="wald-model"><span class="header-section-number">4.2.4</span> Wald Model</h3>
@@ -560,6 +431,9 @@ Sampling:   0%|█                                        |  ETA: 0:01:00Samplin
 <section id="generative-models-ddm" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.3</span> Generative Models (DDM)</h2>
 <p>Use DDM as a case study to introduce generative models</p>
+<ul>
+<li><a href="https://dominiquemakowski.github.io/easyRT/articles/ddm.html"><strong>Drift Diffusion Model (DDM) in R: A Tutorial</strong></a></li>
+</ul>
 </section>
 <section id="other-models-lba-lnr" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.4</span> Other Models (LBA, LNR)</h2>
