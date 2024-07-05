@@ -244,16 +244,17 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#descriptive-models-exgaussian-lognormal-wald" id="toc-descriptive-models-exgaussian-lognormal-wald" class="nav-link active" data-scroll-target="#descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.1</span> Descriptive Models (ExGaussian, LogNormal, Wald)</a>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">4.1</span> The Data</a></li>
+  <li><a href="#descriptive-models-exgaussian-lognormal-wald" id="toc-descriptive-models-exgaussian-lognormal-wald" class="nav-link" data-scroll-target="#descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.2</span> Descriptive Models (ExGaussian, LogNormal, Wald)</a>
   <ul class="collapse">
-  <li><a href="#modelling-rt-with-a-bayesian-linear-model" id="toc-modelling-rt-with-a-bayesian-linear-model" class="nav-link" data-scroll-target="#modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.1.1</span> Modelling RT with a Bayesian Linear Model</a></li>
-  <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">4.1.2</span> The Problem with Linear Models</a></li>
-  <li><a href="#shifted-lognormal-models" id="toc-shifted-lognormal-models" class="nav-link" data-scroll-target="#shifted-lognormal-models"><span class="header-section-number">4.1.3</span> Shifted LogNormal Models</a></li>
-  <li><a href="#wald" id="toc-wald" class="nav-link" data-scroll-target="#wald"><span class="header-section-number">4.1.4</span> Wald</a></li>
-  <li><a href="#generative-models-ddm" id="toc-generative-models-ddm" class="nav-link" data-scroll-target="#generative-models-ddm"><span class="header-section-number">4.1.5</span> Generative Models (DDM)</a></li>
-  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">4.1.6</span> Other Models (LBA, LNR)</a></li>
+  <li><a href="#modelling-rt-with-a-bayesian-linear-model" id="toc-modelling-rt-with-a-bayesian-linear-model" class="nav-link" data-scroll-target="#modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.2.1</span> Modelling RT with a Bayesian Linear Model</a></li>
+  <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">4.2.2</span> Shifted LogNormal Model</a></li>
+  <li><a href="#exgaussian-model" id="toc-exgaussian-model" class="nav-link" data-scroll-target="#exgaussian-model"><span class="header-section-number">4.2.3</span> ExGaussian Model</a></li>
+  <li><a href="#wald-model" id="toc-wald-model" class="nav-link" data-scroll-target="#wald-model"><span class="header-section-number">4.2.4</span> Wald Model</a></li>
   </ul></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">4.2</span> Additional Resources</a></li>
+  <li><a href="#generative-models-ddm" id="toc-generative-models-ddm" class="nav-link" data-scroll-target="#generative-models-ddm"><span class="header-section-number">4.3</span> Generative Models (DDM)</a></li>
+  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">4.4</span> Other Models (LBA, LNR)</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">4.5</span> Additional Resources</a></li>
   </ul>
 </nav>
     </div>
@@ -284,215 +285,130 @@ window.Quarto = {
 <li><a href="https://dominiquemakowski.github.io/easyRT/articles/ddm.html"><strong>Drift Diffusion Model (DDM) in R: A Tutorial</strong></a></li>
 <li><a href="https://dominiquemakowski.github.io/easyRT/articles/exgaussian.html"><strong>Ex-Gaussian models in R: A Tutorial</strong></a></li>
 </ul>
-<section id="descriptive-models-exgaussian-lognormal-wald" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.1</span> Descriptive Models (ExGaussian, LogNormal, Wald)</h2>
-<section id="modelling-rt-with-a-bayesian-linear-model" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.1.1</span> Modelling RT with a Bayesian Linear Model</h3>
-<section id="the-data" class="level4" data-number="4.1.1.1">
-<h4 data-number="4.1.1.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1.1.1</span> The Data</h4>
-<div id="718393b9" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
+<section id="the-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
+<p>Data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1. We excluded all trials with uninterpretable response time <span class="citation" data-cites="theriault2024check">(see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a>)</span> such as too fast response (&lt;180 ms) and too slow response (&gt;2 sec).</p>
+<div id="0832bae0" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Downloads</span>, <span class="bu">CSV</span>, <span class="bu">DataFrames</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">SequentialSamplingModels</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">CairoMakie</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="bu">Downloads</span>.<span class="fu">download</span>(<span class="st">"https://raw.githubusercontent.com/RealityBending/DoggoNogo/main/study1/data/data_game.csv"</span>), DataFrame)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="bu">Downloads</span>.<span class="fu">download</span>(<span class="st">"https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"</span>), DataFrame)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(df, <span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<div><div style="float: left;"><span>10×9 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
+<div><div style="float: left;"><span>10×5 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
 <table class="data-frame caption-top table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">RT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">ISI</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Trial</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Participant</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Session</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Threshold</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Feedback</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Feedback_N_Positive</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Feedback_N_Negative</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Condition</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">RT</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Error</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Frequency</th>
 </tr>
 <tr class="odd subheader headerLastRow">
 <th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String7">String7</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String3">String3</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String7">String7</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="Bool">Bool</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">0.517</td>
-<td style="text-align: right;">1.638</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">Low</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">0.433</td>
-<td style="text-align: right;">2.282</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.475</td>
-<td style="text-align: left;">Positive</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.392</td>
+<td style="text-align: right;">true</td>
+<td style="text-align: left;">Very Low</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">0.533</td>
-<td style="text-align: right;">0.739</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.494</td>
-<td style="text-align: left;">Negative</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.46</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">Very Low</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">0.35</td>
-<td style="text-align: right;">0.602</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.458</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.455</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">Very Low</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">0.517</td>
-<td style="text-align: right;">1.951</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.47</td>
-<td style="text-align: left;">Negative</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.505</td>
+<td style="text-align: right;">true</td>
+<td style="text-align: left;">Low</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
-<td style="text-align: right;">0.383</td>
-<td style="text-align: right;">0.952</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.456</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.773</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">High</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
-<td style="text-align: right;">0.383</td>
-<td style="text-align: right;">0.875</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.445</td>
-<td style="text-align: left;">Positive</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.39</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">High</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
-<td style="text-align: right;">0.417</td>
-<td style="text-align: right;">2.662</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.442</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.587</td>
+<td style="text-align: right;">true</td>
+<td style="text-align: left;">Low</td>
 </tr>
 <tr class="odd">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
-<td style="text-align: right;">0.367</td>
-<td style="text-align: right;">2.8</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.433</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.603</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">Low</td>
 </tr>
 <tr class="even">
 <td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
-<td style="text-align: right;">0.417</td>
-<td style="text-align: right;">0.258</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: left;">S002</td>
-<td style="text-align: left;">S1</td>
-<td style="text-align: left;">0.432</td>
-<td style="text-align: left;">Positive</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Speed</td>
+<td style="text-align: right;">0.435</td>
+<td style="text-align: right;">false</td>
+<td style="text-align: left;">High</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div>
-</section>
-<section id="the-model" class="level4" data-number="4.1.1.2">
-<h4 data-number="4.1.1.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">4.1.1.2</span> The Model</h4>
-<div id="cb030c10" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_linear</span>(rt; isi<span class="op">=</span><span class="cn">nothing</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set priors on variance, intercept and effect of ISI</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    σ² <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    slope_isi <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">0.5</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(rt)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        μ <span class="op">=</span> intercept <span class="op">+</span> slope_isi <span class="op">*</span> isi[i]</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        rt[i] <span class="op">~</span> <span class="fu">Normal</span>(μ, σ²)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="fu">model_linear</span>(df.RT, isi<span class="op">=</span>df.ISI)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>chain_linear <span class="op">=</span> <span class="fu">sample</span>(model, <span class="fu">NUTS</span>(), <span class="fl">200</span>)</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(chain_linear; q<span class="op">=</span>[<span class="fl">0.025</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>┌ Info: Found initial step size
-└   ϵ = 0.003125
-Sampling:   0%|█                                        |  ETA: 0:00:54Sampling: 100%|█████████████████████████████████████████| Time: 0:00:01</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div class="ansi-escaped-output">
-<pre>Quantiles
- <span class="ansi-bold"> parameters </span> <span class="ansi-bold">    2.5% </span> <span class="ansi-bold">   97.5% </span>
- <span class="ansi-bright-black-fg">     Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span>
-          σ²    0.0662    0.0741
-   intercept    0.3432    0.3485
-   slope_isi   -0.0215   -0.0188
-</pre>
-</div>
-</div>
+<p>We create a new column, <code>Accuracy</code>, which is the “binarization” of the <code>Condition</code> column, and is equal to 1 when the condition is <code>"Accuracy"</code> and 0 when it is <code>"Speed"</code>.</p>
+<div id="a89149c2" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df.Error <span class="op">.==</span> <span class="fl">0</span>, <span class="op">:</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>df.Accuracy <span class="op">=</span> df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Accuracy"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled" title="Code Tip">
 <div class="callout-header d-flex align-content-center">
@@ -504,53 +420,123 @@ Code Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>We first initialize the model by passing the <code>RT</code> and <code>ISI</code> columns.</p>
+<p>Note the usage of <em>vectorization</em> <code>.==</code> as we want to compare each element of the <code>Condition</code> vector to the target <code>"Accuracy"</code>.</p>
 </div>
 </div>
-</section>
-<section id="posterior-predictive-check" class="level4" data-number="4.1.1.3">
-<h4 data-number="4.1.1.3" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">4.1.1.3</span> Posterior Predictive Check</h4>
-<div id="c0d701ef" class="cell" data-execution_count="3">
+<div id="388d4559" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_linear</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)]; isi<span class="op">=</span>df.ISI), chain_linear)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">Array</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<div id="5a9bdace" class="cell" data-fig-height="7" data-fig-width="10" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(f[<span class="fl">1</span>, <span class="fl">1</span>], title<span class="op">=</span><span class="st">"Predicted Data by Linear Model"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    xlabel<span class="op">=</span><span class="st">"RT (s)"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    ylabel<span class="op">=</span><span class="st">"Distribution"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    yticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    xticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    yticklabelsvisible<span class="op">=</span><span class="cn">false</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>CairoMakie.<span class="fu">density!</span>(df.RT, color<span class="op">=</span><span class="st">"grey"</span>)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(chain_linear)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(ax, Makie.KernelDensity.<span class="fu">kde</span>(pred[<span class="op">:</span>, i]), color<span class="op">=</span><span class="st">"orange"</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>CairoMakie.<span class="fu">ylims!</span>(ax, (<span class="fl">0</span>, <span class="cn">nothing</span>))</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>f</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_distribution</span>(df, title<span class="op">=</span><span class="st">"Empirical Distribution of Data from Wagenmakers et al. (2018)"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], title<span class="op">=</span>title,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        xlabel<span class="op">=</span><span class="st">"RT (s)"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        ylabel<span class="op">=</span><span class="st">"Distribution"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        yticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        xticksvisible<span class="op">=</span><span class="cn">false</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        yticklabelsvisible<span class="op">=</span><span class="cn">false</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">density!</span>(df[df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Speed"</span>, <span class="op">:</span>RT], color<span class="op">=</span>(<span class="st">"#EF5350"</span>, <span class="fl">0.7</span>), label <span class="op">=</span> <span class="st">"Speed"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">density!</span>(df[df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Accuracy"</span>, <span class="op">:</span>RT], color<span class="op">=</span>(<span class="st">"#66BB6A"</span>, <span class="fl">0.7</span>), label <span class="op">=</span> <span class="st">"Accuracy"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">axislegend</span>(<span class="st">"Condition"</span>; position<span class="op">=:</span>rt)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    CairoMakie.<span class="fu">ylims!</span>(ax, (<span class="fl">0</span>, <span class="cn">nothing</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> fig</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_distribution</span>(df, <span class="st">"Empirical Distribution of Data from Wagenmakers et al. (2018)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>┌ Warning: Found `resolution` in the theme when creating a `Scene`. The `resolution` keyword for `Scene`s and `Figure`s has been deprecated. Use `Figure(; size = ...` or `Scene(; size = ...)` instead, which better reflects that this is a unitless size and not a pixel resolution. The key could also come from `set_theme!` calls or related theming functions.
 └ @ Makie C:\Users\domma\.julia\packages\Makie\VRavR\src\scenes.jl:220</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <div>
 <figure class="figure">
-<p><img src="4_rt_files/figure-html/cell-5-output-2.svg" class="img-fluid figure-img"></p>
+<p><img src="4_rt_files/figure-html/cell-4-output-2.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 </section>
+<section id="descriptive-models-exgaussian-lognormal-wald" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="descriptive-models-exgaussian-lognormal-wald"><span class="header-section-number">4.2</span> Descriptive Models (ExGaussian, LogNormal, Wald)</h2>
+<section id="modelling-rt-with-a-bayesian-linear-model" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="modelling-rt-with-a-bayesian-linear-model"><span class="header-section-number">4.2.1</span> Modelling RT with a Bayesian Linear Model</h3>
+<section id="the-data-1" class="level4" data-number="4.2.1.1">
+<h4 data-number="4.2.1.1" class="anchored" data-anchor-id="the-data-1"><span class="header-section-number">4.2.1.1</span> The Data</h4>
 </section>
-<section id="the-problem-with-linear-models" class="level3" data-number="4.1.2">
-<h3 data-number="4.1.2" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.1.2</span> The Problem with Linear Models</h3>
+<section id="the-model" class="level4" data-number="4.2.1.2">
+<h4 data-number="4.2.1.2" class="anchored" data-anchor-id="the-model"><span class="header-section-number">4.2.1.2</span> The Model</h4>
+<div id="ffb2b20a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_linear</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set priors on variance, intercept and effect of ISI</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    σ² <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    intercept <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    slope_accuracy <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(rt)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        μ <span class="op">=</span> intercept <span class="op">+</span> slope_accuracy <span class="op">*</span> condition[i]</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        rt[i] <span class="op">~</span> <span class="fu">Normal</span>(μ, σ²)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="fu">model_linear</span>(df.RT, condition<span class="op">=</span>df.Accuracy)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>chain_linear <span class="op">=</span> <span class="fu">sample</span>(model, <span class="fu">NUTS</span>(), <span class="fl">200</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(chain_linear; q<span class="op">=</span>[<span class="fl">0.025</span>, <span class="fl">0.975</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>┌ Info: Found initial step size
+└   ϵ = 0.00625
+Sampling:   0%|█                                        |  ETA: 0:01:00Sampling: 100%|█████████████████████████████████████████| Time: 0:00:01</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div class="ansi-escaped-output">
+<pre>Quantiles
+ <span class="ansi-bold">     parameters </span> <span class="ansi-bold">    2.5% </span> <span class="ansi-bold">   97.5% </span>
+ <span class="ansi-bright-black-fg">         Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span>
+              σ²    0.1651    0.1699
+       intercept    0.5072    0.5166
+  slope_accuracy    0.1327    0.1451
+</pre>
+</div>
+</div>
+</div>
+<p>The effect of Condition is significant, people are on average slower (higher RT) when condition is <code>"Accuracy"</code>. But is our model good?</p>
+</section>
+<section id="posterior-predictive-check" class="level4" data-number="4.2.1.3">
+<h4 data-number="4.2.1.3" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">4.2.1.3</span> Posterior Predictive Check</h4>
+<div id="be300190" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_linear</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)], condition<span class="op">=</span>df.Accuracy), chain_linear)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">Array</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div id="07909a8b" class="cell" data-fig-height="7" data-fig-width="10" data-execution_count="6">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">plot_distribution</span>(df, <span class="st">"Predictions made by Linear Model"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(chain_linear)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>(Makie.KernelDensity.<span class="fu">kde</span>(pred[<span class="op">:</span>, i]), color<span class="op">=</span><span class="fu">ifelse</span>(df.Accuracy[i] <span class="op">==</span> <span class="fl">1</span>, <span class="st">"#388E3C"</span>, <span class="st">"#D32F2F"</span>), alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>┌ Warning: Found `resolution` in the theme when creating a `Scene`. The `resolution` keyword for `Scene`s and `Figure`s has been deprecated. Use `Figure(; size = ...` or `Scene(; size = ...)` instead, which better reflects that this is a unitless size and not a pixel resolution. The key could also come from `set_theme!` calls or related theming functions.
+└ @ Makie C:\Users\domma\.julia\packages\Makie\VRavR\src\scenes.jl:220</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+<figure class="figure">
+<p><img src="4_rt_files/figure-html/cell-7-output-2.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-problem-with-linear-models" class="level4" data-number="4.2.1.4">
+<h4 data-number="4.2.1.4" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.2.1.4</span> The Problem with Linear Models</h4>
 <p>Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as <em>t</em>-test and ANOVAs. Importantly, linear models - by definition - will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
 <p><img src="media/rt_normal.gif" class="img-fluid"></p>
 <blockquote class="blockquote">
@@ -558,24 +544,28 @@ Code Tip
 </blockquote>
 <p>A popular mitigation method to account for the non-normality of RTs is to transform the data, using for instance the popular <em>log-transform</em>. However, this practice should be avoided as it leads to various issues, including loss of power and distorted results interpretation <span class="citation" data-cites="lo2015transform schramm2019reaction">(<a href="references.html#ref-lo2015transform" role="doc-biblioref">Lo and Andrews 2015</a>; <a href="references.html#ref-schramm2019reaction" role="doc-biblioref">Schramm and Rouder 2019</a>)</span>. Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.</p>
 </section>
-<section id="shifted-lognormal-models" class="level3" data-number="4.1.3">
-<h3 data-number="4.1.3" class="anchored" data-anchor-id="shifted-lognormal-models"><span class="header-section-number">4.1.3</span> Shifted LogNormal Models</h3>
+</section>
+<section id="shifted-lognormal-model" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">4.2.2</span> Shifted LogNormal Model</h3>
 <p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.</p>
 </section>
-<section id="wald" class="level3" data-number="4.1.4">
-<h3 data-number="4.1.4" class="anchored" data-anchor-id="wald"><span class="header-section-number">4.1.4</span> Wald</h3>
+<section id="exgaussian-model" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="exgaussian-model"><span class="header-section-number">4.2.3</span> ExGaussian Model</h3>
+</section>
+<section id="wald-model" class="level3" data-number="4.2.4">
+<h3 data-number="4.2.4" class="anchored" data-anchor-id="wald-model"><span class="header-section-number">4.2.4</span> Wald Model</h3>
 <p>Moe from statistical models that <em>describe</em> to models that <em>generate</em> RT-like data.</p>
 </section>
-<section id="generative-models-ddm" class="level3" data-number="4.1.5">
-<h3 data-number="4.1.5" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.1.5</span> Generative Models (DDM)</h3>
+</section>
+<section id="generative-models-ddm" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="generative-models-ddm"><span class="header-section-number">4.3</span> Generative Models (DDM)</h2>
 <p>Use DDM as a case study to introduce generative models</p>
 </section>
-<section id="other-models-lba-lnr" class="level3" data-number="4.1.6">
-<h3 data-number="4.1.6" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.1.6</span> Other Models (LBA, LNR)</h3>
+<section id="other-models-lba-lnr" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">4.4</span> Other Models (LBA, LNR)</h2>
 </section>
-</section>
-<section id="additional-resources" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">4.2</span> Additional Resources</h2>
+<section id="additional-resources" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">4.5</span> Additional Resources</h2>
 <ul>
 <li><a href="https://lindeloev.github.io/shiny-rt/"><strong>Lindelov’s overview of RT models</strong></a>: An absolute must-read.</li>
 <li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full"><strong>De Boeck &amp; Jeon (2019)</strong></a>: A paper providing an overview of RT models.</li>
@@ -589,6 +579,12 @@ Lo, Steson, and Sally Andrews. 2015. <span>“To Transform or Not to Transform: 
 </div>
 <div id="ref-schramm2019reaction" class="csl-entry" role="listitem">
 Schramm, Pele, and Jeffrey N Rouder. 2019. <span>“Are Reaction Time Transformations Really Beneficial?”</span>
+</div>
+<div id="ref-theriault2024check" class="csl-entry" role="listitem">
+Thériault, Rémi, Mattan S Ben-Shachar, Indrajeet Patil, Daniel Lüdecke, Brenton M Wiernik, and Dominique Makowski. 2024. <span>“Check Your Outliers! An Introduction to Identifying Statistical Outliers in r with Easystats.”</span> <em>Behavior Research Methods</em> 56 (4): 4162–72.
+</div>
+<div id="ref-wagenmakers2008diffusion" class="csl-entry" role="listitem">
+Wagenmakers, Eric-Jan, Roger Ratcliff, Pablo Gomez, and Gail McKoon. 2008. <span>“A Diffusion Model Account of Criterion Shifts in the Lexical Decision Task.”</span> <em>Journal of Memory and Language</em> 58 (1): 140–59.
 </div>
 </div>
 </section>
