@@ -4,8 +4,8 @@
 
 ## The Data
 
-Data from @wagenmakers2008diffusion - Experiment 1.
-Using the same procedure as the authors, we excluded all trials with uninterpretable response time [see @theriault2024check], i.e., responses that are too fast response (<180 ms) or too slow (>2 sec instead of >3 sec).
+For this chapter, we will be using the data from @wagenmakers2008diffusion - Experiment 1 [also reanalyzed by @heathcote2012linear], that contains responses and response times for several participants in two conditions (where instructions emphasized either **speed** or **accuracy**).
+Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (<180 ms) or too slow [>2 sec instead of >3 sec, see @theriault2024check for a discussion on outlier removal].
 
 ```{julia}
 #| code-fold: false
