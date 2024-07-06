@@ -71,28 +71,93 @@ end
 frames = range(0, 1, length=60)
 record(make_animation, fig, "rt_normal.gif", frames; framerate=30)
 
-# LogNormal =====================================================================================
+# ExGaussian =====================================================================================
 
 # Parameters
-# μ = Observable(0.0)
-# σ = Observable(0.2)
+μ = Observable(0.0)
+σ = Observable(0.4)
+τ = Observable(0.1)
 
-# x = range(-0.1, 0.8, length=100)
-# # y = @lift(pdf.(Normal($μ, $σ), x))
+x = range(-0.1, 2, length=1000)
+y = @lift(pdf.(ExGaussian($μ, $σ, $τ), x))
 
-# # Initialize the figure
-# fig = Figure()
-# ax = Axis(
-#     fig[1, 1],
-#     # title=@lift("LogNormal(μ = $(round($μ, digits = 1)), σ =  $(round($σ, digits = 2)))"),
-#     xlabel="RT (s)",
-#     ylabel="Distribution",
-#     yticksvisible=false,
-#     xticksvisible=false,
-#     yticklabelsvisible=false,
-# )
+# Initialize the figure
+fig = Figure()
+ax = Axis(
+    fig[1, 1],
+    title=@lift("ExGaussian(μ = $(round($μ, digits = 1)), σ =  $(round($σ, digits = 2)), τ = $(round($τ, digits = 2)))"),
+    xlabel="RT (s)",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false,
+)
+density!(ax, df.RT, npoints=1000, color=:grey)
+lines!(x, pdf.(ExGaussian(0.4, 0.06, 0.2), x), linestyle=:dot, color=:red)  # Best fitting line
+lines!(x, y, linewidth=4, color=:orange)
+fig
 
-# density!(ax, df.RT, bandwidth=0.01, npoints=1000, color=:grey)
-# lines!(x, pdf.(LogNormal(), x), linestyle=:dot, color=:red)  # Best fitting line
-# lines!(x, y, linewidth=4, color=:orange)
-# fig
+function make_animation(frame)
+    if frame < 0.2
+        μ[] = change_param(frame; frame_range=(0, 0.2), param_range=(0, 0.4))
+    end
+    if frame >= 0.2 && frame < 0.4
+        σ[] = change_param(frame; frame_range=(0.2, 0.4), param_range=(0.4, 0.1))
+    end
+    if frame >= 0.4 && frame < 0.6
+        τ[] = change_param(frame; frame_range=(0.4, 0.6), param_range=(0.1, 0.4))
+    end
+    # Return to normal
+    if frame >= 0.7
+        μ[] = change_param(frame; frame_range=(0.7, 1), param_range=(0.4, 0))
+        σ[] = change_param(frame; frame_range=(0.7, 1), param_range=(0.1, 0.4))
+        τ[] = change_param(frame; frame_range=(0.7, 1), param_range=(0.4, 0.1))
+    end
+end
+
+# animation settings
+frames = range(0, 1, length=60)
+record(make_animation, fig, "rt_exgaussian.gif", frames; framerate=30)
+
+
+# ExGaussian 2 =====================================================================================
+# Parameters
+μ = Observable(0.3)
+σ = Observable(0.2)
+τ = Observable(0.006)
+
+x = range(-0.4, 2, length=1000)
+y = @lift(pdf.(ExGaussian($μ, $σ, $τ), x))
+
+m = Observable(mean(rand(ExGaussian(0.3, 0.2, 0.006), 1000)))
+
+# Initialize the figure
+fig = Figure()
+ax = Axis(
+    fig[1, 1],
+    title=@lift("ExGaussian(μ = $(round($μ, digits = 1)), σ =  $(round($σ, digits = 2)), τ = $(round($τ, digits = 3)))"),
+    xlabel="RT (s)",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false,
+)
+lines!(x, y, linewidth=4, color=:orange)
+vlines!(m, color=:red, linestyle=:dot, label="Average RT")
+leg = axislegend(position=:rt)
+fig
+
+function make_animation(frame)
+    if frame < 0.5
+        τ[] = change_param(frame; frame_range=(0, 0.5), param_range=(0.006, 0.4))
+    end
+    # Return to normal
+    if frame >= 0.5
+        τ[] = change_param(frame; frame_range=(0.5, 1), param_range=(0.4, 0.006))
+    end
+    m[] = mean(rand(ExGaussian(0.3, 0.2, τ[]), 100_000))
+end
+
+# animation settings
+frames = range(0, 1, length=60)
+record(make_animation, fig, "rt_exgaussian2.gif", frames; framerate=30)
