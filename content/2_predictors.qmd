@@ -4,7 +4,9 @@
 
 ## Categorical predictors (Condition, Group, ...)
 
-Nested interactions, contrasts, ...
+In the previous chapter, we have mainly focused on the relationship between a response variable and a single **continuous** predictor.
+
+- Nested interactions, contrasts, ...
 
 ## Ordered predictors (Likert Scales)
 
