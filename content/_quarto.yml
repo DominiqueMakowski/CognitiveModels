@@ -52,7 +52,7 @@ format:
         number-depth: 3
 
 execute:
-    # cache: true
+    cache: true
     freeze: "auto"
     execute: true
     # cache: false

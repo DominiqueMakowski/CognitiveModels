@@ -10,10 +10,11 @@ Goal is to teach just enough so that the reader understands the code.
 ### Generate Data from Normal Distribution
 
 ```{julia}
+#| output: false
 using Turing, Distributions, Random
 using Makie
 
-# μ=100, σ=15
+# Random sample from a Normal(μ=100, σ=15)
 iq = rand(Normal(100, 15), 500)
 ```
 
@@ -32,7 +33,7 @@ fig
     μ ~ Uniform(0, 200)
     σ ~ Uniform(0, 30)
 
-    # Check against data
+    # Check against each datapoint
     for i in 1:length(x)
         x[i] ~ Normal(μ, σ)
     end
@@ -50,7 +51,18 @@ summarystats(sampling_results)
 
 Understand what the parameters mean (intercept, slopes, sigma).
 
-3. Boostrapping: Introduce concepts related to pseudo-posterior distribution description
-4. Hierarchical Models: Simpson's paradox, random effects, how to leverage them to model interindividual differences
-5. Bayesian estimation: introduce Bayesian estimation and priors over parameters
-6. Bayesian mixed linear regression: put everything together
+## Boostrapping
+
+Introduce concepts related to pseudo-posterior distribution description
+
+## Hierarchical Models
+
+Simpson's paradox, random effects, how to leverage them to model interindividual differences
+
+## Bayesian estimation
+
+introduce Bayesian estimation and priors over parameters
+
+## Bayesian mixed linear regression
+
+put everything together
