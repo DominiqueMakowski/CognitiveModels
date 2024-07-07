@@ -12,7 +12,10 @@ book:
         - 1_introduction.qmd
         - 2_predictors.qmd
         - 3_scales.qmd
-        - 4_rt.qmd
+        - part: "Reaction Times"
+          chapters:
+              - 4a_rt_descriptive.qmd
+              - 4b_rt_generative.qmd
         - 5_individual.qmd
         # - part: "Fundamentals"
         #   chapters:
@@ -23,9 +26,6 @@ book:
         # - part: "Scales and Choices"
         #   chapters:
         #       - 3_scales.qmd
-        # - part: "Reaction Times"
-        #   chapters:
-        #       - 4_1_Normal.qmd
         # - part: "Individual Differences"
         #   chapters:
         #       - 5_individual.qmd

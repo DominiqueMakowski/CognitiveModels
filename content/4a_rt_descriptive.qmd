@@ -1,4 +1,4 @@
-# Reaction Times
+# Descriptive Models
 
 ![](https://img.shields.io/badge/status-WIP-orange)
 
@@ -10,9 +10,11 @@ Using the same procedure as the authors, we excluded all trials with uninterpret
 ```{julia}
 #| code-fold: false
 
-using Downloads, CSV, DataFrames
+using Downloads, CSV, DataFrames, Random
 using Turing, Distributions, SequentialSamplingModels
 using GLMakie
+
+Random.seed!(123)  # For reproducibility
 
 df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"), DataFrame)
 
@@ -56,19 +58,16 @@ end
 plot_distribution(df, "Empirical Distribution of Data from Wagenmakers et al. (2018)")
 ```
 
-
-## Descriptive Models 
+## Gaussian (aka *Linear*) Model
 
 ::: {.callout-note}
-Note until the last section, we will disregard the existence of multiple participants (which require the inclusion of random effects in the model).
+Note that until the last section of this chapter, we will disregard the existence of multiple participants (which require the inclusion of random effects in the model).
 We will treat the data as if it was a single participant at first to better understand the parameters, but will show how to add random effects at the end.
 :::
 
-### Gaussian (aka *Linear*) Model
-
 A linear model is the most common type of model. 
 It aims at predicting the **mean** $\mu$ of the outcome variable using a **Normal** (aka *Gaussian*) distribution for the residuals.
-In other words, it models the outcome $y$ as a Normal distribution with a mean $\mu$ that is itself hte result of a linear function of the predictors $X$ and a variance $\sigma$ that is constant across all values of the predictors.
+In other words, it models the outcome $y$ as a Normal distribution with a mean $\mu$ that is itself the result of a linear function of the predictors $X$ and a variance $\sigma$ that is constant across all values of the predictors.
 It can be written as $y = Normal(\mu, \sigma)$, where $\mu = intercept + slope * X$.
 
 In order to fit a Linear Model for RTs, we need to set a prior on all these parameters, namely:
@@ -76,7 +75,7 @@ In order to fit a Linear Model for RTs, we need to set a prior on all these para
 - The mean $\mu$ for the intercept (i.e., at the reference condition which is in our case `"Speed"`)
 - The effect of the condition (the slope).
 
-#### Model Specification
+### Model Specification
 
 ```{julia}
 #| code-fold: false
@@ -97,8 +96,8 @@ In order to fit a Linear Model for RTs, we need to set a prior on all these para
 end
 
 
-model = model_Gaussian(df.RT; condition=df.Accuracy)
-chain_Gaussian = sample(model, NUTS(), 400)
+fit_Gaussian = model_Gaussian(df.RT; condition=df.Accuracy)
+chain_Gaussian = sample(fit_Gaussian, NUTS(), 400)
 ```
 
 ```{julia}
@@ -112,7 +111,7 @@ hpd(chain_Gaussian; alpha=0.05)
 The effect of Condition is significant, people are on average slower (higher RT) when condition is `"Accuracy"`.
 But is our model good?
 
-#### Posterior Predictive Check
+### Posterior Predictive Check
 
 ```{julia}
 #| output: false
@@ -132,7 +131,7 @@ end
 fig
 ```
 
-### Scaled Gaussian Model
+## Scaled Gaussian Model
 
 The previous model, despite its poor fit to the data, suggests that the mean RT is higher for the `Accuracy` condition. But it seems like the distribution is also *wider* (response time is more variable). 
 Typical linear model estimate only one value for sigma $\sigma$ for the whole model, hence the requirement for **homoscedasticity**.
@@ -159,7 +158,7 @@ Indeed, even if we set a very narrow prior on the intercept of sigma $\sigma$ to
 And such effect would lead to a sigma $\sigma$ of **0.14 - 0.15 = -0.01**, which would lead to an error (and this will often happen as the sampling process does explore unlikely regions of the parameter space).
 
 
-#### Solution 1: Directional Effect of Condition
+### Solution 1: Directional Effect of Condition
 
 One possible (but not recommended) solution is to simply make it impossible for the effect of condition to be negative by *Truncating* the prior to a lower bound of 0. 
 This can work in our case, because we know that the comparison condition is likely to have a higher variance than the reference condition (the intercept) - and if it wasn't the case, we could have changed the reference factor.
@@ -169,7 +168,7 @@ However, this is not a good practice as we are enforcing a very strong a priori 
 #| code-fold: false
 #| output: false
 
-@model function model_ScaledlGaussian1(rt; condition=nothing)
+@model function model_ScaledlGaussian(rt; condition=nothing)
 
     # Priors
     μ_intercept ~ truncated(Normal(0, 1); lower=0)
@@ -185,8 +184,8 @@ However, this is not a good practice as we are enforcing a very strong a priori 
     end
 end
 
-model = model_ScaledlGaussian1(df.RT; condition=df.Accuracy)
-chain_ScaledGaussian = sample(model, NUTS(), 400)
+fit_ScaledlGaussian = model_ScaledlGaussian(df.RT; condition=df.Accuracy)
+chain_ScaledGaussian = sample(fit_ScaledlGaussian, NUTS(), 400)
 ```
 
 ```{julia}
@@ -198,7 +197,7 @@ hpd(chain_ScaledGaussian; alpha=0.05)
 
 We can see that the effect of condition on sigma $\sigma$ is significantly positive: the variance is higher in the `Accuracy` condition as compared to the `Speed` condition. 
 
-#### Solution 2: Avoid Exploring Negative Variance Values
+### Solution 2: Avoid Exploring Negative Variance Values
 
 The other trick is to force the sampling algorithm to avoid exploring negative variance values (when sigma $\sigma$ < 0).
 This can be done by adding a conditional statement when sigma $\sigma$ is negative to avoid trying this value and erroring, and instead returning an infinitely low model probability (`-Inf`) to push away the exploration of this impossible region.
@@ -227,8 +226,8 @@ This can be done by adding a conditional statement when sigma $\sigma$ is negati
     end
 end
 
-model = model_ScaledlGaussian(df.RT; condition=df.Accuracy)
-chain_ScaledGaussian = sample(model, NUTS(), 400)
+fit_ScaledlGaussian = model_ScaledlGaussian(df.RT; condition=df.Accuracy)
+chain_ScaledGaussian = sample(fit_ScaledlGaussian, NUTS(), 400)
 ```
 
 ```{julia}
@@ -257,7 +256,7 @@ IS THAT RIGHT? -->
 Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make **richer conclusions** and better capturing the data.
 Despite that, the Gaussian model stil seem to be a poor fit to the data.
 
-### The Problem with Linear Models
+## The Problem with Linear Models
 
 Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as *t*-test and ANOVAs. Importantly, linear models - by definition - will try to predict the *mean* of the outcome variable by estimating the "best fitting" *Normal* distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean $\mu$ and standard deviation $\sigma$) are not good descriptors of the data.
 
@@ -270,7 +269,7 @@ However, this practice should be avoided as it leads to various issues, includin
 Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.
 
 
-### Shifted LogNormal Model
+## Shifted LogNormal Model
 
 One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.
 A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed.
@@ -282,7 +281,7 @@ While $Uniform(0, min(RT))$ is a common choice of prior, it is not ideal as it i
 Indeed, psychology research has shown that such minimum response time for Humans is often betwen 100 and 250 ms. 
 Moreover, in our case, we explicitly removed all RTs below 180 ms, suggesting that the minimum response time is more likely to approach 180 ms than 0 ms.
 
-#### Prior on Minimum RT
+### Prior on Minimum RT
 
 Instead of a $Uniform$ prior, we will use a $Gamma(1.1, 11)$ distribution (truncated at min. RT), as this particular parameterization reflects the low probability of very low minimum RTs (near 0) and a steadily increasing probability for increasing times.  
 ```{julia}
@@ -294,7 +293,7 @@ fig
 ```
 
 
-#### Model Specification
+### Model Specification
 
 ```{julia}
 #| code-fold: false
@@ -322,11 +321,11 @@ fig
     end
 end
 
-model = model_LogNormal(df.RT; condition=df.Accuracy)
-chain_LogNormal = sample(model, NUTS(), 400)
+fit_LogNormal = model_LogNormal(df.RT; condition=df.Accuracy)
+chain_LogNormal = sample(fit_LogNormal, NUTS(), 400)
 ```
 
-#### Interpretation
+### Interpretation
 
 ```{julia}
 #| code-fold: false
@@ -348,7 +347,7 @@ fig
 
 This model provides a much better fit to the data, and confirms that the `Accuracy` condition is associated with higher RTs and higher variability (i.e., a larger distribution width).
 
-### ExGaussian Model
+## ExGaussian Model
 
 Another popular model to describe RTs uses the **ExGaussian**  distribution, i.e., the *Exponentially-modified Gaussian* distribution [@balota2011moving; @matzke2009psychological].
 
@@ -376,29 +375,169 @@ Hence, one should be careful note to interpret the values of *mu* $\mu$ directly
 
 ![](media/rt_exgaussian2.gif)
 
-#### Model Specification
+### Conditional Tau $\tau$ Parameter
 
-TODO.
+In the same way as we modeled the effect of the condition on the variance component *sigma* $\sigma$, we can do the same for any other parameters, including the exponential component *tau* $\tau$.
+All wee need is to set a prior on the intercept and the condition effect, and make sure that $\tau > 0$. 
 
+```{julia}
+#| code-fold: false
+#| output: false
 
-### Wald Model
+@model function model_ExGaussian(rt; condition=nothing)
 
-Moe from statistical models that *describe* to models that *generate* RT-like data.
+    # Priors 
+    μ_intercept ~ Normal(0, 1) 
+    μ_condition ~ Normal(0, 0.3)
 
-## Generative Models (DDM)
+    σ_intercept ~ truncated(Normal(0, 0.5); lower=0)
+    σ_condition ~ Normal(0, 0.1)
 
-Use DDM as a case study to introduce generative models
+    τ_intercept ~ truncated(Normal(0, 0.5); lower=0)
+    τ_condition ~ Normal(0, 0.1)
 
-- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
+    for i in 1:length(rt)
+        μ = μ_intercept + μ_condition * condition[i]
+        σ = σ_intercept + σ_condition * condition[i]
+        if σ < 0  # Avoid negative variance values
+            Turing.@addlogprob! -Inf
+            return nothing
+        end
+        τ = τ_intercept + τ_condition * condition[i]
+        if τ <= 0  # Avoid negative tau values
+            Turing.@addlogprob! -Inf
+            return nothing
+        end
+        rt[i] ~ ExGaussian(μ, σ, τ)
+    end
+end
 
-## Other Models (LBA, LNR)
+fit_ExGaussian = model_ExGaussian(df.RT; condition=df.Accuracy)
+chain_ExGaussian = sample(fit_ExGaussian, NUTS(), 400)
+```
 
-## Including Random Effects
+### Interpretation
 
-TODO.
+```{julia}
+#| code-fold: false
 
-## Additional Resources
+hpd(chain_ExGaussian; alpha=0.05)
+```
 
-- [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
-- [**De Boeck & Jeon (2019)**](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full): A paper providing an overview of RT models.
-- [https://github.com/vasishth/bayescogsci](https://github.com/vasishth/bayescogsci)
+```{julia}
+pred = predict(model_ExGaussian([(missing) for i in 1:length(df.RT)]; condition=df.Accuracy), chain_ExGaussian)
+pred = Array(pred)
+
+fig = plot_distribution(df, "Predictions made by Shifted LogNormal Model")
+for i in 1:length(chain_ExGaussian)
+    lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
+end
+fig
+```
+
+The ExGaussian model also provides an excellent fit to the data. 
+Moreover, by modeling more parameters (including *tau* $\tau$), we can draw more nuanced conclusions.
+In this case, the `Accuracy` condition is associated with higher RTs, higher variability, and a heavier tail (i.e., more extreme values).
+
+## Shifted Wald Model
+
+The **Wald** distribution, also known as the **Inverse Gaussian** distribution, corresponds to the distribution of the first passage time of a Wiener process with a drift rate $\mu$ and a diffusion rate $\sigma$.
+While we will unpack this definition below and emphasize its important consequences, one can first note that it has been described as a potential model for RTs when convoluted with an *exponential* distribution (in the same way that the ExGaussian distribution is a convolution of a Gaussian and an exponential distribution).
+However, this **Ex-Wald** model [@schwarz2001ex] was shown to be less appropriate than one of its variant, the **Shifted Wald** distribution [@heathcote2004fitting; @anders2016shifted].
+
+Note that the Wald distribution, similarly to the models that we will be covering next, are different from the previous distributions in that they are not characterized by "location" and "scale" parameters (*mu* $\mu$ and *sigma* $\sigma$).
+Instead, the parameters of the Shifted Wald distribution are:
+
+- **Nu** $\nu$: A **drift** parameter, corresponding to the strength of the evidence accumulation process.
+- **Alpha** $\alpha$: A **threshold** parameter, corresponding to the amount of evidence required to make a decision.
+- **Tau** $\tau$: A **delay** parameter, corresponding to the non-response time (i.e., the minimum time required to process the stimulus and respond). A shift parameter similar to the one in the Shifted LogNormal model.
+
+![](media/rt_wald.gif)
+
+As we can see, these parameters do not have a direct correspondence with the mean and standard deviation of the distribution.
+Their interpretation is more complex but, as we will see below, offers a window to a new level of interpretation.
+
+### Model Specification
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Wald(rt; min_rt=minimum(df.RT), condition=nothing)
+
+    # Priors 
+    ν_intercept ~ truncated(Normal(1, 3); lower=0)
+    ν_condition ~ Normal(0, 1)
+
+    α_intercept ~ truncated(Normal(0, 1); lower=0)
+    α_condition ~ Normal(0, 0.5)
+
+    τ_intercept ~ truncated(Gamma(1.1, 11); upper=min_rt)
+    τ_condition ~ Normal(0, 0.01)
+
+    for i in 1:length(rt)
+        ν = ν_intercept + ν_condition * condition[i]
+        if ν <= 0  # Avoid negative drift
+            Turing.@addlogprob! -Inf
+            return nothing
+        end
+        α = α_intercept + α_condition * condition[i]
+        if α <= 0  # Avoid negative variance values
+            Turing.@addlogprob! -Inf
+            return nothing
+        end
+        τ = τ_intercept + τ_condition * condition[i]
+        if τ < 0  # Avoid negative tau values
+            Turing.@addlogprob! -Inf
+            return nothing
+        end
+        rt[i] ~ Wald(ν, α, τ)
+    end
+end
+
+fit_Wald = model_Wald(df.RT; condition=df.Accuracy)
+chain_Wald = sample(fit_Wald, NUTS(), 600)
+```
+
+```{julia}
+#| code-fold: false
+
+hpd(chain_Wald; alpha=0.05)
+```
+
+```{julia}
+pred = predict(model_Wald([(missing) for i in 1:length(df.RT)]; condition=df.Accuracy), chain_Wald)
+pred = Array(pred)
+
+fig = plot_distribution(df, "Predictions made by Shifted Wald Model")
+for i in 1:length(chain_Wald)
+    lines!(Makie.KernelDensity.kde(pred[:, i]), color=ifelse(df.Accuracy[i] == 1, "#388E3C", "#D32F2F"), alpha=0.1)
+end
+fig
+```
+
+### Model Comparison
+
+At this stage, given the multiple options avaiable to model RTs, you might be wondering which model is the best.
+One can compare the models using the **Leave-One-Out Cross-Validation (LOO-CV)** method, which is a Bayesian method to estimate the out-of-sample predictive accuracy of a model.
+
+```{julia}
+using ParetoSmooth
+
+loo_Gaussian = psis_loo(fit_Gaussian, chain_Gaussian, source="mcmc")
+loo_ScaledGaussian = psis_loo(fit_ScaledlGaussian, chain_ScaledGaussian, source="mcmc")
+loo_LogNormal = psis_loo(fit_LogNormal, chain_LogNormal, source="mcmc")
+loo_ExGaussian = psis_loo(fit_ExGaussian, chain_ExGaussian, source="mcmc")
+loo_Wald = psis_loo(fit_Wald, chain_Wald, source="mcmc")
+
+loo_compare((
+    Gaussian = loo_Gaussian, 
+    ScaledGaussian = loo_ScaledGaussian, 
+    LogNormal = loo_LogNormal, 
+    ExGaussian = loo_ExGaussian, 
+    Wald = loo_Wald))
+```
+
+The `loo_compare()` function orders models from best to worse based on their ELPD (Expected Log Pointwise Predictive Density) and provides the difference in ELPD between the best model and the other models.
+As one can see, traditional linear models perform terribly.
+

@@ -7,6 +7,20 @@
 
 Goal is to teach just enough so that the reader understands the code.
 
+::: {.callout-important}
+
+### Notable Differences with Python and R
+
+These are the most common sources of confusion and errors for newcomers to Julia:
+
+- **1-indexing**: Similarly to R, Julia uses 1-based indexing, which means that the first element of a vector is `x[1]` (not `x[0]` as in Python).
+- **Positional; Keyword arguments**: Julia functions makes a clear distinction between positional and keyword arguments, and both are often separated by `;`. Positional arguments are typically passed without a name, while keyword arguments must be named (e.g., `scatter(0, 0; color=:red)`). Some functions might look like `somefunction(; arg1=val1, arg2=val2)`.
+- **Symbols**: Some arguments are prefixed with `:` (e.g., `:red` in `scatter(0, 0; color=:red)`). These **symbols** are like character strings that are not manipulable (there are more efficient).
+- **Explicit vectorization**: Julia does not vectorize operations by default. You need to use a dot `.` in front of functions and operators to have it apply element by element. For example, `sin.([0, 1, 2])` will apply the `sin()` function to each element of its vector.
+- **In-place operations**: Julia has a strong emphasis on performance, and in-place operations are often used to avoid unnecessary memory allocations. When functions modify their input "in-place" (without returns), a band `!` is used. For example, assuming `x = [0]` (1-element vector containing 0), `push!(x, 2)` will modify `x` in place (it is equivalent to `x = push(x, 2)`).
+:::
+
+
 ### Generate Data from Normal Distribution
 
 ```{julia}

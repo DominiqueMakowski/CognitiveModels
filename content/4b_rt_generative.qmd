@@ -1,0 +1,29 @@
+# Generative Models
+
+## Evidence Accumulation
+
+This distribution appears to have been first derived in 1900 to model the time a stock reaches a certain price (a *threshold* price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).
+
+![](media/rt_randomwalk.gif)
+
+
+
+Move from statistical models that *describe* to models that *generate* RT-like data.
+
+## Drift Diffusion Model (DDM)
+
+Use DDM as a case study to introduce generative models
+
+- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
+
+## Other Models (LBA, LNR)
+
+## Including Random Effects
+
+TODO.
+
+## Additional Resources
+
+- [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
+- [**De Boeck & Jeon (2019)**](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full): A paper providing an overview of RT models.
+- [https://github.com/vasishth/bayescogsci](https://github.com/vasishth/bayescogsci)
