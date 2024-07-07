@@ -362,9 +362,9 @@ However, @matzke2009psychological demonstrate that there is likely no direct cor
 
 Descriptively, the three parameters can be interpreted as:
 
-- **Mu** $\mu$: The location / centrality of the RTs. Would correspond to the mean in a symmetrical distribution.
-- **Sigma** $\sigma$: The variability and dispersion of the RTs. Akin to the standard deviation in normal distributions.
-- **Tau** $\tau$: Tail weight / skewness of the distribution.
+- **Mu** $\mu$ : The location / centrality of the RTs. Would correspond to the mean in a symmetrical distribution.
+- **Sigma** $\sigma$ : The variability and dispersion of the RTs. Akin to the standard deviation in normal distributions.
+- **Tau** $\tau$ : Tail weight / skewness of the distribution.
 
 ::: {.callout-important}
 Note that these parameters are not independent with respect to distribution characteristics, such as the empirical mean and SD. 
@@ -445,17 +445,21 @@ The **Wald** distribution, also known as the **Inverse Gaussian** distribution, 
 While we will unpack this definition below and emphasize its important consequences, one can first note that it has been described as a potential model for RTs when convoluted with an *exponential* distribution (in the same way that the ExGaussian distribution is a convolution of a Gaussian and an exponential distribution).
 However, this **Ex-Wald** model [@schwarz2001ex] was shown to be less appropriate than one of its variant, the **Shifted Wald** distribution [@heathcote2004fitting; @anders2016shifted].
 
-Note that the Wald distribution, similarly to the models that we will be covering next, are different from the previous distributions in that they are not characterized by "location" and "scale" parameters (*mu* $\mu$ and *sigma* $\sigma$).
+Note that the Wald distribution, similarly to the models that we will be covering next (the "generative" models), is different from the previous distributions in that it is not characterized by a "location" and "scale" parameters (*mu* $\mu$ and *sigma* $\sigma$).
 Instead, the parameters of the Shifted Wald distribution are:
 
-- **Nu** $\nu$: A **drift** parameter, corresponding to the strength of the evidence accumulation process.
-- **Alpha** $\alpha$: A **threshold** parameter, corresponding to the amount of evidence required to make a decision.
-- **Tau** $\tau$: A **delay** parameter, corresponding to the non-response time (i.e., the minimum time required to process the stimulus and respond). A shift parameter similar to the one in the Shifted LogNormal model.
+- **Nu** $\nu$ : A **drift** parameter, corresponding to the strength of the evidence accumulation process.
+- **Alpha** $\alpha$ : A **threshold** parameter, corresponding to the amount of evidence required to make a decision.
+- **Tau** $\tau$ : A **delay** parameter, corresponding to the non-response time (i.e., the minimum time required to process the stimulus and respond). A shift parameter similar to the one in the Shifted LogNormal model.
 
 ![](media/rt_wald.gif)
 
 As we can see, these parameters do not have a direct correspondence with the mean and standard deviation of the distribution.
 Their interpretation is more complex but, as we will see below, offers a window to a new level of interpretation.
+
+::: {.callout-note}
+Explanations regarding these new parameters will be provided in the next chapter.
+:::
 
 ### Model Specification
 
