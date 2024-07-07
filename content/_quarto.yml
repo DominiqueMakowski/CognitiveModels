@@ -6,7 +6,8 @@ book:
     subtitle: "Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
     author: "Dominique Makowski"
     date: "03/07/2024"
-    cover-image: "media/cover.jpg"
+    cover-image: "media/cover.png"
+    favicon: "media/cover_icon.png"
     chapters:
         - index.qmd
         - 1_introduction.qmd
@@ -16,7 +17,7 @@ book:
           chapters:
               - 4a_rt_descriptive.qmd
               - 4b_rt_generative.qmd
-        - 5_individual.qmd
+        # - 5_individual.qmd
         # - part: "Fundamentals"
         #   chapters:
         #       - 1_introduction.qmd
@@ -33,7 +34,7 @@ book:
     sidebar:
         search: true
         title: "Cognitive Models"
-        logo: "media/cover.jpg"
+        logo: "media/cover_image.png"
     navbar:
         title: "Cognitive Models: Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
         right:

@@ -34,6 +34,8 @@ The **threshold** $\alpha$ is the amount of evidence required to reach a decisio
 
 ![](media/rt_wald2.gif)
 
+> In this figure, the red line at 0 represents the non-decision time *tau* $\tau$. The dotted red line corresponds to the *threshold* $\alpha$, and the *drift rate* $\nu$ is the slope of the black line. The time at which each individual random accumulator crosses the threshold forms a Wald distribution.
+
 As you can see, the Wald distribution belongs to a family of models thata do not merely attempt at describing the empirical distributions by tweaking and convolving distributions (like the ExGaussian or LogNormal models). Instead, their parameters are characterizing the **data generation process**. 
 
 ::: {.callout-important}

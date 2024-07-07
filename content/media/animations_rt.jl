@@ -442,3 +442,6 @@ end
 # animation settings
 frames = range(0, 1, length=90)
 record(make_animation, fig, "rt_wald2.gif", frames; framerate=20)
+
+
+

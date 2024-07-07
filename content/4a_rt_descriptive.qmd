@@ -272,7 +272,11 @@ Instead, rather than applying arbitrary data transformation, it would be better 
 ## Shifted LogNormal Model
 
 One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution.
-A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed.
+A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. In this model, the *mean* $\mu$ and is defined on the log-scale, and effects must be interpreted as multiplicative rather than additive (the condition increases the mean RT by a factor of $\exp(\mu_{condition})$). 
+
+Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters ($\mu$ and $\sigma$) are not independent with respect to the mean and the standard deviation (SD).
+The empirical SD increases when the *mean* $\mu$ increases (which is seen as a feature rather than a bug, as it is consistent with typical reaction time data [@wagenmakers2005relation]).
+
 A **Shifted** LogNormal model introduces a shift (a delay) parameter *tau* $\tau$ that corresponds to the minimum "starting time" of the response process.
 
 We need to set a prior for this parameter, which is usually truncated between 0 (to exclude negative minimum times) and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).
@@ -346,6 +350,20 @@ fig
 ```
 
 This model provides a much better fit to the data, and confirms that the `Accuracy` condition is associated with higher RTs and higher variability (i.e., a larger distribution width).
+
+
+::: {.callout-note}
+
+### LogNormal distributions in nature
+
+The reason why the Normal distribution is so ubiquituous in nature (and hence used as a good default) is due to the **Central Limit Theorem**, which states that the sum of a large number of independent random variables will be approximately normally distributed. Because many things in nature are the result of the *addition* of many random processes, the Normal distribution is very common in real life.
+
+However, it turns out that the multiplication of random variables result in a **LogNormal** distribution, and multiplicating (rather than additive) cascades of processes are also very common in nature, from lengths of latent periods of infectious diseases to distribution of mineral resources in the Earth's crust, and the elemental mechanisms at stakes in physics and cell biolody [@limpert2001log].
+
+Thus, using LogNormal distributions for RTs can be justified with the assumption that response times are the result of multiplicative stochastic processes happening in the brain.
+
+:::
+
 
 ## ExGaussian Model
 

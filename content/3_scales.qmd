@@ -3,6 +3,23 @@
 ![](https://img.shields.io/badge/status-not_started-red)
 
 1. Beta models 
+
+```{julia}
+using Distributions
+
+# Reparameterized Beta distribution
+function BetaMod(μ, σ)
+    α = μ * (μ * (1 - μ) / σ^2 - 1)
+    β = α * (1 - μ) / μ
+    return Beta(α, β)
+end
+
+
+
+mean(BetaMod(0.5, 0.0833))
+var(BetaMod(0.2, 0.1))
+```
+
 2. OrdBeta models for slider scales
 3. Logistic models for binary data
 

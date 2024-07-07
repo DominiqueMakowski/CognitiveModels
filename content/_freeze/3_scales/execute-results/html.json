@@ -1,0 +1,12 @@
+{
+  "hash": "b7153c2b346aaba747f06dca75c74302",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "# Choice and Scales\n\n![](https://img.shields.io/badge/status-not_started-red)\n\n1. Beta models \n\n::: {#53bd139d .cell execution_count=1}\n``` {.julia .cell-code}\nusing Distributions\n\n# Reparameterized Beta distribution\nfunction BetaMod(μ, σ)\n    α = μ * (μ * (1 - μ) / σ^2 - 1)\n    β = α * (1 - μ) / μ\n    return Beta(α, β)\nend\n\n\n\nmean(BetaMod(0.5, 0.0833))\nvar(BetaMod(0.2, 0.1))\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n0.01\n```\n:::\n:::\n\n\n2. OrdBeta models for slider scales\n3. Logistic models for binary data\n\nUse the speed accuracy data that we use in the next chapter.\n\n",
+    "supporting": [
+      "3_scales_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
