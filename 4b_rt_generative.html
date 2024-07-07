@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -202,10 +231,11 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#evidence-accumulation" id="toc-evidence-accumulation" class="nav-link active" data-scroll-target="#evidence-accumulation"><span class="header-section-number">5.1</span> Evidence Accumulation</a></li>
-  <li><a href="#drift-diffusion-model-ddm" id="toc-drift-diffusion-model-ddm" class="nav-link" data-scroll-target="#drift-diffusion-model-ddm"><span class="header-section-number">5.2</span> Drift Diffusion Model (DDM)</a></li>
-  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">5.3</span> Other Models (LBA, LNR)</a></li>
-  <li><a href="#including-random-effects" id="toc-including-random-effects" class="nav-link" data-scroll-target="#including-random-effects"><span class="header-section-number">5.4</span> Including Random Effects</a></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">5.5</span> Additional Resources</a></li>
+  <li><a href="#wald-distribution-revisited" id="toc-wald-distribution-revisited" class="nav-link" data-scroll-target="#wald-distribution-revisited"><span class="header-section-number">5.2</span> Wald Distribution (Revisited)</a></li>
+  <li><a href="#drift-diffusion-model-ddm" id="toc-drift-diffusion-model-ddm" class="nav-link" data-scroll-target="#drift-diffusion-model-ddm"><span class="header-section-number">5.3</span> Drift Diffusion Model (DDM)</a></li>
+  <li><a href="#other-models-lba-lnr" id="toc-other-models-lba-lnr" class="nav-link" data-scroll-target="#other-models-lba-lnr"><span class="header-section-number">5.4</span> Other Models (LBA, LNR)</a></li>
+  <li><a href="#including-random-effects" id="toc-including-random-effects" class="nav-link" data-scroll-target="#including-random-effects"><span class="header-section-number">5.5</span> Including Random Effects</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">5.6</span> Additional Resources</a></li>
   </ul>
 </nav>
     </div>
@@ -231,28 +261,65 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><img src="https://img.shields.io/badge/status-WIP-orange.png" class="img-fluid"></p>
+<p>In this chapter, we will move away from statistical models that <strong>describe</strong> the data to models of <strong>data-generation processes</strong>.</p>
 <section id="evidence-accumulation" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="evidence-accumulation"><span class="header-section-number">5.1</span> Evidence Accumulation</h2>
-<p>This distribution appears to have been first derived in 1900 to model the time a stock reaches a certain price (a <em>threshold</em> price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).</p>
+<p>In the previous chapter, we introduced the <strong>Wald</strong> distribution and its parameters, <em>nu</em> <span class="math inline">\(\nu\)</span> (drift rate) and <em>alpha</em> <span class="math inline">\(\alpha\)</span> (threshold). This distribution appears to have been first derived in 1900 to model <strong>the time a stock reaches a certain price</strong> (a <em>threshold</em> price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).</p>
+<p>A random walk describes a path consisting of a succession of random steps. It has been used by Francis Galton in 1894 to illustrate the <em>Central Limit Theorem</em>, and is now known as the <strong>Galton Board</strong>. The Galton Board is a physical model of a random walk, where balls are dropped from the top and bounce left or right at each peg until they reach the bottom. The distribution of the final position of the balls is a normal distribution.</p>
+<p><img src="media/rt_galtonboard.gif" class="img-fluid"></p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TODO: Replace with my own video.</p>
+</div>
+</div>
+<p>In the figure below, we can see a computer simulation illustrating the same concept, with “time” being displayed on the x-axis. All iterations start at <em>y</em>=0, and change by -1 or +1 at each time step, until it reaches a threshold of <em>t</em> = 0.7 seconds.</p>
 <p><img src="media/rt_randomwalk.gif" class="img-fluid"></p>
-<p>Move from statistical models that <em>describe</em> to models that <em>generate</em> RT-like data.</p>
+<p>Random walks are used to model a wide range of phenomena, such as the movement of particules and molecules, the stock market, the behavior of animals and, crucially, <strong>cognitive processes</strong>. For instance, it can be used to approximate <strong>evidence accumulation</strong>: the idea that a decision maker (be it a Human or any other system) accumulates evidence in a “stochastic” (i.e., random) fashion over time until a certain threshold is reached, at which point a decision is made.</p>
 </section>
-<section id="drift-diffusion-model-ddm" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="drift-diffusion-model-ddm"><span class="header-section-number">5.2</span> Drift Diffusion Model (DDM)</h2>
+<section id="wald-distribution-revisited" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="wald-distribution-revisited"><span class="header-section-number">5.2</span> Wald Distribution (Revisited)</h2>
+<p>This is how the Wald distribution is actually <strong>generated</strong>. It corresponds to the distribution of times that it takes for a stochastic process to reach a certain <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> (a certain amount of “evidence”). The twist is that the process underlying this model is a random walk with a <strong>drift rate</strong> <span class="math inline">\(\nu\)</span>, which corresponds to the average amount of evidence accumulated per unit of time. In other words, the <strong>drift rate</strong> <span class="math inline">\(\nu\)</span> is the “slope” of the evidence accumulation process, representing the <strong>strength of the evidence</strong> (or the <strong>speed</strong> by which the decision maker accumulates evidence). The <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> is the amount of evidence required to reach a decision (“decision” typically meaning making a response).</p>
+<p><img src="media/rt_wald2.gif" class="img-fluid"></p>
+<p>As you can see, the Wald distribution belongs to a family of models thata do not merely attempt at describing the empirical distributions by tweaking and convolving distributions (like the ExGaussian or LogNormal models). Instead, their parameters are characterizing the <strong>data generation process</strong>.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>While such “generative” models offer potential insights into the cognitive processes underlying the data, they inherently make <strong>strong assumptions</strong> about said underlying process (for instance, that the data of a task can be approximated by a stochastic evidence accumulation process). It is thus crucial to always keep in mind the limitations and assumptions of the models we use. Don’t forget, <strong>with great power comes great responsability.</strong></p>
+</div>
+</div>
+</section>
+<section id="drift-diffusion-model-ddm" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="drift-diffusion-model-ddm"><span class="header-section-number">5.3</span> Drift Diffusion Model (DDM)</h2>
 <p>Use DDM as a case study to introduce generative models</p>
 <ul>
 <li><a href="https://dominiquemakowski.github.io/easyRT/articles/ddm.html"><strong>Drift Diffusion Model (DDM) in R: A Tutorial</strong></a></li>
 </ul>
 </section>
-<section id="other-models-lba-lnr" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">5.3</span> Other Models (LBA, LNR)</h2>
+<section id="other-models-lba-lnr" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="other-models-lba-lnr"><span class="header-section-number">5.4</span> Other Models (LBA, LNR)</h2>
 </section>
-<section id="including-random-effects" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="including-random-effects"><span class="header-section-number">5.4</span> Including Random Effects</h2>
+<section id="including-random-effects" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="including-random-effects"><span class="header-section-number">5.5</span> Including Random Effects</h2>
 <p>TODO.</p>
 </section>
-<section id="additional-resources" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">5.5</span> Additional Resources</h2>
+<section id="additional-resources" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">5.6</span> Additional Resources</h2>
 <ul>
 <li><a href="https://lindeloev.github.io/shiny-rt/"><strong>Lindelov’s overview of RT models</strong></a>: An absolute must-read.</li>
 <li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full"><strong>De Boeck &amp; Jeon (2019)</strong></a>: A paper providing an overview of RT models.</li>
