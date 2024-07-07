@@ -156,16 +156,33 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reaction Times</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./4_rt.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Reaction Times</span></span></a>
+  <a href="./4a_rt_descriptive.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4b_rt_generative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -185,8 +202,8 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#categorical-predictors-condition-group" id="toc-categorical-predictors-condition-group" class="nav-link active" data-scroll-target="#categorical-predictors-condition-group"><span class="header-section-number">2.1</span> Categorical predictors (Condition, Group, …)</a></li>
-  <li><a href="#ordered-predictors-likert-scales" id="toc-ordered-predictors-likert-scales" class="nav-link" data-scroll-target="#ordered-predictors-likert-scales"><span class="header-section-number">2.2</span> Ordered predictors (Likert Scales)</a></li>
-  <li><a href="#interactions" id="toc-interactions" class="nav-link" data-scroll-target="#interactions"><span class="header-section-number">2.3</span> Interactions</a></li>
+  <li><a href="#interactions" id="toc-interactions" class="nav-link" data-scroll-target="#interactions"><span class="header-section-number">2.2</span> Interactions</a></li>
+  <li><a href="#ordered-predictors-likert-scales" id="toc-ordered-predictors-likert-scales" class="nav-link" data-scroll-target="#ordered-predictors-likert-scales"><span class="header-section-number">2.3</span> Ordered predictors (Likert Scales)</a></li>
   <li><a href="#non-linear-relationships-polynomial-gams" id="toc-non-linear-relationships-polynomial-gams" class="nav-link" data-scroll-target="#non-linear-relationships-polynomial-gams"><span class="header-section-number">2.4</span> Non-linear relationships (polynomial, GAMs)</a></li>
   </ul>
 </nav>
@@ -218,21 +235,24 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-number="2.1" class="anchored" data-anchor-id="categorical-predictors-condition-group"><span class="header-section-number">2.1</span> Categorical predictors (Condition, Group, …)</h2>
 <p>In the previous chapter, we have mainly focused on the relationship between a response variable and a single <strong>continuous</strong> predictor.</p>
 <ul>
-<li>Nested interactions, contrasts, …</li>
+<li>Contrasts, …</li>
 </ul>
 </section>
-<section id="ordered-predictors-likert-scales" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="ordered-predictors-likert-scales"><span class="header-section-number">2.2</span> Ordered predictors (Likert Scales)</h2>
+<section id="interactions" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="interactions"><span class="header-section-number">2.2</span> Interactions</h2>
+<p>Todo.</p>
+<ul>
+<li>Nested interactions</li>
+</ul>
+</section>
+<section id="ordered-predictors-likert-scales" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="ordered-predictors-likert-scales"><span class="header-section-number">2.3</span> Ordered predictors (Likert Scales)</h2>
 <p>Likert scales, i.e., ordered multiple <em>discrete</em> choices are often used in surveys and questionnaires. While such data is often treated as a <em>continuous</em> variable, such assumption is not necessarily valid. Indeed, distance between the choices is not necessarily equal. For example, the difference between “strongly agree” and “agree” might not be the same as between “agree” and “neutral”. Even when using integers like 1, 2, 3, 4; people might implicitly process “4” as more extreme relative to “3” as “3” to “2”.</p>
 <p><img src="media/probability_perception.png" class="img-fluid"></p>
 <blockquote class="blockquote">
 <p>The probabilities assigned to discrete probability descriptors are not necessarily equidistant (https://github.com/zonination/perceptions)</p>
 </blockquote>
 <p>What can we do to better reflect the cognitive process underlying a Likert scale responses? <a href="https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html">Monotonic effects</a>.</p>
-</section>
-<section id="interactions" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="interactions"><span class="header-section-number">2.3</span> Interactions</h2>
-<p>Todo.</p>
 </section>
 <section id="non-linear-relationships-polynomial-gams" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="non-linear-relationships-polynomial-gams"><span class="header-section-number">2.4</span> Non-linear relationships (polynomial, GAMs)</h2>
