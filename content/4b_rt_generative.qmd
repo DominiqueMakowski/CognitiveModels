@@ -1,14 +1,46 @@
 # Generative Models
 
+![](https://img.shields.io/badge/status-WIP-orange)
+
+In this chapter, we will move away from statistical models that **describe** the data to models of **data-generation processes**.
+
 ## Evidence Accumulation
 
-This distribution appears to have been first derived in 1900 to model the time a stock reaches a certain price (a *threshold* price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).
+In the previous chapter, we introduced the **Wald** distribution and its parameters, *nu* $\nu$ (drift rate) and *alpha* $\alpha$ (threshold).
+This distribution appears to have been first derived in 1900 to model **the time a stock reaches a certain price** (a *threshold* price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).
+
+A random walk describes a path consisting of a succession of random steps. It has been used by Francis Galton in 1894 to illustrate the *Central Limit Theorem*, and is now known as the **Galton Board**. The Galton Board is a physical model of a random walk, where balls are dropped from the top and bounce left or right at each peg until they reach the bottom. The distribution of the final position of the balls is a normal distribution.
+
+![](media/rt_galtonboard.gif)
+
+::: {.callout-caution}
+TODO: Replace with my own video.
+:::
+
+In the figure below, we can see a computer simulation illustrating the same concept, with "time" being displayed on the x-axis. All iterations start at *y*=0, and change by -1 or +1 at each time step, until it reaches a threshold of *t* = 0.7 seconds.
 
 ![](media/rt_randomwalk.gif)
 
 
+Random walks are used to model a wide range of phenomena, such as the movement of particules and molecules, the stock market, the behavior of animals and, crucially, **cognitive processes**.
+For instance, it can be used to approximate **evidence accumulation**: the idea that a decision maker (be it a Human or any other system) accumulates evidence in a "stochastic" (i.e., random) fashion over time until a certain threshold is reached, at which point a decision is made.
 
-Move from statistical models that *describe* to models that *generate* RT-like data.
+## Wald Distribution (Revisited)
+
+This is how the Wald distribution is actually **generated**. It corresponds to the distribution of times that it takes for a stochastic process to reach a certain **threshold** $\alpha$ (a certain amount of "evidence").
+The twist is that the process underlying this model is a random walk with a **drift rate** $\nu$, which corresponds to the average amount of evidence accumulated per unit of time. 
+In other words, the **drift rate** $\nu$ is the "slope" of the evidence accumulation process, representing the **strength of the evidence** (or the **speed** by which the decision maker accumulates evidence).
+The **threshold** $\alpha$ is the amount of evidence required to reach a decision ("decision" typically meaning making a response).
+
+![](media/rt_wald2.gif)
+
+As you can see, the Wald distribution belongs to a family of models thata do not merely attempt at describing the empirical distributions by tweaking and convolving distributions (like the ExGaussian or LogNormal models). Instead, their parameters are characterizing the **data generation process**. 
+
+::: {.callout-important}
+
+While such "generative" models offer potential insights into the cognitive processes underlying the data, they inherently make **strong assumptions** about said underlying process (for instance, that the data of a task can be approximated by a stochastic evidence accumulation process). It is thus crucial to always keep in mind the limitations and assumptions of the models we use. Don't forget, **with great power comes great responsability.**
+:::
+
 
 ## Drift Diffusion Model (DDM)
 

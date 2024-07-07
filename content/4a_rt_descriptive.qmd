@@ -1,6 +1,6 @@
 # Descriptive Models
 
-![](https://img.shields.io/badge/status-WIP-orange)
+![](https://img.shields.io/badge/status-up_to_date-green)
 
 ## The Data
 

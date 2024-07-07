@@ -348,3 +348,97 @@ record(make_animation, fig, "rt_randomwalk.gif", frames; framerate=30)
 
 
 
+# Walk Generation =====================================================================================
+
+
+using DataFrames
+using SequentialSamplingModels
+
+α = Observable(1.5)
+τ = Observable(0.05)
+ν = Observable(3.0)
+
+# Initialize the figure
+fig = Figure()
+ax1 = Axis(
+    fig[1, 1],
+    title=@lift("Wald(ν = $(round($ν, digits = 1)), α = $(round($α, digits = 1)), τ = $(round($τ, digits = 2)))"),
+    # xlabel="Time",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false,
+    xticklabelsvisible=false
+)
+hidespines!(ax1, :b)
+xlims!(ax1; low=0, high=1.5)
+ylims!(ax1; low=0, high=3.5)
+
+ax2 = Axis(
+    fig[2, 1],
+    # title="Density",
+    xlabel="Time",
+    ylabel="Evidence",
+    yticksvisible=false,
+    xticksvisible=false,
+    # ygridvisible=false,
+    # yticklabelsvisible=false,
+    # xticklabelsvisible=false
+)
+hidespines!(ax2, :t)
+xlims!(ax2; low=0, high=1.5)
+ylims!(ax2; low=-0.5, high=2.5)
+rowgap!(fig.layout, 1, 0.1)
+
+
+# Traces
+function make_points(ν=4, α=1.5, τ=0.2, max_time=1500)
+    trace = simulate(Wald(ν, α, τ); Δt=0.001)[2]
+
+    x = τ .+ range(0, 0.001 * length(trace), length=length(trace))
+    x = collect(x)
+
+    points = [(i, j) for (i, j) in zip(x, trace)]
+    return Point2f.(points)
+end
+
+for iter in 1:40
+    lines!(ax2, @lift(make_points($ν, $α, $τ)),
+        color=cgrad(:viridis, 40; categorical=true, alpha=0.8)[iter],
+        linewidth=0.5)
+end
+
+# Rest
+xaxis = range(0, 1.5, length=1000)
+lines!(ax1, xaxis, @lift(pdf.(Wald($ν, $α, $τ), xaxis)), color=:orange)
+lines!(ax2, @lift([0, $τ]), [0, 0], color=:red, linewidth=2)
+lines!(ax2, [0, 1.5], @lift([$α, $α]), color=:red, linestyle=:dash)
+lines!(ax2, @lift([$τ, $τ + 1 / 4]), @lift([0, $ν / 4]), color=:black)
+lines!(ax2, @lift([$τ, $τ + 1 / 4]), [0, 0], color=:black, linestyle=:dash)
+
+
+
+fig
+
+
+function make_animation(frame)
+    if frame < 0.15
+        τ[] = change_param(frame; frame_range=(0, 0.15), param_range=(0.05, 0.2))
+    end
+    if frame >= 0.25 && frame < 0.40
+        α[] = change_param(frame; frame_range=(0.25, 0.40), param_range=(1.5, 2.4))
+    end
+    if frame >= 0.45 && frame < 0.65
+        ν[] = change_param(frame; frame_range=(0.45, 0.65), param_range=(3.0, 5.0))
+    end
+    # Return to normal
+    if frame >= 0.7 && frame < 0.85
+        α[] = change_param(frame; frame_range=(0.7, 0.85), param_range=(2.4, 1.5))
+        τ[] = change_param(frame; frame_range=(0.7, 0.85), param_range=(0.2, 0.05))
+        ν[] = change_param(frame; frame_range=(0.7, 0.85), param_range=(5.0, 3.0))
+    end
+end
+
+# animation settings
+frames = range(0, 1, length=90)
+record(make_animation, fig, "rt_wald2.gif", frames; framerate=20)
