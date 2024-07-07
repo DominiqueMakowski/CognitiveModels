@@ -31,8 +31,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./5_individual.html" rel="next">
+<link href="./references.html" rel="next">
 <link href="./4a_rt_descriptive.html" rel="prev">
+<link href="./media/cover_icon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -151,7 +152,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./media/cover.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./media/cover_image.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -208,12 +209,6 @@ window.Quarto = {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -289,6 +284,9 @@ Caution
 <h2 data-number="5.2" class="anchored" data-anchor-id="wald-distribution-revisited"><span class="header-section-number">5.2</span> Wald Distribution (Revisited)</h2>
 <p>This is how the Wald distribution is actually <strong>generated</strong>. It corresponds to the distribution of times that it takes for a stochastic process to reach a certain <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> (a certain amount of “evidence”). The twist is that the process underlying this model is a random walk with a <strong>drift rate</strong> <span class="math inline">\(\nu\)</span>, which corresponds to the average amount of evidence accumulated per unit of time. In other words, the <strong>drift rate</strong> <span class="math inline">\(\nu\)</span> is the “slope” of the evidence accumulation process, representing the <strong>strength of the evidence</strong> (or the <strong>speed</strong> by which the decision maker accumulates evidence). The <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> is the amount of evidence required to reach a decision (“decision” typically meaning making a response).</p>
 <p><img src="media/rt_wald2.gif" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>In this figure, the red line at 0 represents the non-decision time <em>tau</em> <span class="math inline">\(\tau\)</span>. The dotted red line corresponds to the <em>threshold</em> <span class="math inline">\(\alpha\)</span>, and the <em>drift rate</em> <span class="math inline">\(\nu\)</span> is the slope of the black line. The time at which each individual random accumulator crosses the threshold forms a Wald distribution.</p>
+</blockquote>
 <p>As you can see, the Wald distribution belongs to a family of models thata do not merely attempt at describing the empirical distributions by tweaking and convolving distributions (like the ExGaussian or LogNormal models). Instead, their parameters are characterizing the <strong>data generation process</strong>.</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -757,8 +755,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./5_individual.html" class="pagination-link" aria-label="Individual Parameters">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

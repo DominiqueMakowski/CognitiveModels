@@ -87,6 +87,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./4b_rt_generative.html" rel="next">
 <link href="./3_scales.html" rel="prev">
+<link href="./media/cover_icon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -208,7 +209,7 @@ window.Quarto = {
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
-      <img src="./media/cover.jpg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="./media/cover_image.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
@@ -265,12 +266,6 @@ window.Quarto = {
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Parameters</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
@@ -749,7 +744,9 @@ IS THAT RIGHT? -->
 </section>
 <section id="shifted-lognormal-model" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">4.5</span> Shifted LogNormal Model</h2>
-<p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution. A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. A <strong>Shifted</strong> LogNormal model introduces a shift (a delay) parameter <em>tau</em> <span class="math inline">\(\tau\)</span> that corresponds to the minimum “starting time” of the response process.</p>
+<p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution. A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. In this model, the <em>mean</em> <span class="math inline">\(\mu\)</span> and is defined on the log-scale, and effects must be interpreted as multiplicative rather than additive (the condition increases the mean RT by a factor of <span class="math inline">\(\exp(\mu_{condition})\)</span>).</p>
+<p>Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>) are not independent with respect to the mean and the standard deviation (SD). The empirical SD increases when the <em>mean</em> <span class="math inline">\(\mu\)</span> increases (which is seen as a feature rather than a bug, as it is consistent with typical reaction time data <span class="citation" data-cites="wagenmakers2005relation">(<a href="references.html#ref-wagenmakers2005relation" role="doc-biblioref">Wagenmakers, Grasman, and Molenaar 2005</a>)</span>).</p>
+<p>A <strong>Shifted</strong> LogNormal model introduces a shift (a delay) parameter <em>tau</em> <span class="math inline">\(\tau\)</span> that corresponds to the minimum “starting time” of the response process.</p>
 <p>We need to set a prior for this parameter, which is usually truncated between 0 (to exclude negative minimum times) and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).</p>
 <p>While <span class="math inline">\(Uniform(0, min(RT))\)</span> is a common choice of prior, it is not ideal as it implies that all values between 0 and the minimum RT are equally likely, which is not the case. Indeed, psychology research has shown that such minimum response time for Humans is often betwen 100 and 250 ms. Moreover, in our case, we explicitly removed all RTs below 180 ms, suggesting that the minimum response time is more likely to approach 180 ms than 0 ms.</p>
 <section id="prior-on-minimum-rt" class="level3" data-number="4.5.1">
@@ -841,6 +838,21 @@ IS THAT RIGHT? -->
 </div>
 </div>
 <p>This model provides a much better fit to the data, and confirms that the <code>Accuracy</code> condition is associated with higher RTs and higher variability (i.e., a larger distribution width).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+LogNormal distributions in nature
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The reason why the Normal distribution is so ubiquituous in nature (and hence used as a good default) is due to the <strong>Central Limit Theorem</strong>, which states that the sum of a large number of independent random variables will be approximately normally distributed. Because many things in nature are the result of the <em>addition</em> of many random processes, the Normal distribution is very common in real life.</p>
+<p>However, it turns out that the multiplication of random variables result in a <strong>LogNormal</strong> distribution, and multiplicating (rather than additive) cascades of processes are also very common in nature, from lengths of latent periods of infectious diseases to distribution of mineral resources in the Earth’s crust, and the elemental mechanisms at stakes in physics and cell biolody <span class="citation" data-cites="limpert2001log">(<a href="references.html#ref-limpert2001log" role="doc-biblioref">Limpert, Stahel, and Abbt 2001</a>)</span>.</p>
+<p>Thus, using LogNormal distributions for RTs can be justified with the assumption that response times are the result of multiplicative stochastic processes happening in the brain.</p>
+</div>
+</div>
 </section>
 </section>
 <section id="exgaussian-model" class="level2" data-number="4.6">
@@ -1105,6 +1117,9 @@ Hohle, Raymond H. 1965. <span>“Inferred Components of Reaction Times as Functi
 <div id="ref-kieffaber2006switch" class="csl-entry" role="listitem">
 Kieffaber, Paul D, Emily S Kappenman, Misty Bodkins, Anantha Shekhar, Brian F O’Donnell, and William P Hetrick. 2006. <span>“Switch and Maintenance of Task Set in Schizophrenia.”</span> <em>Schizophrenia Research</em> 84 (2-3): 345–58.
 </div>
+<div id="ref-limpert2001log" class="csl-entry" role="listitem">
+Limpert, Eckhard, Werner A Stahel, and Markus Abbt. 2001. <span>“Log-Normal Distributions Across the Sciences: Keys and Clues: On the Charms of Statistics, and How Mechanical Models Resembling Gambling Machines Offer a Link to a Handy Way to Characterize Log-Normal Distributions, Which Can Provide Deeper Insight into Variability and Probability—Normal or Log-Normal: That Is the Question.”</span> <em>BioScience</em> 51 (5): 341–52.
+</div>
 <div id="ref-lo2015transform" class="csl-entry" role="listitem">
 Lo, Steson, and Sally Andrews. 2015. <span>“To Transform or Not to Transform: Using Generalized Linear Mixed Models to Analyse Reaction Time Data.”</span> <em>Frontiers in Psychology</em> 6: 1171.
 </div>
@@ -1119,6 +1134,9 @@ Schwarz, Wolfgang. 2001. <span>“The Ex-Wald Distribution as a Descriptive Mode
 </div>
 <div id="ref-theriault2024check" class="csl-entry" role="listitem">
 Thériault, Rémi, Mattan S Ben-Shachar, Indrajeet Patil, Daniel Lüdecke, Brenton M Wiernik, and Dominique Makowski. 2024. <span>“Check Your Outliers! An Introduction to Identifying Statistical Outliers in r with Easystats.”</span> <em>Behavior Research Methods</em> 56 (4): 4162–72.
+</div>
+<div id="ref-wagenmakers2005relation" class="csl-entry" role="listitem">
+Wagenmakers, Eric-Jan, Raoul PPP Grasman, and Peter CM Molenaar. 2005. <span>“On the Relation Between the Mean and the Variance of a Diffusion Model Response Time Distribution.”</span> <em>Journal of Mathematical Psychology</em> 49 (3): 195–204.
 </div>
 <div id="ref-wagenmakers2008diffusion" class="csl-entry" role="listitem">
 Wagenmakers, Eric-Jan, Roger Ratcliff, Pablo Gomez, and Gail McKoon. 2008. <span>“A Diffusion Model Account of Criterion Shifts in the Lexical Decision Task.”</span> <em>Journal of Memory and Language</em> 58 (1): 140–59.
