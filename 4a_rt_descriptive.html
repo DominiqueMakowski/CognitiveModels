@@ -851,9 +851,9 @@ IS THAT RIGHT? -->
 <p>Beyond the descriptive value of these types of models, some have tried to interpret their parameters in terms of <strong>cognitive mechanisms</strong>, arguing for instance that changes in the Gaussian components (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>) reflect changes in attentional processes [e.g., “the time required for organization and execution of the motor response”; <span class="citation" data-cites="hohle1965inferred">Hohle (<a href="references.html#ref-hohle1965inferred" role="doc-biblioref">1965</a>)</span>], whereas changes in the exponential component (<span class="math inline">\(\tau\)</span>) reflect changes in intentional (i.e., decision-related) processes <span class="citation" data-cites="kieffaber2006switch">(<a href="references.html#ref-kieffaber2006switch" role="doc-biblioref">Kieffaber et al. 2006</a>)</span>. However, <span class="citation" data-cites="matzke2009psychological">Matzke and Wagenmakers (<a href="references.html#ref-matzke2009psychological" role="doc-biblioref">2009</a>)</span> demonstrate that there is likely no direct correspondence between ex-Gaussian parameters and cognitive mechanisms, and underline their value primarily as <strong>descriptive tools</strong>, rather than models of cognition <em>per se</em>.</p>
 <p>Descriptively, the three parameters can be interpreted as:</p>
 <ul>
-<li><strong>Mu</strong> <span class="math inline">\(\mu\)</span>: The location / centrality of the RTs. Would correspond to the mean in a symmetrical distribution.</li>
-<li><strong>Sigma</strong> <span class="math inline">\(\sigma\)</span>: The variability and dispersion of the RTs. Akin to the standard deviation in normal distributions.</li>
-<li><strong>Tau</strong> <span class="math inline">\(\tau\)</span>: Tail weight / skewness of the distribution.</li>
+<li><strong>Mu</strong> <span class="math inline">\(\mu\)</span> : The location / centrality of the RTs. Would correspond to the mean in a symmetrical distribution.</li>
+<li><strong>Sigma</strong> <span class="math inline">\(\sigma\)</span> : The variability and dispersion of the RTs. Akin to the standard deviation in normal distributions.</li>
+<li><strong>Tau</strong> <span class="math inline">\(\tau\)</span> : Tail weight / skewness of the distribution.</li>
 </ul>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -950,14 +950,27 @@ Important
 <section id="shifted-wald-model" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="shifted-wald-model"><span class="header-section-number">4.7</span> Shifted Wald Model</h2>
 <p>The <strong>Wald</strong> distribution, also known as the <strong>Inverse Gaussian</strong> distribution, corresponds to the distribution of the first passage time of a Wiener process with a drift rate <span class="math inline">\(\mu\)</span> and a diffusion rate <span class="math inline">\(\sigma\)</span>. While we will unpack this definition below and emphasize its important consequences, one can first note that it has been described as a potential model for RTs when convoluted with an <em>exponential</em> distribution (in the same way that the ExGaussian distribution is a convolution of a Gaussian and an exponential distribution). However, this <strong>Ex-Wald</strong> model <span class="citation" data-cites="schwarz2001ex">(<a href="references.html#ref-schwarz2001ex" role="doc-biblioref">Schwarz 2001</a>)</span> was shown to be less appropriate than one of its variant, the <strong>Shifted Wald</strong> distribution <span class="citation" data-cites="heathcote2004fitting anders2016shifted">(<a href="references.html#ref-heathcote2004fitting" role="doc-biblioref">Heathcote 2004</a>; <a href="references.html#ref-anders2016shifted" role="doc-biblioref">Anders et al. 2016</a>)</span>.</p>
-<p>Note that the Wald distribution, similarly to the models that we will be covering next, are different from the previous distributions in that they are not characterized by “location” and “scale” parameters (<em>mu</em> <span class="math inline">\(\mu\)</span> and <em>sigma</em> <span class="math inline">\(\sigma\)</span>). Instead, the parameters of the Shifted Wald distribution are:</p>
+<p>Note that the Wald distribution, similarly to the models that we will be covering next (the “generative” models), is different from the previous distributions in that it is not characterized by a “location” and “scale” parameters (<em>mu</em> <span class="math inline">\(\mu\)</span> and <em>sigma</em> <span class="math inline">\(\sigma\)</span>). Instead, the parameters of the Shifted Wald distribution are:</p>
 <ul>
-<li><strong>Nu</strong> <span class="math inline">\(\nu\)</span>: A <strong>drift</strong> parameter, corresponding to the strength of the evidence accumulation process.</li>
-<li><strong>Alpha</strong> <span class="math inline">\(\alpha\)</span>: A <strong>threshold</strong> parameter, corresponding to the amount of evidence required to make a decision.</li>
-<li><strong>Tau</strong> <span class="math inline">\(\tau\)</span>: A <strong>delay</strong> parameter, corresponding to the non-response time (i.e., the minimum time required to process the stimulus and respond). A shift parameter similar to the one in the Shifted LogNormal model.</li>
+<li><strong>Nu</strong> <span class="math inline">\(\nu\)</span> : A <strong>drift</strong> parameter, corresponding to the strength of the evidence accumulation process.</li>
+<li><strong>Alpha</strong> <span class="math inline">\(\alpha\)</span> : A <strong>threshold</strong> parameter, corresponding to the amount of evidence required to make a decision.</li>
+<li><strong>Tau</strong> <span class="math inline">\(\tau\)</span> : A <strong>delay</strong> parameter, corresponding to the non-response time (i.e., the minimum time required to process the stimulus and respond). A shift parameter similar to the one in the Shifted LogNormal model.</li>
 </ul>
 <p><img src="media/rt_wald.gif" class="img-fluid"></p>
 <p>As we can see, these parameters do not have a direct correspondence with the mean and standard deviation of the distribution. Their interpretation is more complex but, as we will see below, offers a window to a new level of interpretation.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Explanations regarding these new parameters will be provided in the next chapter.</p>
+</div>
+</div>
 <section id="model-specification-2" class="level3" data-number="4.7.1">
 <h3 data-number="4.7.1" class="anchored" data-anchor-id="model-specification-2"><span class="header-section-number">4.7.1</span> Model Specification</h3>
 <div id="4df349b0" class="cell" data-execution_count="21">
