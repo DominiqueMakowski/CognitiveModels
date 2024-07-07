@@ -1,4 +1,4 @@
-# Cognitive Models with Julia <img src='content/median/cover.png' align="right" height="200" />
+# Cognitive Models with Julia <img src='content/media/cover.png' align="right" height="200" />
 
 [![](https://img.shields.io/badge/status-looking_for_collaborators-orange)](https://github.com/DominiqueMakowski/CognitiveModels/issues)
 [![](https://img.shields.io/badge/access-open-green)](https://dominiquemakowski.github.io/CognitiveModels/)
