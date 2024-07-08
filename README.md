@@ -1,4 +1,6 @@
-# Cognitive Models with Julia <img src='content/media/cover.png' align="right" height="220" />
+# Cognitive Models <img src='content/media/cover.png' align="right" height="300" />
+
+*Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia*
 
 [![](https://img.shields.io/badge/status-looking_for_collaborators-orange)](https://github.com/DominiqueMakowski/CognitiveModels/issues)
 [![](https://img.shields.io/badge/access-open-green)](https://dominiquemakowski.github.io/CognitiveModels/)
