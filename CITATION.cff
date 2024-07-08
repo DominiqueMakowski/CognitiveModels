@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite this book as below."
+authors:
+    - family-names: "Dominique"
+      given-names: "Makowski"
+      orcid: "https://orcid.org/0000-0001-5375-9967"
+title: "Cognitive Models: Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
+version: 0.0.1
+doi: 10.5281/zenodo.12685343
+date-released: 2024-07-08
+url: "https://github.com/DominiqueMakowski/CognitiveModels"
+type: book

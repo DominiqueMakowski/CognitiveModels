@@ -4,10 +4,18 @@ project:
 book:
     title: "Cognitive Models"
     subtitle: "Computational Modeling of Cognitive Processes with Bayesian Mixed Models in Julia"
-    author: "Dominique Makowski"
+    author:
+        - name: "Dominique Makowski"
+          url: https://realitybending.github.io/
+          orcid: 0000-0001-5375-9967
+          affiliation:
+              - name: University of Sussex
+                city: Brighton, UK
+                url: https://www.sussex.ac.uk/
     date: "03/07/2024"
     cover-image: "media/cover.png"
     favicon: "media/cover.png"
+    doi: https://doi.org/10.5281/zenodo.12685343
     chapters:
         - index.qmd
         - 1_introduction.qmd

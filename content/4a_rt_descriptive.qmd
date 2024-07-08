@@ -577,6 +577,6 @@ TODO.
 
 TODO.
 
-### Racing Diffusion Model (RDMRDM)
+### Racing Diffusion Model (RDM)
 
 TODO.
