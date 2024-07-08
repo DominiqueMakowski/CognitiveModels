@@ -1,6 +1,7 @@
-# Individual Parameters
+# Individual Differences
 
 ![](https://img.shields.io/badge/status-not_started-red)
 
-1. From mixed models
+1. Task reliability (Signal to Noise Ratio)
+1. Extracting Individual Parameters From mixed models
 2. As prior-informed individual Bayesian models

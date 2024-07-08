@@ -1,6 +1,6 @@
 # Descriptive Models
 
-![](https://img.shields.io/badge/status-up_to_date-green)
+![](https://img.shields.io/badge/status-up_to_date-brightgreen)
 
 ## The Data
 
@@ -563,3 +563,20 @@ loo_compare((
 The `loo_compare()` function orders models from best to worse based on their ELPD (Expected Log Pointwise Predictive Density) and provides the difference in ELPD between the best model and the other models.
 As one can see, traditional linear models perform terribly.
 
+
+## Other Models
+
+Other models are available to fit RT data, that we will demonstrate below for reference purposes.
+However, we won't be explaining them here, as we will revisit them in the next chapter in the context of choice modeling.
+
+### Linear Ballistic Accumulator (LBA)
+
+TODO.
+
+### Leaky Competing Accumulator (LCA)
+
+TODO.
+
+### Racing Diffusion Model (RDMRDM)
+
+TODO.

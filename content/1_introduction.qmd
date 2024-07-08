@@ -3,9 +3,17 @@
 ![](https://img.shields.io/badge/status-not_started-red)
 
 
-## Very quick intro to Julia and Turing
+## Brief Intro to Julia and Turing
 
-Goal is to teach just enough so that the reader understands the code.
+Goal is to teach just enough so that the reader understands the code. 
+We won't be discussing things like plotting (as it highly depends on the package used).
+
+### Installing Julia and Packages
+
+TODO.
+
+
+### Julia Basics
 
 ::: {.callout-important}
 
@@ -15,9 +23,11 @@ These are the most common sources of confusion and errors for newcomers to Julia
 
 - **1-indexing**: Similarly to R, Julia uses 1-based indexing, which means that the first element of a vector is `x[1]` (not `x[0]` as in Python).
 - **Positional; Keyword arguments**: Julia functions makes a clear distinction between positional and keyword arguments, and both are often separated by `;`. Positional arguments are typically passed without a name, while keyword arguments must be named (e.g., `scatter(0, 0; color=:red)`). Some functions might look like `somefunction(; arg1=val1, arg2=val2)`.
-- **Symbols**: Some arguments are prefixed with `:` (e.g., `:red` in `scatter(0, 0; color=:red)`). These **symbols** are like character strings that are not manipulable (there are more efficient).
+- **Symbols**: Some arguments are prefixed with `:` (e.g., `:red` in `scatter(0, 0; color=:red)`). These *symbols* are like character strings that are not manipulable (there are more efficient).
 - **Explicit vectorization**: Julia does not vectorize operations by default. You need to use a dot `.` in front of functions and operators to have it apply element by element. For example, `sin.([0, 1, 2])` will apply the `sin()` function to each element of its vector.
 - **In-place operations**: Julia has a strong emphasis on performance, and in-place operations are often used to avoid unnecessary memory allocations. When functions modify their input "in-place" (without returns), a band `!` is used. For example, assuming `x = [0]` (1-element vector containing 0), `push!(x, 2)` will modify `x` in place (it is equivalent to `x = push(x, 2)`).
+- **Macros**: Some functions start with `@`. These are called macros and are used to manipulate the code before it is run. For example, `@time` will measure the time it takes to run the code that follows.
+- **Unicode**: Julia is a modern language to supports unicode characters, which are used a lot for mathematical operations. You can get the *mu* `μ` character by typing `\mu` and pressing `TAB`.
 :::
 
 
@@ -25,6 +35,8 @@ These are the most common sources of confusion and errors for newcomers to Julia
 
 ```{julia}
 #| output: false
+#| code-fold: false
+
 using Turing, Distributions, Random
 using Makie
 
@@ -42,6 +54,9 @@ fig
 ### Recover Distribution Parameters with Turing
 
 ```{julia}
+#| output: false
+#| code-fold: false
+
 @model function model_gaussian(x)
     # Priors
     μ ~ Uniform(0, 200)
@@ -53,13 +68,26 @@ fig
     end
 end
 
-model = model_gaussian(iq)
-sampling_results = sample(model, NUTS(), 400)
-
-# Summary (95% CI)
-summarystats(sampling_results)
+fit_gaussian = model_gaussian(iq)
+chain_gaussian = sample(fit_gaussian, NUTS(), 400)
 ```
 
+Inspecting the chain variable will show various posterior statistics (including the mean, standard deviation, and diagnostic indices).
+
+```{julia}
+#| code-fold: false
+
+chain_gaussian
+```
+
+For the purpose of this book, we will mostly focus on the 95% Credible Interval (CI), and we will assume that a parameter is ***"significant"*** if its CI does not include 0.
+
+```{julia}
+#| code-fold: false
+
+# Summary (95% CI)
+hpd(chain_gaussian)
+```
 
 ## Linear Models
 

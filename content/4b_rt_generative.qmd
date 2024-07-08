@@ -46,13 +46,46 @@ While such "generative" models offer potential insights into the cognitive proce
 
 ## Drift Diffusion Model (DDM)
 
-Use DDM as a case study to introduce generative models
+Interestingly, the **Wald** model is actually a special case of a more general type called the **Drift Diffusion Model (DDM)** (named as such because the evidence accumulation is assumed to be a "diffusion" process, i.e., a random walk). 
+One of the main difference is that in the Wald model, the drift rate $\nu$ must be *positive*, as it tracks the time taken by the diffusion processes to reach only one "positive" threshold $\alpha$.
 
-- [**Drift Diffusion Model (DDM) in R: A Tutorial**](https://dominiquemakowski.github.io/easyRT/articles/ddm.html)
+But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high "negative" values.
 
-## Other Models (LBA, LNR)
+Drift Diffusion Models are useful to **jointly model RTs and a binary outcome**, such as 2 different choices or accuracy (i.e., "correct" vs. "error").
+
+![](media/rt_ddm.gif)
+
+
+The parameters are:
+
+- **Nu** $\nu$ : The drift rate (also sometimes denoted *delta* $\delta$), representing the average slope of the accumulation process towards the boundaries. The larger the (absolute value of the) drift rate, the more effective the evidence accumulation for the corresponding response option. A drift rate close to 0 suggests an ambiguous stimulus. Typical range: [-5, 5].
+- **Alpha** $\alpha$ : The boundary separation threshold is the distance between the two decision bounds (lower bound being at 0 and upper bound at *alpha* $\alpha$). It has been interpreted as a measure of response caution (i.e., of speed-accuracy trade-off, with high *alpha* $\alpha$ being related to high accuracy). It represents the amount of evidence that is needed to make a response. Typical range: [0.5, 2].
+- **Beta** $\beta$ : The initial bias towards any of the responses. The starting point of the accumulation process (in percentage of *alpha* $\alpha$: if $\alpha = 2.0$ and $\beta = 0.5$, then the actual starting point is $2.0*0.5=1$). Typical range: [0.3, 0.7].
+- **Tau** $\tau$ : The non-decision time. It represents all non-decisional process, such as stimulus encoding, motor processes, etc. Typical range (in seconds): [0.1, 0.5].
+
+
+This basic model is sometimes referred to as a Wiener model, as expanded versions of the DDM exist with additional parameters (e.g., variability of the drift rate).
+
+
+## Linear Ballistic Accumulator (LBA)
+
+TODO.
+
+## Other Models (LNR, RDM)
+
+TODO.
 
 ## Including Random Effects
+
+### Random Intercept
+
+TODO.
+
+### Random Slopes
+
+TODO.
+
+### Performance Tips
 
 TODO.
 

@@ -23,13 +23,53 @@ end
 
 
 # BetaMod =======================================================================================
+using Turing, Distributions, Random
 
 # Reparameterized Beta distribution
-function BetaMod(μ, σ)
-    α = μ * (μ * (1 - μ) / σ^2 - 1)
-    β = α * (1 - μ) / μ
+function MeanVarBeta(μ, σ²)
+    if σ² <= 0 || σ² >= μ * (1 - μ)
+        error("Variance σ² must be in the interval (0, μ*(1-μ)=$(μ*(1-μ))).")
+    end
+
+    ν = μ * (1 - μ) / σ² - 1
+    α = μ * ν
+    β = (1 - μ) * ν
+
     return Beta(α, β)
 end
+var(MeanVarBeta(0.3, 0.1))
+mean(MeanVarBeta(0.3, 0.1))
+
+
+# Range of possible parameters
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel="μ", ylabel="variance σ²")
+for μ in range(0.001, 1, length=200)
+    for σ in range(0, 1, length=200)
+        x = range(0, 1, length=100)
+        try
+            y = pdf.(MeanVarBeta(μ, σ), x)
+            scatter!(ax, μ, σ, color=:red)
+        catch
+            continue
+        end
+    end
+end
+ylims!(ax, 0, 0.5)
+ablines!(ax, [0, 1], [1, -1]; color=:black)
+fig
+
+
+@model function model_Beta(x)
+    μ ~ truncated(Beta(1, 1), 0.3, 0.7)
+    σ ~ Uniform(0.05, 0.15)
+    x = MeanVarBeta(μ, σ)
+end
+chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.1), 100)), NUTS(), 300)
+
+
+
+
 
 μ = Observable(0.5)
 σ = Observable(0.1)
@@ -48,7 +88,7 @@ ax = Axis(
 ylims!(ax, 0, 10)
 
 x = range(0, 1, length=100)
-y = @lift(pdf.(BetaMod($μ, $σ), x))
+y = @lift(pdf.(MeanVarBeta($μ, $σ), x))
 
 lines!(ax, x, y)
 fig
@@ -72,5 +112,5 @@ end
 
 # animation settings
 frames = range(0, 1, length=120)
-record(make_animation, fig, "scales_betamod.gif", frames; framerate=20)
+record(make_animation, fig, "scales_MeanVarBeta.gif", frames; framerate=20)
 
