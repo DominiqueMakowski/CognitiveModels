@@ -87,7 +87,7 @@ div.csl-indent {
 <meta name="quarto:offset" content="./">
 <link href="./4b_rt_generative.html" rel="next">
 <link href="./3_scales.html" rel="prev">
-<link href="./media/cover_icon.png" rel="icon" type="image/png">
+<link href="./media/cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -268,6 +268,12 @@ window.Quarto = {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -310,6 +316,12 @@ window.Quarto = {
   <li><a href="#model-specification-2" id="toc-model-specification-2" class="nav-link" data-scroll-target="#model-specification-2"><span class="header-section-number">4.7.1</span> Model Specification</a></li>
   <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">4.7.2</span> Model Comparison</a></li>
   </ul></li>
+  <li><a href="#other-models" id="toc-other-models" class="nav-link" data-scroll-target="#other-models"><span class="header-section-number">4.8</span> Other Models</a>
+  <ul class="collapse">
+  <li><a href="#linear-ballistic-accumulator-lba" id="toc-linear-ballistic-accumulator-lba" class="nav-link" data-scroll-target="#linear-ballistic-accumulator-lba"><span class="header-section-number">4.8.1</span> Linear Ballistic Accumulator (LBA)</a></li>
+  <li><a href="#leaky-competing-accumulator-lca" id="toc-leaky-competing-accumulator-lca" class="nav-link" data-scroll-target="#leaky-competing-accumulator-lca"><span class="header-section-number">4.8.2</span> Leaky Competing Accumulator (LCA)</a></li>
+  <li><a href="#racing-diffusion-model-rdmrdm" id="toc-racing-diffusion-model-rdmrdm" class="nav-link" data-scroll-target="#racing-diffusion-model-rdmrdm"><span class="header-section-number">4.8.3</span> Racing Diffusion Model (RDMRDM)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -335,7 +347,7 @@ window.Quarto = {
 </header>
 
 
-<p><img src="https://img.shields.io/badge/status-up_to_date-green.png" class="img-fluid"></p>
+<p><img src="https://img.shields.io/badge/status-up_to_date-brightgreen.png" class="img-fluid"></p>
 <section id="the-data" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
 <p>For this chapter, we will be using the data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1 <span class="citation" data-cites="heathcote2012linear">(also reanalyzed by <a href="references.html#ref-heathcote2012linear" role="doc-biblioref">Heathcote and Love 2012</a>)</span>, that contains responses and response times for several participants in two conditions (where instructions emphasized either <strong>speed</strong> or <strong>accuracy</strong>). Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (&lt;180 ms) or too slow <span class="citation" data-cites="theriault2024check">(&gt;2 sec instead of &gt;3 sec, see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a> for a discussion on outlier removal)</span>.</p>
@@ -1096,6 +1108,22 @@ Note
 </div>
 </div>
 <p>The <code>loo_compare()</code> function orders models from best to worse based on their ELPD (Expected Log Pointwise Predictive Density) and provides the difference in ELPD between the best model and the other models. As one can see, traditional linear models perform terribly.</p>
+</section>
+</section>
+<section id="other-models" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="other-models"><span class="header-section-number">4.8</span> Other Models</h2>
+<p>Other models are available to fit RT data, that we will demonstrate below for reference purposes. However, we won’t be explaining them here, as we will revisit them in the next chapter in the context of choice modeling.</p>
+<section id="linear-ballistic-accumulator-lba" class="level3" data-number="4.8.1">
+<h3 data-number="4.8.1" class="anchored" data-anchor-id="linear-ballistic-accumulator-lba"><span class="header-section-number">4.8.1</span> Linear Ballistic Accumulator (LBA)</h3>
+<p>TODO.</p>
+</section>
+<section id="leaky-competing-accumulator-lca" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="leaky-competing-accumulator-lca"><span class="header-section-number">4.8.2</span> Leaky Competing Accumulator (LCA)</h3>
+<p>TODO.</p>
+</section>
+<section id="racing-diffusion-model-rdmrdm" class="level3" data-number="4.8.3">
+<h3 data-number="4.8.3" class="anchored" data-anchor-id="racing-diffusion-model-rdmrdm"><span class="header-section-number">4.8.3</span> Racing Diffusion Model (RDMRDM)</h3>
+<p>TODO.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">

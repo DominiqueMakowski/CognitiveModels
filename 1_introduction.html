@@ -67,7 +67,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="./">
 <link href="./2_predictors.html" rel="next">
 <link href="./index.html" rel="prev">
-<link href="./media/cover_icon.png" rel="icon" type="image/png">
+<link href="./media/cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -216,6 +216,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -230,10 +236,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#very-quick-intro-to-julia-and-turing" id="toc-very-quick-intro-to-julia-and-turing" class="nav-link active" data-scroll-target="#very-quick-intro-to-julia-and-turing"><span class="header-section-number">1.1</span> Very quick intro to Julia and Turing</a>
+  <li><a href="#brief-intro-to-julia-and-turing" id="toc-brief-intro-to-julia-and-turing" class="nav-link active" data-scroll-target="#brief-intro-to-julia-and-turing"><span class="header-section-number">1.1</span> Brief Intro to Julia and Turing</a>
   <ul class="collapse">
-  <li><a href="#generate-data-from-normal-distribution" id="toc-generate-data-from-normal-distribution" class="nav-link" data-scroll-target="#generate-data-from-normal-distribution"><span class="header-section-number">1.1.1</span> Generate Data from Normal Distribution</a></li>
-  <li><a href="#recover-distribution-parameters-with-turing" id="toc-recover-distribution-parameters-with-turing" class="nav-link" data-scroll-target="#recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.2</span> Recover Distribution Parameters with Turing</a></li>
+  <li><a href="#installing-julia-and-packages" id="toc-installing-julia-and-packages" class="nav-link" data-scroll-target="#installing-julia-and-packages"><span class="header-section-number">1.1.1</span> Installing Julia and Packages</a></li>
+  <li><a href="#julia-basics" id="toc-julia-basics" class="nav-link" data-scroll-target="#julia-basics"><span class="header-section-number">1.1.2</span> Julia Basics</a></li>
+  <li><a href="#generate-data-from-normal-distribution" id="toc-generate-data-from-normal-distribution" class="nav-link" data-scroll-target="#generate-data-from-normal-distribution"><span class="header-section-number">1.1.3</span> Generate Data from Normal Distribution</a></li>
+  <li><a href="#recover-distribution-parameters-with-turing" id="toc-recover-distribution-parameters-with-turing" class="nav-link" data-scroll-target="#recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.4</span> Recover Distribution Parameters with Turing</a></li>
   </ul></li>
   <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models"><span class="header-section-number">1.2</span> Linear Models</a></li>
   <li><a href="#boostrapping" id="toc-boostrapping" class="nav-link" data-scroll-target="#boostrapping"><span class="header-section-number">1.3</span> Boostrapping</a></li>
@@ -266,9 +274,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><img src="https://img.shields.io/badge/status-not_started-red.png" class="img-fluid"></p>
-<section id="very-quick-intro-to-julia-and-turing" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="very-quick-intro-to-julia-and-turing"><span class="header-section-number">1.1</span> Very quick intro to Julia and Turing</h2>
-<p>Goal is to teach just enough so that the reader understands the code.</p>
+<section id="brief-intro-to-julia-and-turing" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="brief-intro-to-julia-and-turing"><span class="header-section-number">1.1</span> Brief Intro to Julia and Turing</h2>
+<p>Goal is to teach just enough so that the reader understands the code. We won’t be discussing things like plotting (as it highly depends on the package used).</p>
+<section id="installing-julia-and-packages" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="installing-julia-and-packages"><span class="header-section-number">1.1.1</span> Installing Julia and Packages</h3>
+<p>TODO.</p>
+</section>
+<section id="julia-basics" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="julia-basics"><span class="header-section-number">1.1.2</span> Julia Basics</h3>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -283,25 +297,25 @@ Notable Differences with Python and R
 <ul>
 <li><strong>1-indexing</strong>: Similarly to R, Julia uses 1-based indexing, which means that the first element of a vector is <code>x[1]</code> (not <code>x[0]</code> as in Python).</li>
 <li><strong>Positional; Keyword arguments</strong>: Julia functions makes a clear distinction between positional and keyword arguments, and both are often separated by <code>;</code>. Positional arguments are typically passed without a name, while keyword arguments must be named (e.g., <code>scatter(0, 0; color=:red)</code>). Some functions might look like <code>somefunction(; arg1=val1, arg2=val2)</code>.</li>
-<li><strong>Symbols</strong>: Some arguments are prefixed with <code>:</code> (e.g., <code>:red</code> in <code>scatter(0, 0; color=:red)</code>). These <strong>symbols</strong> are like character strings that are not manipulable (there are more efficient).</li>
+<li><strong>Symbols</strong>: Some arguments are prefixed with <code>:</code> (e.g., <code>:red</code> in <code>scatter(0, 0; color=:red)</code>). These <em>symbols</em> are like character strings that are not manipulable (there are more efficient).</li>
 <li><strong>Explicit vectorization</strong>: Julia does not vectorize operations by default. You need to use a dot <code>.</code> in front of functions and operators to have it apply element by element. For example, <code>sin.([0, 1, 2])</code> will apply the <code>sin()</code> function to each element of its vector.</li>
 <li><strong>In-place operations</strong>: Julia has a strong emphasis on performance, and in-place operations are often used to avoid unnecessary memory allocations. When functions modify their input “in-place” (without returns), a band <code>!</code> is used. For example, assuming <code>x = [0]</code> (1-element vector containing 0), <code>push!(x, 2)</code> will modify <code>x</code> in place (it is equivalent to <code>x = push(x, 2)</code>).</li>
+<li><strong>Macros</strong>: Some functions start with <code>@</code>. These are called macros and are used to manipulate the code before it is run. For example, <code>@time</code> will measure the time it takes to run the code that follows.</li>
+<li><strong>Unicode</strong>: Julia is a modern language to supports unicode characters, which are used a lot for mathematical operations. You can get the <em>mu</em> <code>μ</code> character by typing <code>\mu</code> and pressing <code>TAB</code>.</li>
 </ul>
 </div>
 </div>
-<section id="generate-data-from-normal-distribution" class="level3" data-number="1.1.1">
-<h3 data-number="1.1.1" class="anchored" data-anchor-id="generate-data-from-normal-distribution"><span class="header-section-number">1.1.1</span> Generate Data from Normal Distribution</h3>
-<div id="0c15ea13" class="cell" data-execution_count="1">
-<details class="code-fold">
-<summary>Code</summary>
+</section>
+<section id="generate-data-from-normal-distribution" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="generate-data-from-normal-distribution"><span class="header-section-number">1.1.3</span> Generate Data from Normal Distribution</h3>
+<div id="1f15e3d4" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">Random</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Makie</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Random sample from a Normal(μ=100, σ=15)</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>iq <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">100</span>, <span class="fl">15</span>), <span class="fl">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 </div>
-<div id="6de958d5" class="cell" data-execution_count="2">
+<div id="e3dbae1f" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
@@ -322,11 +336,9 @@ Notable Differences with Python and R
 </div>
 </div>
 </section>
-<section id="recover-distribution-parameters-with-turing" class="level3" data-number="1.1.2">
-<h3 data-number="1.1.2" class="anchored" data-anchor-id="recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.2</span> Recover Distribution Parameters with Turing</h3>
-<div id="76fbbced" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
+<section id="recover-distribution-parameters-with-turing" class="level3" data-number="1.1.4">
+<h3 data-number="1.1.4" class="anchored" data-anchor-id="recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.4</span> Recover Distribution Parameters with Turing</h3>
+<div id="e37369d6" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_gaussian</span>(x)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">~</span> <span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">200</span>)</span>
@@ -338,25 +350,48 @@ Notable Differences with Python and R
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> <span class="fu">model_gaussian</span>(iq)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>sampling_results <span class="op">=</span> <span class="fu">sample</span>(model, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">summarystats</span>(sampling_results)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>┌ Info: Found initial step size
-└   ϵ = 0.05
-Sampling:   0%|█                                        |  ETA: 0:00:32Sampling: 100%|█████████████████████████████████████████| Time: 0:00:01</code></pre>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>fit_gaussian <span class="op">=</span> <span class="fu">model_gaussian</span>(iq)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>chain_gaussian <span class="op">=</span> <span class="fu">sample</span>(fit_gaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<p>Inspecting the chain variable will show various posterior statistics (including the mean, standard deviation, and diagnostic indices).</p>
+<div id="31ba55af" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>chain_gaussian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 <div class="ansi-escaped-output">
-<pre>Summary Statistics
- <span class="ansi-bold"> parameters </span> <span class="ansi-bold">     mean </span> <span class="ansi-bold">     std </span> <span class="ansi-bold">    mcse </span> <span class="ansi-bold"> ess_bulk </span> <span class="ansi-bold"> ess_tail </span> <span class="ansi-bold">    rhat </span> <span class="ansi-bold"> </span> ⋯
- <span class="ansi-bright-black-fg">     Symbol </span> <span class="ansi-bright-black-fg">  Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> </span> ⋯
-           μ   101.0966    0.6163    0.0285   464.5397   331.0063    1.0010    ⋯
-           σ    14.5905    0.4758    0.0221   504.1965   231.1654    1.0362    ⋯
+<pre>Chains MCMC chain (400×14×1 Array{Float64, 3}):
+Iterations        = 201:1:600
+Number of chains  = 1
+Samples per chain = 400
+Wall duration     = 8.8 seconds
+Compute duration  = 8.8 seconds
+parameters        = μ, σ
+internals         = lp, n_steps, is_accept, acceptance_rate, log_density, hamiltonian_energy, hamiltonian_energy_error, max_hamiltonian_energy_error, tree_depth, numerical_error, step_size, nom_step_size
+Summary Statistics
+ <span class="ansi-bold"> parameters </span> <span class="ansi-bold">    mean </span> <span class="ansi-bold">     std </span> <span class="ansi-bold">    mcse </span> <span class="ansi-bold"> ess_bulk </span> <span class="ansi-bold"> ess_tail </span> <span class="ansi-bold">    rhat </span> <span class="ansi-bold"> e</span> ⋯
+ <span class="ansi-bright-black-fg">     Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg">  </span> ⋯
+           μ   99.2403    0.6727    0.0333   414.3604   324.9996    0.9993     ⋯
+           σ   14.4973    0.4440    0.0187   561.5709   284.5407    0.9976     ⋯
 <span class="ansi-cyan-fg">                                                                1 column omitted</span>
+Quantiles
+ <span class="ansi-bold"> parameters </span> <span class="ansi-bold">    2.5% </span> <span class="ansi-bold">   25.0% </span> <span class="ansi-bold">   50.0% </span> <span class="ansi-bold">   75.0% </span> <span class="ansi-bold">    97.5% </span>
+ <span class="ansi-bright-black-fg">     Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span>
+           μ   97.9096   98.7663   99.2552   99.7769   100.4228
+           σ   13.6853   14.1811   14.5066   14.7917    15.3761
+</pre>
+</div>
+</div>
+</div>
+<p>For the purpose of this book, we will mostly focus on the 95% Credible Interval (CI), and we will assume that a parameter is <strong><em>“significant”</em></strong> if its CI does not include 0.</p>
+<div id="45fb1631" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_gaussian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div class="ansi-escaped-output">
+<pre>HPD
+ <span class="ansi-bold"> parameters </span> <span class="ansi-bold">   lower </span> <span class="ansi-bold">    upper </span>
+ <span class="ansi-bright-black-fg">     Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg">  Float64 </span>
+           μ   97.8594   100.3178
+           σ   13.5687    15.2885
 </pre>
 </div>
 </div>
