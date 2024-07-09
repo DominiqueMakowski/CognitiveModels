@@ -2,6 +2,17 @@
 
 ![](https://img.shields.io/badge/status-not_started-red)
 
-1. Task reliability (Signal to Noise Ratio)
-1. Extracting Individual Parameters From mixed models
-2. As prior-informed individual Bayesian models
+## Extracting Individual Parameters From Mixed Models
+
+TODO. 
+
+##  Population-informed Individual Bayesian Models
+
+TODO.
+
+## Task reliability 
+
+- Signal to Noise Ratio (https://realitybending.github.io/post/2024-03-18-signaltonoisemixed/)
+- https://journals.sagepub.com/doi/10.1177/09637214231220923
+- [Cronbach's merger](https://osf.io/preprints/psyarxiv/8ktn6)
+- https://www.nature.com/articles/s44271-024-00114-4

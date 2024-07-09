@@ -44,7 +44,7 @@ mean(MeanVarBeta(0.3, 0.1))
 # Range of possible parameters
 fig = Figure()
 ax = Axis(fig[1, 1], xlabel="μ", ylabel="variance σ²")
-for μ in range(0.001, 1, length=200)
+for μ in range(0.0, 1, length=200)
     for σ in range(0, 1, length=200)
         x = range(0, 1, length=100)
         try
@@ -56,16 +56,35 @@ for μ in range(0.001, 1, length=200)
     end
 end
 ylims!(ax, 0, 0.5)
-ablines!(ax, [0, 1], [1, -1]; color=:black)
+# ablines!(ax, [0, 1], [1, -1]; color=:black)
+xaxis = range(0, 1, length=1000)
+lines!(ax, xaxis, xaxis .* (1 .- xaxis); color=:black)
 fig
 
 
-@model function model_Beta(x)
-    μ ~ truncated(Beta(1, 1), 0.3, 0.7)
-    σ ~ Uniform(0.05, 0.15)
-    x = MeanVarBeta(μ, σ)
+using Turing, Distributions, Random
+
+# Reparameterized Beta distribution
+function MeanVarBeta(μ, σ²)
+    if σ² <= 0 || σ² >= μ * (1 - μ)
+        error("Variance σ² must be in the interval (0, μ*(1-μ)=$(μ*(1-μ))).")
+    end
+
+    ν = μ * (1 - μ) / σ² - 1
+    α = μ * ν
+    β = (1 - μ) * ν
+
+    return Beta(α, β)
 end
-chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.1), 100)), NUTS(), 300)
+
+@model function model_Beta(x)
+    μ ~ Beta(1, 1)
+    σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
+    for i in 1:length(x)
+        x[i] ~ MeanVarBeta(μ, σ)
+    end
+end
+chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; initial_params=[0.5, 0.1])
 
 
 

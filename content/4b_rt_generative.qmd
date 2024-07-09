@@ -89,6 +89,8 @@ TODO.
 
 TODO.
 
+<!-- Gaussian filter? HGF -->
+
 ## Additional Resources
 
 - [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
