@@ -1,26 +1,62 @@
-# Choice and Scales
+# Choices and Scales
 
 ![](https://img.shields.io/badge/status-not_started-red)
 
-1. Beta models 
+In many situations, the dependent variable is not continuous, nor is it even normally distributed.
+
+## Slider (aka "Analog") Scales 
+
+### Beta Models 
 
 ```{julia}
-using Distributions
+#| code-fold: false
+
+using Distributions, Random
+using Turing
 
 # Reparameterized Beta distribution
-function BetaMod(μ, σ)
-    α = μ * (μ * (1 - μ) / σ^2 - 1)
-    β = α * (1 - μ) / μ
+function MeanVarBeta(μ, σ²)
+    if σ² <= 0 || σ² >= μ * (1 - μ)
+        error("Variance σ² must be in the interval (0, μ*(1-μ)=$(μ*(1-μ))).")
+    end
+
+    ν = μ * (1 - μ) / σ² - 1
+    α = μ * ν
+    β = (1 - μ) * ν
+
     return Beta(α, β)
 end
-
-
-
-mean(BetaMod(0.5, 0.0833))
-var(BetaMod(0.2, 0.1))
 ```
 
-2. OrdBeta models for slider scales
-3. Logistic models for binary data
+```{julia}
+#| eval: false
+
+@model function model_Beta(x)
+    μ ~ Beta(1, 1)
+    σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
+    for i in 1:length(x)
+        x[i] ~ MeanVarBeta(μ, σ)
+    end
+end
+chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; 
+   initial_params=[0.5, 0.1])
+```
+
+- https://github.com/JuliaStats/Distributions.jl/issues/1877
+
+
+###  OrdBeta Models
+
+How to implement this in Turing?
+
+- https://cran.r-project.org/web/packages/ordbetareg/vignettes/package_introduction.html
+- https://stats.andrewheiss.com/compassionate-clam/notebook/ordbeta.html#ordered-beta-regression
+- https://www.robertkubinec.com/post/limited_dvs/
+
+
+## Logistic models for Binary Data
+
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
 
 Use the speed accuracy data that we use in the next chapter.

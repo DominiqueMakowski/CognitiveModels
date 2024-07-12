@@ -5,8 +5,20 @@
 
 ## Brief Intro to Julia and Turing
 
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
+
 Goal is to teach just enough so that the reader understands the code. 
 We won't be discussing things like plotting (as it highly depends on the package used).
+
+::: {.callout-tip title="To go further"}
+
+- [**Modern Julia Workflows**](https://modernjuliaworkflows.github.io/): Julia tutorial that takes you from zero to hero.
+
+:::
+
+
+
 
 ### Installing Julia and Packages
 
@@ -89,22 +101,20 @@ For the purpose of this book, we will mostly focus on the 95% Credible Interval 
 hpd(chain_gaussian)
 ```
 
-## Linear Models
+## Bayesian Linear Models
 
-Understand what the parameters mean (intercept, slopes, sigma).
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
 
-## Boostrapping
+Understand what the parameters mean (intercept, slopes, sigma): needs a nice graph (animation?) to illustrate that.
+Simple linear regression in Turing.
+Introduce Bayesian estimation and priors over parameters 
 
-Introduce concepts related to pseudo-posterior distribution description
 
 ## Hierarchical Models
 
-Simpson's paradox, random effects, how to leverage them to model interindividual differences
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
 
-## Bayesian estimation
+Simpson's paradox, random effects
 
-introduce Bayesian estimation and priors over parameters
+These models can be leveraged to obtain individual indices useful to study interindividual differences (see last chapter).
 
-## Bayesian mixed linear regression
-
-put everything together

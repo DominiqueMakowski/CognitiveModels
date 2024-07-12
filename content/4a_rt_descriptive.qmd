@@ -262,7 +262,7 @@ See https://github.com/itsdfish/SequentialSamplingModels.jl/issues/78#issuecomme
 IS THAT RIGHT? -->
 
 Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make **richer conclusions** and better capturing the data.
-Despite that, the Gaussian model stil seem to be a poor fit to the data.
+Despite that, the Gaussian model still seem to be a poor fit to the data.
 
 ## The Problem with Linear Models
 
@@ -283,7 +283,7 @@ One of the obvious candidate alternative to the log-transformation would be to u
 A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. In this model, the *mean* $\mu$ and is defined on the log-scale, and effects must be interpreted as multiplicative rather than additive (the condition increases the mean RT by a factor of $\exp(\mu_{condition})$). 
 
 Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters ($\mu$ and $\sigma$) are not independent with respect to the mean and the standard deviation (SD).
-The empirical SD increases when the *mean* $\mu$ increases (which is seen as a feature rather than a bug, as it is consistent with typical reaction time data [@wagenmakers2005relation]).
+The empirical SD increases when the *mean* $\mu$ increases [which is seen as a feature rather than a bug, as it is consistent with typical reaction time data, @wagenmakers2005relation].
 
 A **Shifted** LogNormal model introduces a shift (a delay) parameter *tau* $\tau$ that corresponds to the minimum "starting time" of the response process.
 

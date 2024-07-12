@@ -4,15 +4,20 @@
 
 ## Categorical predictors (Condition, Group, ...)
 
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
 In the previous chapter, we have mainly focused on the relationship between a response variable and a single **continuous** predictor.
 
 - Contrasts, ...
 
 ## Interactions
 
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
 Todo. 
 
-- Nested interactions
+- Nested interactions (difference between R's formula `fac1 * fac2` and `fac1 / fac2` and how to specify that in Julia/Turing)
+- Use of the `@formula` macro to create the design matrix.
 
 ## Ordered predictors (Likert Scales)
 
@@ -24,6 +29,16 @@ Likert scales, i.e., ordered multiple *discrete* choices are often used in surve
 
 What can we do to better reflect the cognitive process underlying a Likert scale responses? [Monotonic effects](https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html).
 
-## Non-linear relationships (polynomial, GAMs)
+- How to do Monotonic effects in Turing?
+
+## Non-linear Relationships
+
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
+### Polynomials 
+
+Raw vs. orthogonal polynomials.
+
+### Generalized Additive Models (GAMs)
 
 Todo. 

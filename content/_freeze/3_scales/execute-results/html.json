@@ -1,10 +1,10 @@
 {
-  "hash": "b7153c2b346aaba747f06dca75c74302",
+  "hash": "07df52a43ce255ff941b08a49fd855a9",
   "result": {
     "engine": "jupyter",
-    "markdown": "# Choice and Scales\n\n![](https://img.shields.io/badge/status-not_started-red)\n\n1. Beta models \n\n::: {#53bd139d .cell execution_count=1}\n``` {.julia .cell-code}\nusing Distributions\n\n# Reparameterized Beta distribution\nfunction BetaMod(μ, σ)\n    α = μ * (μ * (1 - μ) / σ^2 - 1)\n    β = α * (1 - μ) / μ\n    return Beta(α, β)\nend\n\n\n\nmean(BetaMod(0.5, 0.0833))\nvar(BetaMod(0.2, 0.1))\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\n0.01\n```\n:::\n:::\n\n\n2. OrdBeta models for slider scales\n3. Logistic models for binary data\n\nUse the speed accuracy data that we use in the next chapter.\n\n",
+    "markdown": "# Choices and Scales\n\n![](https://img.shields.io/badge/status-not_started-red)\n\nIn many situations, the dependent variable is not continuous, nor is it even normally distributed.\n\n## Slider (aka \"Analog\") Scales \n\n### Beta Models \n\n::: {#c5cb0474 .cell execution_count=1}\n``` {.julia .cell-code code-fold=\"false\"}\nusing Distributions, Random\nusing Turing\n\n# Reparameterized Beta distribution\nfunction MeanVarBeta(μ, σ²)\n    if σ² <= 0 || σ² >= μ * (1 - μ)\n        error(\"Variance σ² must be in the interval (0, μ*(1-μ)=$(μ*(1-μ))).\")\n    end\n\n    ν = μ * (1 - μ) / σ² - 1\n    α = μ * ν\n    β = (1 - μ) * ν\n\n    return Beta(α, β)\nend\n```\n\n::: {.cell-output .cell-output-display execution_count=2}\n```\nMeanVarBeta (generic function with 1 method)\n```\n:::\n:::\n\n\n::: {#5579deac .cell execution_count=2}\n``` {.julia .cell-code}\n@model function model_Beta(x)\n    μ ~ Beta(1, 1)\n    σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))\n    for i in 1:length(x)\n        x[i] ~ MeanVarBeta(μ, σ)\n    end\nend\nchains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; \n   initial_params=[0.5, 0.1])\n```\n:::\n\n\n- https://github.com/JuliaStats/Distributions.jl/issues/1877\n\n\n###  OrdBeta Models\n\nHow to implement this in Turing?\n\n- https://cran.r-project.org/web/packages/ordbetareg/vignettes/package_introduction.html\n- https://stats.andrewheiss.com/compassionate-clam/notebook/ordbeta.html#ordered-beta-regression\n- https://www.robertkubinec.com/post/limited_dvs/\n\n\n## Logistic models for Binary Data\n\n![](https://img.shields.io/badge/status-good_for_contributing-blue)\n\n\nUse the speed accuracy data that we use in the next chapter.\n\n",
     "supporting": [
-      "3_scales_files"
+      "3_scales_files\\figure-html"
     ],
     "filters": [],
     "includes": {}
