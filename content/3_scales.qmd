@@ -17,15 +17,92 @@ Despite this fact, we still most often use **linear models** to analyze these da
 
 ### The Problem with Linear Models
 
-
-
-### Rescaling
+Let's take the data from @makowski2023novel that contains data from participants that underwent the Mini-IPIP6 personality test and the PID-5 BF questionnaire for "maladaptive" personality.
+We will focus on the **"Disinhibition"** trait from the PID-5 BF questionnaire. 
+Note that altough it is usually computed as the average of items a 4-point Likert scales (0-3), this study used analog slides to obtain more finer-grained scores.
 
 ```{julia}
 #| code-fold: false
 
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, SequentialSamplingModels
+using GLMakie
 
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/makowski2023.csv"), DataFrame)
+
+# Show 10 first rows
+first(df, 10)
+
+# Plot the distribution of "Disinhibition"
+hist(df.Disinhibition, normalization = :pdf, color=:darkred)
 ```
+
+
+We will then fit a simple Gaussian model (an "intercept-only" linear model) that estimates the mean and the standard deviation of our variable of interest.
+
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Gaussian(x)
+
+    # Priors
+    σ ~ truncated(Normal(0, 1); lower=0)  # Strictly positive half normal distribution
+    μ ~ Normal(0, 3)
+
+    # Iterate through every observation
+    for i in 1:length(x)
+        # Likelihood family
+        x[i] ~ Normal(μ, σ)
+    end
+end
+
+# Fit the model with the data
+fit_Gaussian = model_Gaussian(df.Disinhibition)
+# Sample results using MCMC
+chain_Gaussian = sample(fit_Gaussian, NUTS(), 400)
+```
+
+Let see if the model managed to recover the mean and standard deviation of the data:
+
+```{julia}
+println("Mean of the data: $(round(mean(df.Disinhibition); digits=3)) vs. mean from the model: $(round(mean(chain_Gaussian[:μ]); digits=3))")
+println("SD of the data: $(round(std(df.Disinhibition); digits=3)) vs. SD from the model: $(round(mean(chain_Gaussian[:σ]); digits=3))")
+```
+
+Impressive! The model managed to almost perfectly recover the mean and standard deviation of the data.
+**That means we must have a good model, right?** Not so fast!
+
+Linear models are *by definition* designed at recovering the mean of the outcome variables (and its SD, assuming it is inavriant across groups). That does not mean that they can **capture the full complexity of the data**.
+
+Let us then jump straight into generating **predictions** from the model and plotting the results against the actual data to see how well the model fits the data (a procedure called the **posterior predictive check**).
+
+```{julia}
+#| output: false
+
+pred = predict(model_Gaussian([(missing) for i in 1:length(df.Disinhibition)]), chain_Gaussian)
+pred = Array(pred)
+```
+
+```{julia}
+fig = hist(df.Disinhibition, normalization = :pdf, color=:darkred)
+for i in 1:length(chain_Gaussian)
+    lines!(Makie.KernelDensity.kde(pred[i, :]), alpha=0.1, color=:black)
+end
+fig
+```
+
+As we can see, the model assumes that the data is normally distributed, in a way that allows for negative values and values above 3, which **are not possible**.
+In other words, a linear model might be the best choice for our data.
+
+### Rescaling
+
+Continuous variables can be trivially rescaled, which is often done to improve the interpretability of the results. 
+For instance, a *z*-score is a rescaled variable with a mean of 0 and a standard deviation of 1.
+
 
 ### Beta Models
 
@@ -58,15 +135,15 @@ TODO: Replace if it is supported somewhere (e.g., [Distributions.jl](https://git
 ```{julia}
 #| eval: false
 
-@model function model_Beta(x)
-    μ ~ Beta(1, 1)
-    σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
-    for i in 1:length(x)
-        x[i] ~ MeanVarBeta(μ, σ)
-    end
-end
-chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; 
-   initial_params=[0.5, 0.1])
+# @model function model_Beta(x)
+#     μ ~ Beta(1, 1)
+#     σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
+#     for i in 1:length(x)
+#         x[i] ~ MeanVarBeta(μ, σ)
+#     end
+# end
+# chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; 
+#    initial_params=[0.5, 0.1])
 ```
 
 
