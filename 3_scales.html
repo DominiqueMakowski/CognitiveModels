@@ -21,7 +21,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -244,12 +264,63 @@ ul.task-list li input[type="checkbox"] {
 <p>Despite this fact, we still most often use <strong>linear models</strong> to analyze these data, which is not ideal as it assumes that the dependent variable is continuous and normally distributed.</p>
 <section id="the-problem-with-linear-models" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">3.1.1</span> The Problem with Linear Models</h3>
+<p>Let’s take the data from <span class="citation" data-cites="makowski2023novel">Makowski et al. (<a href="references.html#ref-makowski2023novel" role="doc-biblioref">2023</a>)</span> that contains data from participants that underwent the Mini-IPIP6 personality test and the PID-5 BF questionnaire for “maladaptive” personality. We will focus on the <strong>“Disinhibition”</strong> trait from the PID-5 BF questionnaire. Note that altough it is usually computed as the average of items a 4-point Likert scales (0-3), this study used analog slides to obtain more finer-grained scores.</p>
+<pre class="{julia}"><code>#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, SequentialSamplingModels
+using GLMakie
+
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/makowski2023.csv"), DataFrame)
+
+# Show 10 first rows
+first(df, 10)
+
+# Plot the distribution of "Disinhibition"
+hist(df.Disinhibition, normalization = :pdf, color=:darkred)</code></pre>
+<p>We will then fit a simple Gaussian model (an “intercept-only” linear model) that estimates the mean and the standard deviation of our variable of interest.</p>
+<pre class="{julia}"><code>#| code-fold: false
+#| output: false
+
+@model function model_Gaussian(x)
+
+    # Priors
+    σ ~ truncated(Normal(0, 1); lower=0)  # Strictly positive half normal distribution
+    μ ~ Normal(0, 3)
+
+    # Iterate through every observation
+    for i in 1:length(x)
+        # Likelihood family
+        x[i] ~ Normal(μ, σ)
+    end
+end
+
+# Fit the model with the data
+fit_Gaussian = model_Gaussian(df.Disinhibition)
+# Sample results using MCMC
+chain_Gaussian = sample(fit_Gaussian, NUTS(), 400)</code></pre>
+<p>Let see if the model managed to recover the mean and standard deviation of the data:</p>
+<pre class="{julia}"><code>println("Mean of the data: $(round(mean(df.Disinhibition); digits=3)) vs. mean from the model: $(round(mean(chain_Gaussian[:μ]); digits=3))")
+println("SD of the data: $(round(std(df.Disinhibition); digits=3)) vs. SD from the model: $(round(mean(chain_Gaussian[:σ]); digits=3))")</code></pre>
+<p>Impressive! The model managed to almost perfectly recover the mean and standard deviation of the data. <strong>That means we must have a good model, right?</strong> Not so fast!</p>
+<p>Linear models are <em>by definition</em> designed at recovering the mean of the outcome variables (and its SD, assuming it is inavriant across groups). That does not mean that they can <strong>capture the full complexity of the data</strong>.</p>
+<p>Let us then jump straight into generating <strong>predictions</strong> from the model and plotting the results against the actual data to see how well the model fits the data (a procedure called the <strong>posterior predictive check</strong>).</p>
+<pre class="{julia}"><code>#| output: false
+
+pred = predict(model_Gaussian([(missing) for i in 1:length(df.Disinhibition)]), chain_Gaussian)
+pred = Array(pred)</code></pre>
+<pre class="{julia}"><code>fig = hist(df.Disinhibition, normalization = :pdf, color=:darkred)
+for i in 1:length(chain_Gaussian)
+    lines!(Makie.KernelDensity.kde(pred[i, :]), alpha=0.1, color=:black)
+end
+fig</code></pre>
+<p>As we can see, the model assumes that the data is normally distributed, in a way that allows for negative values and values above 3, which <strong>are not possible</strong>. In other words, a linear model might be the best choice for our data.</p>
 </section>
 <section id="rescaling" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="rescaling"><span class="header-section-number">3.1.2</span> Rescaling</h3>
-<pre class="{julia}"><code>#| code-fold: false
-
-</code></pre>
+<p>Continuous variables can be trivially rescaled, which is often done to improve the interpretability of the results. For instance, a <em>z</em>-score is a rescaled variable with a mean of 0 and a standard deviation of 1.</p>
 </section>
 <section id="beta-models" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="beta-models"><span class="header-section-number">3.1.3</span> Beta Models</h3>
@@ -285,15 +356,15 @@ Caution
 <p><img src="media/scales_BetaMean.gif" class="img-fluid"></p>
 <pre class="{julia}"><code>#| eval: false
 
-@model function model_Beta(x)
-    μ ~ Beta(1, 1)
-    σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
-    for i in 1:length(x)
-        x[i] ~ MeanVarBeta(μ, σ)
-    end
-end
-chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; 
-   initial_params=[0.5, 0.1])</code></pre>
+# @model function model_Beta(x)
+#     μ ~ Beta(1, 1)
+#     σ ~ Uniform(eps(typeof(μ)), μ * (1 - μ) - eps(typeof(μ)))
+#     for i in 1:length(x)
+#         x[i] ~ MeanVarBeta(μ, σ)
+#     end
+# end
+# chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500; 
+#    initial_params=[0.5, 0.1])</code></pre>
 </section>
 <section id="ordbeta-models" class="level3" data-number="3.1.4">
 <h3 data-number="3.1.4" class="anchored" data-anchor-id="ordbeta-models"><span class="header-section-number">3.1.4</span> OrdBeta Models</h3>
@@ -311,6 +382,11 @@ chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500;
 <p>Use the speed accuracy data that we use in the next chapter.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-makowski2023novel" class="csl-entry" role="listitem">
+Makowski, Dominique, An Shu Te, Stephanie Kirk, Ngoi Zi Liang, and SH Annabel Chen. 2023. <span>“A Novel Visual Illusion Paradigm Provides Evidence for a General Factor of Illusion Sensitivity and Personality Correlates.”</span> <em>Scientific Reports</em> 13 (1): 6594.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
