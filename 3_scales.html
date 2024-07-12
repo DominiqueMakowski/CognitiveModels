@@ -8,7 +8,7 @@
 
 <meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
-<title>3&nbsp; Choice and Scales – Cognitive Models</title>
+<title>3&nbsp; Choices and Scales – Cognitive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -142,7 +142,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3_scales.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3_scales.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_scales.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -231,15 +231,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#slider-aka-analog-scales" id="toc-slider-aka-analog-scales" class="nav-link active" data-scroll-target="#slider-aka-analog-scales"><span class="header-section-number">3.1</span> Slider (aka “Analog”) Scales</a>
+  <ul class="collapse">
+  <li><a href="#beta-models" id="toc-beta-models" class="nav-link" data-scroll-target="#beta-models"><span class="header-section-number">3.1.1</span> Beta Models</a></li>
+  <li><a href="#ordbeta-models" id="toc-ordbeta-models" class="nav-link" data-scroll-target="#ordbeta-models"><span class="header-section-number">3.1.2</span> OrdBeta Models</a></li>
+  </ul></li>
+  <li><a href="#logistic-models-for-binary-data" id="toc-logistic-models-for-binary-data" class="nav-link" data-scroll-target="#logistic-models-for-binary-data"><span class="header-section-number">3.2</span> Logistic models for Binary Data</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></h1>
 </div>
 
 
@@ -257,37 +268,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p><img src="https://img.shields.io/badge/status-not_started-red.png" class="img-fluid"></p>
-<ol type="1">
-<li>Beta models</li>
-</ol>
-<div id="53bd139d" class="cell" data-execution_count="1">
+<p>In many situations, the dependent variable is not continuous, nor is it even normally distributed.</p>
+<section id="slider-aka-analog-scales" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="slider-aka-analog-scales"><span class="header-section-number">3.1</span> Slider (aka “Analog”) Scales</h2>
+<section id="beta-models" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="beta-models"><span class="header-section-number">3.1.1</span> Beta Models</h3>
+<div id="c5cb0474" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span>, <span class="bu">Random</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reparameterized Beta distribution</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">MeanVarBeta</span>(μ, σ²)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> σ² <span class="op">&lt;=</span> <span class="fl">0</span> <span class="op">||</span> σ² <span class="op">&gt;=</span> μ <span class="op">*</span> (<span class="fl">1</span> <span class="op">-</span> μ)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">error</span>(<span class="st">"Variance σ² must be in the interval (0, μ*(1-μ)=</span><span class="sc">$</span>(<span class="fu">μ*</span>(<span class="fl">1</span><span class="op">-</span>μ))<span class="st">)."</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    ν <span class="op">=</span> μ <span class="op">*</span> (<span class="fl">1</span> <span class="op">-</span> μ) <span class="op">/</span> σ² <span class="op">-</span> <span class="fl">1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> μ <span class="op">*</span> ν</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    β <span class="op">=</span> (<span class="fl">1</span> <span class="op">-</span> μ) <span class="op">*</span> ν</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Beta</span>(α, β)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>MeanVarBeta (generic function with 1 method)</code></pre>
+</div>
+</div>
+<div id="5579deac" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Distributions</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reparameterized Beta distribution</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">BetaMod</span>(μ, σ)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    α <span class="op">=</span> μ <span class="op">*</span> (μ <span class="op">*</span> (<span class="fl">1</span> <span class="op">-</span> μ) <span class="op">/</span> σ<span class="op">^</span><span class="fl">2</span> <span class="op">-</span> <span class="fl">1</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    β <span class="op">=</span> α <span class="op">*</span> (<span class="fl">1</span> <span class="op">-</span> μ) <span class="op">/</span> μ</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fu">Beta</span>(α, β)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(<span class="fu">BetaMod</span>(<span class="fl">0.5</span>, <span class="fl">0.0833</span>))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(<span class="fu">BetaMod</span>(<span class="fl">0.2</span>, <span class="fl">0.1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_Beta</span>(x)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">~</span> <span class="fu">Beta</span>(<span class="fl">1</span>, <span class="fl">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    σ <span class="op">~</span> <span class="fu">Uniform</span>(<span class="fu">eps</span>(<span class="fu">typeof</span>(μ)), μ <span class="op">*</span> (<span class="fl">1</span> <span class="op">-</span> μ) <span class="op">-</span> <span class="fu">eps</span>(<span class="fu">typeof</span>(μ)))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(x)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        x[i] <span class="op">~</span> <span class="fu">MeanVarBeta</span>(μ, σ)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>chains <span class="op">=</span> <span class="fu">sample</span>(<span class="fu">model_Beta</span>(<span class="fu">rand</span>(<span class="fu">MeanVarBeta</span>(<span class="fl">0.5</span>, <span class="fl">0.2</span>), <span class="fl">200</span>)), <span class="fu">NUTS</span>(), <span class="fl">500</span>; </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>   initial_params<span class="op">=</span>[<span class="fl">0.5</span>, <span class="fl">0.1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>0.01</code></pre>
 </div>
-</div>
-<ol start="2" type="1">
-<li>OrdBeta models for slider scales</li>
-<li>Logistic models for binary data</li>
-</ol>
+<ul>
+<li>https://github.com/JuliaStats/Distributions.jl/issues/1877</li>
+</ul>
+</section>
+<section id="ordbeta-models" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="ordbeta-models"><span class="header-section-number">3.1.2</span> OrdBeta Models</h3>
+<p>How to implement this in Turing?</p>
+<ul>
+<li>https://cran.r-project.org/web/packages/ordbetareg/vignettes/package_introduction.html</li>
+<li>https://stats.andrewheiss.com/compassionate-clam/notebook/ordbeta.html#ordered-beta-regression</li>
+<li>https://www.robertkubinec.com/post/limited_dvs/</li>
+</ul>
+</section>
+</section>
+<section id="logistic-models-for-binary-data" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="logistic-models-for-binary-data"><span class="header-section-number">3.2</span> Logistic models for Binary Data</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
 <p>Use the speed accuracy data that we use in the next chapter.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -154,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_scales.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -205,7 +205,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#categorical-predictors-condition-group" id="toc-categorical-predictors-condition-group" class="nav-link active" data-scroll-target="#categorical-predictors-condition-group"><span class="header-section-number">2.1</span> Categorical predictors (Condition, Group, …)</a></li>
   <li><a href="#interactions" id="toc-interactions" class="nav-link" data-scroll-target="#interactions"><span class="header-section-number">2.2</span> Interactions</a></li>
   <li><a href="#ordered-predictors-likert-scales" id="toc-ordered-predictors-likert-scales" class="nav-link" data-scroll-target="#ordered-predictors-likert-scales"><span class="header-section-number">2.3</span> Ordered predictors (Likert Scales)</a></li>
-  <li><a href="#non-linear-relationships-polynomial-gams" id="toc-non-linear-relationships-polynomial-gams" class="nav-link" data-scroll-target="#non-linear-relationships-polynomial-gams"><span class="header-section-number">2.4</span> Non-linear relationships (polynomial, GAMs)</a></li>
+  <li><a href="#non-linear-relationships" id="toc-non-linear-relationships" class="nav-link" data-scroll-target="#non-linear-relationships"><span class="header-section-number">2.4</span> Non-linear Relationships</a>
+  <ul class="collapse">
+  <li><a href="#polynomials" id="toc-polynomials" class="nav-link" data-scroll-target="#polynomials"><span class="header-section-number">2.4.1</span> Polynomials</a></li>
+  <li><a href="#generalized-additive-models-gams" id="toc-generalized-additive-models-gams" class="nav-link" data-scroll-target="#generalized-additive-models-gams"><span class="header-section-number">2.4.2</span> Generalized Additive Models (GAMs)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -234,6 +238,7 @@ ul.task-list li input[type="checkbox"] {
 <p><img src="https://img.shields.io/badge/status-not_started-red.png" class="img-fluid"></p>
 <section id="categorical-predictors-condition-group" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="categorical-predictors-condition-group"><span class="header-section-number">2.1</span> Categorical predictors (Condition, Group, …)</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
 <p>In the previous chapter, we have mainly focused on the relationship between a response variable and a single <strong>continuous</strong> predictor.</p>
 <ul>
 <li>Contrasts, …</li>
@@ -241,9 +246,11 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="interactions" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="interactions"><span class="header-section-number">2.2</span> Interactions</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
 <p>Todo.</p>
 <ul>
-<li>Nested interactions</li>
+<li>Nested interactions (difference between R’s formula <code>fac1 * fac2</code> and <code>fac1 / fac2</code> and how to specify that in Julia/Turing)</li>
+<li>Use of the <code>@formula</code> macro to create the design matrix.</li>
 </ul>
 </section>
 <section id="ordered-predictors-likert-scales" class="level2" data-number="2.3">
@@ -254,12 +261,23 @@ ul.task-list li input[type="checkbox"] {
 <p>The probabilities assigned to discrete probability descriptors are not necessarily equidistant (https://github.com/zonination/perceptions)</p>
 </blockquote>
 <p>What can we do to better reflect the cognitive process underlying a Likert scale responses? <a href="https://cran.r-project.org/web/packages/brms/vignettes/brms_monotonic.html">Monotonic effects</a>.</p>
+<ul>
+<li>How to do Monotonic effects in Turing?</li>
+</ul>
 </section>
-<section id="non-linear-relationships-polynomial-gams" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="non-linear-relationships-polynomial-gams"><span class="header-section-number">2.4</span> Non-linear relationships (polynomial, GAMs)</h2>
+<section id="non-linear-relationships" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="non-linear-relationships"><span class="header-section-number">2.4</span> Non-linear Relationships</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
+<section id="polynomials" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="polynomials"><span class="header-section-number">2.4.1</span> Polynomials</h3>
+<p>Raw vs.&nbsp;orthogonal polynomials.</p>
+</section>
+<section id="generalized-additive-models-gams" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="generalized-additive-models-gams"><span class="header-section-number">2.4.2</span> Generalized Additive Models (GAMs)</h3>
 <p>Todo.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -690,8 +708,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./3_scales.html" class="pagination-link" aria-label="Choice and Scales">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./3_scales.html" class="pagination-link" aria-label="Choices and Scales">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

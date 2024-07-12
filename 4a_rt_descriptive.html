@@ -240,7 +240,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_scales.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -753,7 +753,7 @@ Important
 <!-- #### Solution 3: Express Variance on the Exponential Scale
 See https://github.com/itsdfish/SequentialSamplingModels.jl/issues/78#issuecomment-2211702253 
 IS THAT RIGHT? -->
-<p>Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make <strong>richer conclusions</strong> and better capturing the data. Despite that, the Gaussian model stil seem to be a poor fit to the data.</p>
+<p>Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make <strong>richer conclusions</strong> and better capturing the data. Despite that, the Gaussian model still seem to be a poor fit to the data.</p>
 </section>
 </section>
 <section id="the-problem-with-linear-models" class="level2" data-number="4.4">
@@ -768,7 +768,7 @@ IS THAT RIGHT? -->
 <section id="shifted-lognormal-model" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">4.5</span> Shifted LogNormal Model</h2>
 <p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution. A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. In this model, the <em>mean</em> <span class="math inline">\(\mu\)</span> and is defined on the log-scale, and effects must be interpreted as multiplicative rather than additive (the condition increases the mean RT by a factor of <span class="math inline">\(\exp(\mu_{condition})\)</span>).</p>
-<p>Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>) are not independent with respect to the mean and the standard deviation (SD). The empirical SD increases when the <em>mean</em> <span class="math inline">\(\mu\)</span> increases (which is seen as a feature rather than a bug, as it is consistent with typical reaction time data <span class="citation" data-cites="wagenmakers2005relation">(<a href="references.html#ref-wagenmakers2005relation" role="doc-biblioref">Wagenmakers, Grasman, and Molenaar 2005</a>)</span>).</p>
+<p>Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>) are not independent with respect to the mean and the standard deviation (SD). The empirical SD increases when the <em>mean</em> <span class="math inline">\(\mu\)</span> increases <span class="citation" data-cites="wagenmakers2005relation">(which is seen as a feature rather than a bug, as it is consistent with typical reaction time data, <a href="references.html#ref-wagenmakers2005relation" role="doc-biblioref">Wagenmakers, Grasman, and Molenaar 2005</a>)</span>.</p>
 <p>A <strong>Shifted</strong> LogNormal model introduces a shift (a delay) parameter <em>tau</em> <span class="math inline">\(\tau\)</span> that corresponds to the minimum “starting time” of the response process.</p>
 <p>We need to set a prior for this parameter, which is usually truncated between 0 (to exclude negative minimum times) and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).</p>
 <p>While <span class="math inline">\(Uniform(0, min(RT))\)</span> is a common choice of prior, it is not ideal as it implies that all values between 0 and the minimum RT are equally likely, which is not the case. Indeed, psychology research has shown that such minimum response time for Humans is often betwen 100 and 250 ms. Moreover, in our case, we explicitly removed all RTs below 180 ms, suggesting that the minimum response time is more likely to approach 180 ms than 0 ms.</p>
@@ -1607,8 +1607,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3_scales.html" class="pagination-link" aria-label="Choice and Scales">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span>
+      <a href="./3_scales.html" class="pagination-link" aria-label="Choices and Scales">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

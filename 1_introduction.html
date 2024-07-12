@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3_scales.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choice and Scales</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -243,11 +243,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#generate-data-from-normal-distribution" id="toc-generate-data-from-normal-distribution" class="nav-link" data-scroll-target="#generate-data-from-normal-distribution"><span class="header-section-number">1.1.3</span> Generate Data from Normal Distribution</a></li>
   <li><a href="#recover-distribution-parameters-with-turing" id="toc-recover-distribution-parameters-with-turing" class="nav-link" data-scroll-target="#recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.4</span> Recover Distribution Parameters with Turing</a></li>
   </ul></li>
-  <li><a href="#linear-models" id="toc-linear-models" class="nav-link" data-scroll-target="#linear-models"><span class="header-section-number">1.2</span> Linear Models</a></li>
-  <li><a href="#boostrapping" id="toc-boostrapping" class="nav-link" data-scroll-target="#boostrapping"><span class="header-section-number">1.3</span> Boostrapping</a></li>
-  <li><a href="#hierarchical-models" id="toc-hierarchical-models" class="nav-link" data-scroll-target="#hierarchical-models"><span class="header-section-number">1.4</span> Hierarchical Models</a></li>
-  <li><a href="#bayesian-estimation" id="toc-bayesian-estimation" class="nav-link" data-scroll-target="#bayesian-estimation"><span class="header-section-number">1.5</span> Bayesian estimation</a></li>
-  <li><a href="#bayesian-mixed-linear-regression" id="toc-bayesian-mixed-linear-regression" class="nav-link" data-scroll-target="#bayesian-mixed-linear-regression"><span class="header-section-number">1.6</span> Bayesian mixed linear regression</a></li>
+  <li><a href="#bayesian-linear-models" id="toc-bayesian-linear-models" class="nav-link" data-scroll-target="#bayesian-linear-models"><span class="header-section-number">1.2</span> Bayesian Linear Models</a></li>
+  <li><a href="#hierarchical-models" id="toc-hierarchical-models" class="nav-link" data-scroll-target="#hierarchical-models"><span class="header-section-number">1.3</span> Hierarchical Models</a></li>
   </ul>
 </nav>
     </div>
@@ -276,7 +273,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="https://img.shields.io/badge/status-not_started-red.png" class="img-fluid"></p>
 <section id="brief-intro-to-julia-and-turing" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="brief-intro-to-julia-and-turing"><span class="header-section-number">1.1</span> Brief Intro to Julia and Turing</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
 <p>Goal is to teach just enough so that the reader understands the code. We won’t be discussing things like plotting (as it highly depends on the package used).</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="To go further">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+To go further
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><a href="https://modernjuliaworkflows.github.io/"><strong>Modern Julia Workflows</strong></a>: Julia tutorial that takes you from zero to hero.</li>
+</ul>
+</div>
+</div>
 <section id="installing-julia-and-packages" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="installing-julia-and-packages"><span class="header-section-number">1.1.1</span> Installing Julia and Packages</h3>
 <p>TODO.</p>
@@ -308,14 +321,14 @@ Notable Differences with Python and R
 </section>
 <section id="generate-data-from-normal-distribution" class="level3" data-number="1.1.3">
 <h3 data-number="1.1.3" class="anchored" data-anchor-id="generate-data-from-normal-distribution"><span class="header-section-number">1.1.3</span> Generate Data from Normal Distribution</h3>
-<div id="1f15e3d4" class="cell" data-execution_count="1">
+<div id="1f15e3d4" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">Random</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Makie</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Random sample from a Normal(μ=100, σ=15)</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>iq <span class="op">=</span> <span class="fu">rand</span>(<span class="fu">Normal</span>(<span class="fl">100</span>, <span class="fl">15</span>), <span class="fl">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e3dbae1f" class="cell" data-execution_count="2">
+<div id="e3dbae1f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
@@ -338,7 +351,7 @@ Notable Differences with Python and R
 </section>
 <section id="recover-distribution-parameters-with-turing" class="level3" data-number="1.1.4">
 <h3 data-number="1.1.4" class="anchored" data-anchor-id="recover-distribution-parameters-with-turing"><span class="header-section-number">1.1.4</span> Recover Distribution Parameters with Turing</h3>
-<div id="e37369d6" class="cell" data-execution_count="3">
+<div id="e37369d6" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_gaussian</span>(x)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    μ <span class="op">~</span> <span class="fu">Uniform</span>(<span class="fl">0</span>, <span class="fl">200</span>)</span>
@@ -354,7 +367,7 @@ Notable Differences with Python and R
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>chain_gaussian <span class="op">=</span> <span class="fu">sample</span>(fit_gaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Inspecting the chain variable will show various posterior statistics (including the mean, standard deviation, and diagnostic indices).</p>
-<div id="31ba55af" class="cell" data-execution_count="4">
+<div id="31ba55af" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>chain_gaussian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div class="ansi-escaped-output">
@@ -382,7 +395,7 @@ Quantiles
 </div>
 </div>
 <p>For the purpose of this book, we will mostly focus on the 95% Credible Interval (CI), and we will assume that a parameter is <strong><em>“significant”</em></strong> if its CI does not include 0.</p>
-<div id="45fb1631" class="cell" data-execution_count="5">
+<div id="45fb1631" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_gaussian)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -398,25 +411,16 @@ Quantiles
 </div>
 </section>
 </section>
-<section id="linear-models" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="linear-models"><span class="header-section-number">1.2</span> Linear Models</h2>
-<p>Understand what the parameters mean (intercept, slopes, sigma).</p>
+<section id="bayesian-linear-models" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="bayesian-linear-models"><span class="header-section-number">1.2</span> Bayesian Linear Models</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
+<p>Understand what the parameters mean (intercept, slopes, sigma): needs a nice graph (animation?) to illustrate that. Simple linear regression in Turing. Introduce Bayesian estimation and priors over parameters</p>
 </section>
-<section id="boostrapping" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="boostrapping"><span class="header-section-number">1.3</span> Boostrapping</h2>
-<p>Introduce concepts related to pseudo-posterior distribution description</p>
-</section>
-<section id="hierarchical-models" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="hierarchical-models"><span class="header-section-number">1.4</span> Hierarchical Models</h2>
-<p>Simpson’s paradox, random effects, how to leverage them to model interindividual differences</p>
-</section>
-<section id="bayesian-estimation" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="bayesian-estimation"><span class="header-section-number">1.5</span> Bayesian estimation</h2>
-<p>introduce Bayesian estimation and priors over parameters</p>
-</section>
-<section id="bayesian-mixed-linear-regression" class="level2" data-number="1.6">
-<h2 data-number="1.6" class="anchored" data-anchor-id="bayesian-mixed-linear-regression"><span class="header-section-number">1.6</span> Bayesian mixed linear regression</h2>
-<p>put everything together</p>
+<section id="hierarchical-models" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="hierarchical-models"><span class="header-section-number">1.3</span> Hierarchical Models</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
+<p>Simpson’s paradox, random effects</p>
+<p>These models can be leveraged to obtain individual indices useful to study interindividual differences (see last chapter).</p>
 
 
 </section>
