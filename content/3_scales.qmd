@@ -4,9 +4,30 @@
 
 In many situations, the dependent variable is not continuous, nor is it even normally distributed.
 
-## Slider (aka "Analog") Scales 
+## Bounded Variables
 
-### Beta Models 
+While might be tempted to believe that most variables in psychological science are true **continuous** variables, this is often not the case. 
+In fact, many variables are **bounded**: there values are delimited by hard bounds. 
+This is typically the case for slider (aka "analog" scakes), dimensions scores (average or sum) from multiple Likert scales, percentages, proportions, etc.
+
+Most psychometric indices are bounded. 
+For instance, the minimum and maximum values for the IQ test (WAIS-IV) are 45-155. It is 0 and 63 for the depression scale BDI-II, 20 and 80 for the STAI.
+
+Despite this fact, we still most often use **linear models** to analyze these data, which is not ideal as it assumes that the dependent variable is continuous and normally distributed.
+
+### The Problem with Linear Models
+
+
+
+### Rescaling
+
+```{julia}
+#| code-fold: false
+
+
+```
+
+### Beta Models
 
 ```{julia}
 #| code-fold: false
@@ -15,18 +36,24 @@ using Distributions, Random
 using Turing
 
 # Reparameterized Beta distribution
-function MeanVarBeta(μ, σ²)
-    if σ² <= 0 || σ² >= μ * (1 - μ)
-        error("Variance σ² must be in the interval (0, μ*(1-μ)=$(μ*(1-μ))).")
+function BetaMean(μ, σ)
+    if σ <= 0 || σ >= sqrt(μ * (1 - μ))
+        error("Standard deviation σ must be in the interval (0, sqrt(μ*(1-μ))=$(sqrt(μ*(1-μ)))).")
     end
-
-    ν = μ * (1 - μ) / σ² - 1
+    ν = μ * (1 - μ) / σ^2 - 1
     α = μ * ν
     β = (1 - μ) * ν
 
     return Beta(α, β)
 end
 ```
+
+::: {.callout-caution}
+TODO: Replace if it is supported somewhere (e.g., [Distributions.jl](https://github.com/JuliaStats/Distributions.jl/issues/1877))
+:::
+
+
+![](media/scales_BetaMean.gif)
 
 ```{julia}
 #| eval: false
@@ -42,7 +69,6 @@ chains = sample(model_Beta(rand(MeanVarBeta(0.5, 0.2), 200)), NUTS(), 500;
    initial_params=[0.5, 0.1])
 ```
 
-- https://github.com/JuliaStats/Distributions.jl/issues/1877
 
 
 ###  OrdBeta Models

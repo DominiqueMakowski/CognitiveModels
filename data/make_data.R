@@ -47,10 +47,25 @@ df <- df |>
 
 df <- df[complete.cases(df),]
 
-# df |>
-#   group_by(Gender) |>
-#   summarize(Neuroticism = mean(Neuroticism),
-#             Agreeableness = mean(Agreeableness))
 
 write.csv(df, "harman1967.csv", row.names = FALSE)
+
+
+
+# Patho Personality -------------------------------------------------------------
+
+
+df <- read.csv("https://raw.githubusercontent.com/RealityBending/IllusionGameValidation/main/data/study3.csv") |>
+  select(starts_with("IPIP6_"), starts_with("PID5_"), -PID5_SD, -IPIP6_SD) |>
+  mutate(across(starts_with("IPIP6_"), \(x) datawizard::rescale(x, range=c(0, 100), to=c(1, 7))),
+         across(starts_with("PID5_"), \(x) datawizard::rescale(x, range=c(0, 100), to=c(0, 3))) )
+
+df <- df[complete.cases(df),]
+
+ggplot(df, aes(x=PID5_Disinhibition)) +
+  geom_histogram(bins = 60)
+
+write.csv(df, "makowski2023.csv", row.names = FALSE)
+
+
 

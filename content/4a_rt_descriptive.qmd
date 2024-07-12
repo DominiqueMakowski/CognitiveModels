@@ -572,7 +572,7 @@ The `loo_compare()` function orders models from best to worse based on their ELP
 As one can see, traditional linear models perform terribly.
 
 
-## Other Models
+<!-- ## Other Models
 
 Other models are available to fit RT data, that we will demonstrate below for reference purposes.
 However, we won't be explaining them here, as we will revisit them in the next chapter in the context of choice modeling.
@@ -587,4 +587,4 @@ TODO.
 
 ### Racing Diffusion Model (RDM)
 
-TODO.
+TODO. -->

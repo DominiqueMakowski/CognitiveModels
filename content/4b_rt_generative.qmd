@@ -49,9 +49,12 @@ While such "generative" models offer potential insights into the cognitive proce
 Interestingly, the **Wald** model is actually a special case of a more general type called the **Drift Diffusion Model (DDM)** (named as such because the evidence accumulation is assumed to be a "diffusion" process, i.e., a random walk). 
 One of the main difference is that in the Wald model, the drift rate $\nu$ must be *positive*, as it tracks the time taken by the diffusion processes to reach only one "positive" threshold $\alpha$.
 
-But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high "negative" values.
+But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high "negative" values. 
+The idea is then to also consider a **lower threshold**, which would correspond to a different response.
+Finally, one could also modulate the starting point of the process relative to the thresholds (i.e., how close to the upper or lower threshold the accumulation process starts).
+This is, in essence, the core idea behind the **Drift Diffusion Model**.
 
-Drift Diffusion Models are useful to **jointly model RTs and a binary outcome**, such as 2 different choices or accuracy (i.e., "correct" vs. "error").
+Drift Diffusion Models are useful to **jointly model RTs and a binary outcome**, such as 2 different choices or accuracy (e.g., "correct" vs. "error"). They allow, in theory, to delineate various cognitive processes, such as the **speed** of evidence accumulation (drift rate), the **amount of evidence** required to make a decision (threshold), and the starting point of the accumulation process (bias).
 
 ![](media/rt_ddm.gif)
 
@@ -96,3 +99,4 @@ TODO.
 - [**Lindelov's overview of RT models**](https://lindeloev.github.io/shiny-rt/): An absolute must-read.
 - [**De Boeck & Jeon (2019)**](https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full): A paper providing an overview of RT models.
 - [https://github.com/vasishth/bayescogsci](https://github.com/vasishth/bayescogsci)
+- [An expert guide to planning experimental tasks for evidence accumula6on modelling (Boag, 2024)](https://osf.io/preprints/psyarxiv/snqgp)
