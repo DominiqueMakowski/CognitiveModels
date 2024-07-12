@@ -317,8 +317,8 @@ Important
 <section id="drift-diffusion-model-ddm" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="drift-diffusion-model-ddm"><span class="header-section-number">5.3</span> Drift Diffusion Model (DDM)</h2>
 <p>Interestingly, the <strong>Wald</strong> model is actually a special case of a more general type called the <strong>Drift Diffusion Model (DDM)</strong> (named as such because the evidence accumulation is assumed to be a “diffusion” process, i.e., a random walk). One of the main difference is that in the Wald model, the drift rate <span class="math inline">\(\nu\)</span> must be <em>positive</em>, as it tracks the time taken by the diffusion processes to reach only one “positive” threshold <span class="math inline">\(\alpha\)</span>.</p>
-<p>But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high “negative” values.</p>
-<p>Drift Diffusion Models are useful to <strong>jointly model RTs and a binary outcome</strong>, such as 2 different choices or accuracy (i.e., “correct” vs.&nbsp;“error”).</p>
+<p>But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high “negative” values. The idea is then to also consider a <strong>lower threshold</strong>, which would correspond to a different response. Finally, one could also modulate the starting point of the process relative to the thresholds (i.e., how close to the upper or lower threshold the accumulation process starts). This is, in essence, the core idea behind the <strong>Drift Diffusion Model</strong>.</p>
+<p>Drift Diffusion Models are useful to <strong>jointly model RTs and a binary outcome</strong>, such as 2 different choices or accuracy (e.g., “correct” vs.&nbsp;“error”). They allow, in theory, to delineate various cognitive processes, such as the <strong>speed</strong> of evidence accumulation (drift rate), the <strong>amount of evidence</strong> required to make a decision (threshold), and the starting point of the accumulation process (bias).</p>
 <p><img src="media/rt_ddm.gif" class="img-fluid"></p>
 <p>The parameters are:</p>
 <ul>
@@ -359,6 +359,7 @@ Important
 <li><a href="https://lindeloev.github.io/shiny-rt/"><strong>Lindelov’s overview of RT models</strong></a>: An absolute must-read.</li>
 <li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full"><strong>De Boeck &amp; Jeon (2019)</strong></a>: A paper providing an overview of RT models.</li>
 <li><a href="https://github.com/vasishth/bayescogsci">https://github.com/vasishth/bayescogsci</a></li>
+<li><a href="https://osf.io/preprints/psyarxiv/snqgp">An expert guide to planning experimental tasks for evidence accumula6on modelling (Boag, 2024)</a></li>
 </ul>
 
 
