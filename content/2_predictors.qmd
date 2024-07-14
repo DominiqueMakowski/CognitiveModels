@@ -35,6 +35,22 @@ What can we do to better reflect the cognitive process underlying a Likert scale
 
 ![](https://img.shields.io/badge/status-good_for_contributing-blue)
 
+```{julia}
+#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions
+using GLMakie
+
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/nonlinear.csv"), DataFrame)
+
+# Show 10 first rows
+scatter(df.Age, df.SexualDrive, color=:black)
+```
+
+
 ### Polynomials 
 
 Raw vs. orthogonal polynomials.

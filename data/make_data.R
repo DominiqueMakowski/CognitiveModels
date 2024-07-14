@@ -70,3 +70,20 @@ write.csv(df, "makowski2023.csv", row.names = FALSE)
 
 
 
+# Nonlinear illustration --------------------------------------------------
+set.seed(123)
+
+df <- data.frame(Age = seq(7, 90, length=300))
+df$Age <- df$Age + rnorm(300, 0, 1.5)
+min(df$Age)
+
+df$SexualDrive <- 1/(1 + exp(-0.2 * (df$Age - 30)))
+df$SexualDrive <- df$SexualDrive * 100 +  rnorm(300, 0, 12)
+df$SexualDrive <- df$SexualDrive - min(df$SexualDrive)
+
+
+ggplot(df, aes(x=Age, y=SexualDrive)) +
+  geom_point() +
+  geom_smooth(method="gam", se=FALSE)
+
+write.csv(df, "nonlinear.csv", row.names = FALSE)

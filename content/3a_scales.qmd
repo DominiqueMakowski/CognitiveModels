@@ -179,10 +179,10 @@ A Gamma distribution $Gamma(1.5, 15)$ for *phi* $\phi$ is a good choice for the 
 
 ```{julia}
 fig = Figure()
-ax1 = Axis(fig[1, 1], xlabel="Valueof μ", ylabel="Plausibility", title="Prior for μ ~ Beta(1.25, 1.25)", yticksvisible=false, yticklabelsvisible=false,)
+ax1 = Axis(fig[1, 1], xlabel="Value of μ", ylabel="Plausibility", title="Prior for μ ~ Beta(1.25, 1.25)", yticksvisible=false, yticklabelsvisible=false,)
 band!(ax1, range(0, 1, length=1000), 0, pdf.(Beta(1.25, 1.25), range(0, 1, length=1000)), color=:red)
 ylims!(0, 1.25)
-ax1 = Axis(fig[1, 2], xlabel="Valueof ϕ", ylabel="Plausibility", title="Prior for ϕ ~ Gamma(1.5, 15)", yticksvisible=false, yticklabelsvisible=false,)
+ax1 = Axis(fig[1, 2], xlabel="Value of ϕ", ylabel="Plausibility", title="Prior for ϕ ~ Gamma(1.5, 15)", yticksvisible=false, yticklabelsvisible=false,)
 band!(ax1, range(0, 120, length=1000), 0, pdf.(Gamma(1.5, 15), range(0, 120, length=1000)), color=:blue)
 # ylims!(0, 0.06)
 fig
@@ -255,7 +255,7 @@ var_noextreme = df.Disinhibition2[(df.Disinhibition2 .> 0) .& (df.Disinhibition2
 ```
 
 This time, we will add another trick to make the model more robust (note that this is a general improvement that we are introducing here but that is not related to the current issue at hand of the extreme values). 
-The current parameter *mu* $\mu$ is defined on the ]0, 1[ range. Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
+The current parameter *mu* $\mu$ is defined on the $]0, 1[$ range. Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
 For example, imagine that the algorithm pics a value of $0.45$ for *mu* $\mu$ from the prior, and then picks a value of $+0.30$ for the effect of a potential predictor (e.g., an experimental condition). 
 This would result in a value of $0.75$, which is outside the range of possible, and would make the model fail to converge.
 
@@ -264,13 +264,15 @@ The logistic function is a simple transformation that maps any value (from the u
 We can now specify the prior for *mu* $\mu$ on the logit scale as a normal distribution (e.g., $Normal(0, 3)$) without worrying about the estimates going out of bounds.
 
 ```{julia}
+xaxis = range(-10, 10, length=1000)
+
 fig = Figure()
-ax1 = Axis(fig[1:2, 1], xlabel="Value of μ on the logit sale", ylabel="Actual value of μ", title="Logit function")
-lines!(ax1, range(-10, 10, length=1000), logistic.(range(-10, 10, length=1000)), color=:red, linewidth=2)
-ax2 = Axis(fig[1, 2], xlabel="Value of μ on the logit scale", ylabel="Plausibility", title="Prior for μ ~ Normal(0, 1)", yticksvisible=false, yticklabelsvisible=false,)
-lines!(ax2, range(-10, 10, length=1000), pdf.(Normal(0, 3), range(-10, 10, length=1000)), color=:blue, linewidth=2)
+ax1 = Axis(fig[1:2, 1], xlabel="Value of μ on the logit scale", ylabel="Actual value of μ", title="Logistic function")
+lines!(ax1, xaxis, logistic.(xaxis), color=:red, linewidth=2)
+ax2 = Axis(fig[1, 2], xlabel="Value of μ on the logit scale", ylabel="Plausibility", title="Prior for μ ~ Normal(0, 3)", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax2, xaxis, pdf.(Normal(0, 3), xaxis), color=:blue, linewidth=2)
 ax3 = Axis(fig[2, 2], xlabel="Value of μ after logistic transformation", ylabel="Plausibility", yticksvisible=false, yticklabelsvisible=false,)
-lines!(ax3, logistic.(range(-10, 10, length=1000)), pdf.(Normal(0, 3), range(-10, 10, length=1000)), color=:green, linewidth=2)
+lines!(ax3, logistic.(xaxis), pdf.(Normal(0, 3), xaxis), color=:green, linewidth=2)
 fig
 ```
 

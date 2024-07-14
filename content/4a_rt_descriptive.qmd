@@ -11,7 +11,7 @@ Using the same procedure as the authors, we excluded all trials with uninterpret
 #| code-fold: false
 
 using Downloads, CSV, DataFrames, Random
-using Turing, Distributions, SequentialSamplingModels
+using Turing, Distributions, StatsFuns, SequentialSamplingModels
 using GLMakie
 
 Random.seed!(123)  # For reproducibility
@@ -244,6 +244,107 @@ chain_ScaledGaussian = sample(fit_ScaledlGaussian, NUTS(), 400)
 hpd(chain_ScaledGaussian; alpha=0.05)
 ```
 
+
+### Solution 3: Use a "Softplus" Link Function
+
+#### Exponential Transformation
+
+Using the previous solution feels like a "hack" and a workaround a misspecified model.
+One alternative approach is to apply a function to *sigma* $\sigma$ to "transform" it into a positive value.
+We have seen example of applying "non-identity" **link functions** in the previous chapters with the **logistic** function that transforms any value between $-\infty$ and $+\infty$ into a value between 0 and 1.
+
+What function could we use to transform any values of *sigma* $\sigma$ into stricly positive values?
+One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an "exponential" transformation to the parameter at the end.
+
+The issue with the **exponential link** (**TODO**: is it actually known as an "exponential" link or a "log" link?) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in "real" values that can be problematic.
+
+
+```{julia}
+xaxis = range(-6, 6, length=1000)
+
+fig = Figure()
+ax1 = Axis(fig[1:2, 1], xlabel="Value of σ on the log scale", ylabel="Actual value of σ", title="Exponential function")
+lines!(ax1, xaxis, exp.(xaxis), color=:red, linewidth=2)
+ax2 = Axis(fig[1, 2], xlabel="Value of σ on the log scale", ylabel="Plausibility", title="Prior for σ ~ Normal(0, 1)", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax2, xaxis, pdf.(Normal(0, 1), xaxis), color=:blue, linewidth=2)
+ax3 = Axis(fig[2, 2], xlabel="Value of σ after exponential transformation", ylabel="Plausibility", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax3, exp.(xaxis), pdf.(Normal(0, 1), xaxis), color=:green, linewidth=2)
+xlims!(ax3, (-1, 40))
+fig
+```
+
+#### Softplus Function
+
+Popularized by the machine learning field, the **Softplus** function is an interesting alternative [see @wiemann2023using].
+It is defined as $softplus(x) = \log(1 + \exp(x))$ and its main benefit is to approximate an "identity" link (i.e., a linear relationship), only impacting the values close to 0 (where it is not linear) and negative values.
+
+```{julia}
+xaxis = range(-6, 6, length=1000)
+
+fig = Figure()
+ax1 = Axis(fig[1:2, 1], xlabel="Value of σ before transformation", ylabel="Actual value of σ", title="Softplus function")
+ablines!(ax1, [0], [1], color=:black, linestyle=:dash)
+lines!(ax1, xaxis, softplus.(xaxis), color=:red, linewidth=2)
+ax2 = Axis(fig[1, 2], xlabel="Value of σ before transformation", ylabel="Plausibility", title="Prior for σ ~ Normal(0, 1)", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax2, xaxis, pdf.(Normal(0, 1), xaxis), color=:blue, linewidth=2)
+ax3 = Axis(fig[2, 2], xlabel="Value of σ after softplus transformation", ylabel="Plausibility", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax3, softplus.(xaxis), pdf.(Normal(0, 1), xaxis), color=:green, linewidth=2)
+fig
+```
+
+#### The Model
+
+Let us apply the Softplus transformation (available from the `StatsFuns` package) to the sigma $\sigma$ parameter.
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_ScaledlGaussian(rt; condition=nothing)
+
+    # Priors
+    μ_intercept ~ truncated(Normal(0, 1); lower=0)
+    μ_condition ~ Normal(0, 0.3)
+
+    σ_intercept ~ Normal(0, 1)
+    σ_condition ~ Normal(0, 0.3)
+
+    for i in 1:length(rt)
+        μ = μ_intercept + μ_condition * condition[i]
+        σ = σ_intercept + σ_condition * condition[i]
+        rt[i] ~ Normal(μ, softplus(σ))
+    end
+end
+
+fit_ScaledlGaussian = model_ScaledlGaussian(df.RT; condition=df.Accuracy)
+chain_ScaledGaussian = sample(fit_ScaledlGaussian, NUTS(), 400)
+```
+
+```{julia}
+#| code-fold: false
+
+hpd(chain_ScaledGaussian; alpha=0.05)
+```
+
+
+::: {.callout-tip title="Code Tip"}
+Note that one can use call the `softplus()` to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).
+
+```{julia}
+#| code-fold: false
+
+σ_condition0 = mean(chain_ScaledGaussian[:σ_intercept])
+σ_condition1 = σ_condition0 +  mean(chain_ScaledGaussian[:σ_condition])
+
+println(
+    "σ for 'Speed' condition: ", round(softplus(σ_condition0); digits=4),
+    "; σ for 'Accuracy' condition: ", round(softplus(σ_condition1); digits=4)
+)
+```
+:::
+
+#### Conclusion
+
 ```{julia}
 pred = predict(model_ScaledlGaussian([(missing) for i in 1:length(df.RT)], condition=df.Accuracy), chain_ScaledGaussian)
 pred = Array(pred)
@@ -256,12 +357,7 @@ fig
 ```
 
 
-
-<!-- #### Solution 3: Express Variance on the Exponential Scale
-See https://github.com/itsdfish/SequentialSamplingModels.jl/issues/78#issuecomment-2211702253 
-IS THAT RIGHT? -->
-
-Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make **richer conclusions** and better capturing the data.
+Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make **richer conclusions** (e.g., the Accuracy condition leads to slower and **more variable** reaction times) and better capturing the data.
 Despite that, the Gaussian model still seem to be a poor fit to the data.
 
 ## The Problem with Linear Models
