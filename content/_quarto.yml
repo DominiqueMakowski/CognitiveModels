@@ -20,7 +20,10 @@ book:
         - index.qmd
         - 1_introduction.qmd
         - 2_predictors.qmd
-        - 3_scales.qmd
+        - part: "Scales and Choices"
+          chapters:
+              - 3a_scales.qmd
+              - 3b_choices.qmd
         - part: "Reaction Times"
           chapters:
               - 4a_rt_descriptive.qmd
@@ -68,4 +71,4 @@ execute:
     # freeze: false
 engine: julia
 julia:
-  exeflags: ["--project=@."]
+    exeflags: ["--project=@."]

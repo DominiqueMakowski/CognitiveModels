@@ -54,8 +54,27 @@ std(BetaMean(0.3, 0.2))
 mean(BetaMean(0.3, 0.2))
 
 
-
 # Range of possible parameters
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel="μ", ylabel="variance σ²")
+for μ in range(0.0, 1, length=200)
+    for σ in range(0, 1, length=200)
+        x = range(0, 1, length=100)
+        try
+            y = pdf.(BetaMean(μ, σ), x)
+            scatter!(ax, μ, σ, color=:red)
+        catch
+            continue
+        end
+    end
+end
+ylims!(ax, 0, 0.5)
+# ablines!(ax, [0, 1], [1, -1]; color=:black)
+xaxis = range(0, 1, length=1000)
+lines!(ax, xaxis, xaxis .* (1 .- xaxis); color=:black)
+fig
+
+# Figure
 fig = Figure()
 
 μ = Observable(0.5)
@@ -115,3 +134,71 @@ end
 frames = range(0, 1, length=120)
 record(make_animation, fig, "scales_BetaMean.gif", frames; framerate=10)
 
+
+
+# BetaMuPhi =====================================================================================
+BetaMuPhi(μ, ϕ) = Beta(μ * ϕ, (1 - μ) * ϕ)
+
+# Range of possible parameters
+fig = Figure()
+ax = Axis(fig[1, 1], xlabel="μ", ylabel="ϕ")
+for μ in range(-0.1, 1.1, length=60)
+    for ϕ in range(-0.1, 50, length=60)
+        x = range(0, 1, length=100)
+        try
+            y = pdf.(BetaMuPhi(μ, ϕ), x)
+            scatter!(ax, μ, ϕ, color=:red)
+        catch
+            continue
+        end
+    end
+end
+# ylims!(ax, 0, 0.5)
+# ablines!(ax, [0, 1], [1, -1]; color=:black)
+fig
+
+
+# Figure
+fig = Figure()
+
+μ = Observable(0.5)
+ϕ = Observable(100.0)
+
+ax1 = Axis(
+    fig[1, 1],
+    title=@lift("BetaMuPhi(μ = $(round($μ, digits = 1)), ϕ =  $(round($ϕ, digits = 2)))"),
+    xlabel="Score",
+    ylabel="Distribution",
+    yticksvisible=false,
+    xticksvisible=false,
+    yticklabelsvisible=false,
+)
+xlims!(ax1, 0, 1)
+ylims!(ax1, 0, 8)
+x = range(0, 1, length=1000)
+y = @lift(pdf.(BetaMuPhi($μ, $ϕ), x))
+band!(ax1, x, 0, y, color="#2196F3")
+fig
+
+function make_animation(frame)
+    if frame < 0.20
+        ϕ[] = change_param(frame; frame_range=(0.0, 0.20), param_range=(100.0, 0.1))
+    end
+    if frame >= 0.25 && frame < 0.45
+        μ[] = change_param(frame; frame_range=(0.25, 0.45), param_range=(0.5, 0.2))
+        ϕ[] = change_param(frame; frame_range=(0.25, 0.45), param_range=(0.1, 5))
+    end
+    if frame >= 0.50 && frame < 0.65
+        μ[] = change_param(frame; frame_range=(0.50, 0.65), param_range=(0.2, 0.90))
+        ϕ[] = change_param(frame; frame_range=(0.50, 0.65), param_range=(5, 25))
+    end
+    # Return to normal
+    if frame >= 0.7 && frame < 0.9
+        μ[] = change_param(frame; frame_range=(0.7, 0.9), param_range=(0.90, 0.5))
+        ϕ[] = change_param(frame; frame_range=(0.7, 0.9), param_range=(25, 100))
+    end
+end
+
+# animation settings
+frames = range(0, 1, length=240)
+record(make_animation, fig, "scales_BetaMuPhi.gif", frames; framerate=15)

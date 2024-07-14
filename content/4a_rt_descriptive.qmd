@@ -588,3 +588,10 @@ TODO.
 ### Racing Diffusion Model (RDM)
 
 TODO. -->
+
+## Shifted LogNormal Mixed Model
+
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
+Complex example walkthrough.
+Add Random effects.

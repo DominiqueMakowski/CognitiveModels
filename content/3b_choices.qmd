@@ -1,0 +1,10 @@
+# Binary Data
+
+![](https://img.shields.io/badge/status-good_for_contributing-blue)
+
+
+## Logistic models for Binary Data
+
+Use the speed accuracy data that we use in the next chapter.
+
+TODO.

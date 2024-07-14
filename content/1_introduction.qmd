@@ -1,4 +1,4 @@
-# Fundamentals of Bayesian Modeling in Julia
+# Bayesian Modeling in Julia
 
 ![](https://img.shields.io/badge/status-not_started-red)
 

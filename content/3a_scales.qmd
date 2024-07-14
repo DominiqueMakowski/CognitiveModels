@@ -1,0 +1,325 @@
+# Bounded Variables
+
+![](https://img.shields.io/badge/status-WIP-orange)
+
+
+While might be tempted to believe that most of the data that we collect in psychological science are true **continuous** variables, this is often not the case. 
+In fact, many variables are **bounded**: there values are delimited by hard bounds. 
+This is typically the case for slider (aka "analog" scakes), dimensions scores (average or sum) from multiple Likert scales, percentages, proportions, etc.
+
+Most psychometric indices are bounded. 
+For instance, the minimum and maximum values for the IQ test (WAIS-IV) are 45-155. It is 0 and 63 for the depression scale BDI-II, 20 and 80 for the STAI.
+
+Despite this fact, we still most often use **linear models** to analyze these data, which is not ideal as it assumes that the dependent variable is continuous and normally distributed.
+
+## The Problem with Linear Models
+
+Let's take the data from @makowski2023novel that contains data from participants that underwent the Mini-IPIP6 personality test and the PID-5 BF questionnaire for "maladaptive" personality.
+We will focus on the **"Disinhibition"** trait from the PID-5 BF questionnaire. 
+Note that altough it is usually computed as the average of items a 4-point Likert scales **[0-3]**, this study used analog slides to obtain more finer-grained scores.
+
+```{julia}
+#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, StatsFuns
+using GLMakie
+
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/makowski2023.csv"), DataFrame)
+
+# Show 10 first rows
+first(df, 10)
+
+# Plot the distribution of "Disinhibition"
+hist(df.Disinhibition, normalization = :pdf, color=:darkred, bins=40)
+```
+
+
+We will then fit a simple Gaussian model (an "intercept-only" linear model) that estimates the mean and the standard deviation of our variable of interest.
+
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Gaussian(x)
+
+    # Priors
+    σ ~ truncated(Normal(0, 1); lower=0)  # Strictly positive half normal distribution
+    μ ~ Normal(0, 3)
+
+    # Iterate through every observation
+    for i in 1:length(x)
+        # Likelihood family
+        x[i] ~ Normal(μ, σ)
+    end
+end
+
+# Fit the model with the data
+fit_Gaussian = model_Gaussian(df.Disinhibition)
+# Sample results using MCMC
+chain_Gaussian = sample(fit_Gaussian, NUTS(), 400)
+```
+
+Let see if the model managed to recover the mean and standard deviation of the data:
+
+```{julia}
+println("Mean of the data: $(round(mean(df.Disinhibition); digits=3)) vs. mean from the model: $(round(mean(chain_Gaussian[:μ]); digits=3))")
+println("SD of the data: $(round(std(df.Disinhibition); digits=3)) vs. SD from the model: $(round(mean(chain_Gaussian[:σ]); digits=3))")
+```
+
+Impressive! The model managed to almost perfectly recover the mean and standard deviation of the data.
+**That means we must have a good model, right?** Not so fast!
+
+Linear models are *by definition* designed at recovering the mean of the outcome variables (and its SD, assuming it is inavriant across groups). That does not mean that they can **capture the full complexity of the data**.
+
+Let us then jump straight into generating **predictions** from the model and plotting the results against the actual data to see how well the model fits the data (a procedure called the **posterior predictive check**).
+
+```{julia}
+#| output: false
+
+pred = predict(model_Gaussian([(missing) for i in 1:length(df.Disinhibition)]), chain_Gaussian)
+pred = Array(pred)
+```
+
+```{julia}
+fig = hist(df.Disinhibition, normalization = :pdf, color=:darkred, bins=40)
+for i in 1:length(chain_Gaussian)
+    lines!(Makie.KernelDensity.kde(pred[i, :]), alpha=0.1, color=:black)
+end
+fig
+```
+
+As we can see, the model assumes that the data is normally distributed, in a way that allows for negative values and values above 3, which **are not possible** because our variable is, **by design**, bounded between 0 and 3 (at it is the result of the mean of variables between 0 and 3).
+The linear model might thus not be the best choice for this type of data.
+
+## Rescaling
+
+Continuous variables can be trivially rescaled, which is often done to improve the interpretability of the results. 
+For instance, a *z*-score is a rescaled variable with a mean of 0 and a standard deviation of 1.
+Importantly, rescaling variables does not change the variable's distribution or the absolute relationship between variables. 
+It does not alter the fundamental conclusions from an analysis, but can help with the interpretation of the results (or computational performance).
+
+Two common rescalings are **standardization** (mean=0, SD=1) and **normalization** (range 0-1).
+The benefits of standardization are the interpretation in terms of deviation (which can be compared across variables).
+The benefits of normalization are the interpretation in terms of **"proportion"** (percentage): a value of $0.5$ (i.e., $50\%$) means that the value is in the middle of the range.
+The latter is particularly useful for bounded variables, as it redefines their bounds to 0 and 1 and allows for a more intuitive interpretation (e.g., "Condition B led to an increase of 20% of the rating on that scale").
+
+Let's rescale the "Disinhibition" variable to a 0-1 range:
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+function data_rescale(x; old_range=[minimum(x), maximum(x)], new_range=[0, 1])
+    return (x .- old_range[1]) ./ (old_range[2] - old_range[1]) .* (new_range[2] - new_range[1]) .+ new_range[1]
+end
+
+# Rescale the variable
+df.Disinhibition2 = data_rescale(df.Disinhibition; old_range=[0, 3], new_range=[0, 1])
+```
+
+
+```{julia}
+# Visualize
+fig = hist(df.Disinhibition2, normalization = :pdf, color=:darkred, bins=40)
+xlims!(-0.1, 1.1)
+fig
+```
+
+## Modified Beta Distribution 
+
+One good potential alternative to linear models for bounded variables is to use a **Beta distribution** instead of a Gaussian distribution, as the Beta distribution is bounded between 0 and 1 (**not including them**).
+Moreover, Beta distributions are powerful and can model a wide range of shapes, including normal-like distributions, but also uniformly spread data and data clustered at one or both ends.
+
+The Beta distribution is typically defined by two parameters, *alpha* $\alpha$ and *beta* $\beta$, which are the shape parameters. 
+Unfortunately, these parameters are not very intuitive, and so we often use a "reparametrization" of the Beta distribution to define it by its mean *mu* $\mu$ and "precision" *phi* $\phi$ (referring to the narrowness of the distribution).
+This is particularly convenient in the context of regressions, as these parameters are more interpretable and can be directly linked to the predictors.
+
+Here is the code to redefine a Beta distribution based on the mean *mu* $\mu$ and precision *phi* $\phi$, that converts them to the shape parameters *alpha* $\alpha$ and *beta* $\beta$.
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+function BetaMuPhi(μ, ϕ)
+    return Beta(μ * ϕ, (1 - μ) * ϕ)
+end
+```
+
+::: {.callout-caution}
+TODO: Replace if it is supported somewhere (e.g., [Distributions.jl](https://github.com/JuliaStats/Distributions.jl/issues/1877))
+:::
+
+Note that for this modified Beta distribution, the mean *mu* $\mu$ and precision *phi* $\phi$ can impact the distribution in suprising ways. 
+
+![](media/scales_BetaMuPhi.gif)
+
+## Beta Models
+
+Note that we have a suited distribution for our bounded variable, we can now fit a Beta model to the rescaled variable.
+However, there is one important issue to address: the Beta distribution is not defined at exactly 0 and 1, and we currently rescaled our variable to be between 0 and 1, possibly including them.
+
+One common trick is to actually rescale our variable to be within $[0, 1]$ by **nudging** the zeros and ones to be just above and below, respectively. 
+For this, one can use the function `eps()`, which returns the smallest possible number.
+For instance, one can rescale the variable to be in the range `[eps(), 1 - eps()]`, equivalent to $[0.000...1, 0.999...]$.
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+df.Disinhibition3 = data_rescale(df.Disinhibition; old_range=[0, 3], new_range=[eps(), 1 - eps()])
+```
+
+For the priors, we will use a Beta distribution $Beta(1.25, 1.25)$ for *mu* $\mu$ that is naturally bounded at $]0, 1[$, peaks at 0.5, and assign less plausibility to extreme values.
+A Gamma distribution $Gamma(1.5, 15)$ for *phi* $\phi$ is a good choice for the precision, as it is naturally bounded at $]0, +\infty[$.
+
+
+```{julia}
+fig = Figure()
+ax1 = Axis(fig[1, 1], xlabel="Valueof μ", ylabel="Plausibility", title="Prior for μ ~ Beta(1.25, 1.25)", yticksvisible=false, yticklabelsvisible=false,)
+band!(ax1, range(0, 1, length=1000), 0, pdf.(Beta(1.25, 1.25), range(0, 1, length=1000)), color=:red)
+ylims!(0, 1.25)
+ax1 = Axis(fig[1, 2], xlabel="Valueof ϕ", ylabel="Plausibility", title="Prior for ϕ ~ Gamma(1.5, 15)", yticksvisible=false, yticklabelsvisible=false,)
+band!(ax1, range(0, 120, length=1000), 0, pdf.(Gamma(1.5, 15), range(0, 120, length=1000)), color=:blue)
+# ylims!(0, 0.06)
+fig
+```
+
+We can now fit a Beta model to the rescaled variable. 
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Beta(x)
+    μ ~ Beta(1.25, 1.25)
+    ϕ ~ Gamma(1.5, 15)
+    
+    for i in 1:length(x)
+        x[i] ~ BetaMuPhi(μ, ϕ)
+    end
+end
+
+fit_Beta = model_Beta(df.Disinhibition3)
+chain_Beta = sample(fit_Beta, NUTS(), 500)
+```
+
+::: {.callout-note}
+Note that it is also common to express *mu* $\mu$ on the logit scale. 
+In other words, the prior on *mu* $\mu$ can be specified using any unbounded distributions (e.g., $Normal(0, 1)$), which is convenient to set effect coefficients. 
+The resulting value is passed through a *logistic* function that transforms any values to the [0, 1] range (suited for *mu* $\mu$).
+We will demonstrate this below.
+:::
+
+
+Let us see make a posterior predictive check to see how well the model fits the data.   
+
+```{julia}
+pred = predict(model_Beta([(missing) for i in 1:nrow(df)]), chain_Beta)
+pred = Array(pred)
+
+fig = hist(df.Disinhibition3, normalization = :pdf, color=:darkred, bins=40)
+for i in 1:length(chain_Beta)
+    density!(pred[i, :], color=(:black, 0), strokecolor = (:black, 0.1), strokewidth = 3, boundary=(0, 1))
+end
+fig
+```
+
+
+It is... **quite terrible**. Why? 
+
+
+## Excluding Extreme Observations
+
+One of the main issues is that, as you can se from the histogram, there is a high number of observations clumped at zero. 
+This creates a **bimodal** distribution which makes standard unimodal distributions fail to capture the data (note this issues is not addressed by linear models, which estimates will get biased by this configuration away from the actual "mean" of the variable).
+
+One simple, although not ideal, solution is to **exclude extreme values** (zeros or ones). 
+Beyond the statistical sanitization benefits, one could argue that these "floor" and "ceiling" effects might correspond to a **different cognitive process** (this will be important in the later part of this chapter).
+
+::: {.callout-note}
+For instance, in the case of a bounded scale type of trials, participants might actually use a dual strategy in order to lower the cognitive load.
+For each item, they would judge 1) whether their answer is "completely" yes or no (i.e., 0 or 1) and 2) if not, they would then engage in a more nuanced and costly evaluation of the degree (i.e., use continuous values in between).
+:::
+
+Let's create a new variable without the extreme values.
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+# Filter out extreme values
+var_noextreme = df.Disinhibition2[(df.Disinhibition2 .> 0) .& (df.Disinhibition2 .< 1)]
+```
+
+This time, we will add another trick to make the model more robust (note that this is a general improvement that we are introducing here but that is not related to the current issue at hand of the extreme values). 
+The current parameter *mu* $\mu$ is defined on the ]0, 1[ range. Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
+For example, imagine that the algorithm pics a value of $0.45$ for *mu* $\mu$ from the prior, and then picks a value of $+0.30$ for the effect of a potential predictor (e.g., an experimental condition). 
+This would result in a value of $0.75$, which is outside the range of possible, and would make the model fail to converge.
+
+One common solution (at the heard of the so-called **logistic models**) is to express *mu* $\mu$ on the logit scale using the **logistic** function (available in the `StatsFuns` package).
+The logistic function is a simple transformation that maps any value (from the unbounded range $]-\infty, +\infty[$)) to the 0, 1 range. 
+We can now specify the prior for *mu* $\mu$ on the logit scale as a normal distribution (e.g., $Normal(0, 3)$) without worrying about the estimates going out of bounds.
+
+```{julia}
+fig = Figure()
+ax1 = Axis(fig[1:2, 1], xlabel="Value of μ on the logit sale", ylabel="Actual value of μ", title="Logit function")
+lines!(ax1, range(-10, 10, length=1000), logistic.(range(-10, 10, length=1000)), color=:red, linewidth=2)
+ax2 = Axis(fig[1, 2], xlabel="Value of μ on the logit scale", ylabel="Plausibility", title="Prior for μ ~ Normal(0, 1)", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax2, range(-10, 10, length=1000), pdf.(Normal(0, 3), range(-10, 10, length=1000)), color=:blue, linewidth=2)
+ax3 = Axis(fig[2, 2], xlabel="Value of μ after logistic transformation", ylabel="Plausibility", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax3, logistic.(range(-10, 10, length=1000)), pdf.(Normal(0, 3), range(-10, 10, length=1000)), color=:green, linewidth=2)
+fig
+```
+
+
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Beta(x)
+    μ ~ Normal(0, 3)
+    ϕ ~ Gamma(1.5, 15)
+    
+    for i in 1:length(x)
+        norm_μ = logistic(μ)  # Normalize (0-1) the μ parameter
+        x[i] ~ BetaMuPhi(norm_μ, ϕ)
+    end
+end
+
+# Refit
+fit_Beta = model_Beta(var_noextreme)
+chain_Beta = sample(fit_Beta, NUTS(), 500)
+```
+
+Let us now make a posterior predictive check to see how well the model fits the data.
+
+```{julia}
+pred = predict(model_Beta([(missing) for i in 1:length(var_noextreme)]), chain_Beta)
+pred = Array(pred)
+
+fig = hist(var_noextreme, normalization = :pdf, color=:darkred, bins=40)
+for i in 1:length(chain_Beta)
+    density!(pred[i, :], color=(:black, 0), strokecolor = (:black, 0.1), strokewidth = 3, boundary=(0, 1))
+end
+fig
+```
+
+Removing the extreme values improved the fit. However, it is not a perfect solution.
+
+## Ordered Beta Models
+
+Need **help** to implement this in Turing!
+
+- https://cran.r-project.org/web/packages/ordbetareg/vignettes/package_introduction.html
+- https://stats.andrewheiss.com/compassionate-clam/notebook/ordbeta.html#ordered-beta-regression
+- https://www.robertkubinec.com/post/limited_dvs/
+- [Kubinec (2022)](https://www.cambridge.org/core/journals/political-analysis/article/ordered-beta-regression-a-parsimonious-wellfitting-model-for-continuous-data-with-lower-and-upper-bounds/89F4141DA16D4FC217809B5EB45EEE83)
+
+## Mixed Ordered Beta Models
+
+Complex example walkthrough.
+Demonstrate how to add random effects to the model.
