@@ -8,7 +8,7 @@
 
 <meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
-<title>5&nbsp; Generative Models – Cognitive Models</title>
+<title>6&nbsp; Generative Models – Cognitive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -137,7 +137,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4b_rt_generative.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4b_rt_generative.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -171,7 +171,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentals of Bayesian Modeling in Julia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Modeling in Julia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -180,16 +180,10 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Predictors</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3_scales.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Reaction Times</span></a>
+ <span class="menu-text">Scales and Choices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -197,14 +191,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./3a_scales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bounded Variables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3b_choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reaction Times</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./4a_rt_descriptive.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4b_rt_generative.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></span></a>
   </div>
 </li>
       </ul>
@@ -212,7 +229,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -231,27 +248,27 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#evidence-accumulation" id="toc-evidence-accumulation" class="nav-link active" data-scroll-target="#evidence-accumulation"><span class="header-section-number">5.1</span> Evidence Accumulation</a></li>
-  <li><a href="#wald-distribution-revisited" id="toc-wald-distribution-revisited" class="nav-link" data-scroll-target="#wald-distribution-revisited"><span class="header-section-number">5.2</span> Wald Distribution (Revisited)</a></li>
-  <li><a href="#drift-diffusion-model-ddm" id="toc-drift-diffusion-model-ddm" class="nav-link" data-scroll-target="#drift-diffusion-model-ddm"><span class="header-section-number">5.3</span> Drift Diffusion Model (DDM)</a></li>
-  <li><a href="#linear-ballistic-accumulator-lba" id="toc-linear-ballistic-accumulator-lba" class="nav-link" data-scroll-target="#linear-ballistic-accumulator-lba"><span class="header-section-number">5.4</span> Linear Ballistic Accumulator (LBA)</a></li>
-  <li><a href="#other-models-lnr-rdm" id="toc-other-models-lnr-rdm" class="nav-link" data-scroll-target="#other-models-lnr-rdm"><span class="header-section-number">5.5</span> Other Models (LNR, RDM)</a></li>
-  <li><a href="#including-random-effects" id="toc-including-random-effects" class="nav-link" data-scroll-target="#including-random-effects"><span class="header-section-number">5.6</span> Including Random Effects</a>
+  <li><a href="#evidence-accumulation" id="toc-evidence-accumulation" class="nav-link active" data-scroll-target="#evidence-accumulation"><span class="header-section-number">6.1</span> Evidence Accumulation</a></li>
+  <li><a href="#wald-distribution-revisited" id="toc-wald-distribution-revisited" class="nav-link" data-scroll-target="#wald-distribution-revisited"><span class="header-section-number">6.2</span> Wald Distribution (Revisited)</a></li>
+  <li><a href="#drift-diffusion-model-ddm" id="toc-drift-diffusion-model-ddm" class="nav-link" data-scroll-target="#drift-diffusion-model-ddm"><span class="header-section-number">6.3</span> Drift Diffusion Model (DDM)</a></li>
+  <li><a href="#linear-ballistic-accumulator-lba" id="toc-linear-ballistic-accumulator-lba" class="nav-link" data-scroll-target="#linear-ballistic-accumulator-lba"><span class="header-section-number">6.4</span> Linear Ballistic Accumulator (LBA)</a></li>
+  <li><a href="#other-models-lnr-rdm" id="toc-other-models-lnr-rdm" class="nav-link" data-scroll-target="#other-models-lnr-rdm"><span class="header-section-number">6.5</span> Other Models (LNR, RDM)</a></li>
+  <li><a href="#including-random-effects" id="toc-including-random-effects" class="nav-link" data-scroll-target="#including-random-effects"><span class="header-section-number">6.6</span> Including Random Effects</a>
   <ul class="collapse">
-  <li><a href="#random-intercept" id="toc-random-intercept" class="nav-link" data-scroll-target="#random-intercept"><span class="header-section-number">5.6.1</span> Random Intercept</a></li>
-  <li><a href="#random-slopes" id="toc-random-slopes" class="nav-link" data-scroll-target="#random-slopes"><span class="header-section-number">5.6.2</span> Random Slopes</a></li>
-  <li><a href="#performance-tips" id="toc-performance-tips" class="nav-link" data-scroll-target="#performance-tips"><span class="header-section-number">5.6.3</span> Performance Tips</a></li>
+  <li><a href="#random-intercept" id="toc-random-intercept" class="nav-link" data-scroll-target="#random-intercept"><span class="header-section-number">6.6.1</span> Random Intercept</a></li>
+  <li><a href="#random-slopes" id="toc-random-slopes" class="nav-link" data-scroll-target="#random-slopes"><span class="header-section-number">6.6.2</span> Random Slopes</a></li>
+  <li><a href="#performance-tips" id="toc-performance-tips" class="nav-link" data-scroll-target="#performance-tips"><span class="header-section-number">6.6.3</span> Performance Tips</a></li>
   </ul></li>
-  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">5.7</span> Additional Resources</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">6.7</span> Additional Resources</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4b_rt_generative.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4b_rt_generative.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></h1>
 </div>
 
 
@@ -270,8 +287,8 @@ window.Quarto = {
 
 <p><img src="https://img.shields.io/badge/status-WIP-orange.png" class="img-fluid"></p>
 <p>In this chapter, we will move away from statistical models that <strong>describe</strong> the data to models of <strong>data-generation processes</strong>.</p>
-<section id="evidence-accumulation" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="evidence-accumulation"><span class="header-section-number">5.1</span> Evidence Accumulation</h2>
+<section id="evidence-accumulation" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="evidence-accumulation"><span class="header-section-number">6.1</span> Evidence Accumulation</h2>
 <p>In the previous chapter, we introduced the <strong>Wald</strong> distribution and its parameters, <em>nu</em> <span class="math inline">\(\nu\)</span> (drift rate) and <em>alpha</em> <span class="math inline">\(\alpha\)</span> (threshold). This distribution appears to have been first derived in 1900 to model <strong>the time a stock reaches a certain price</strong> (a <em>threshold</em> price) for the first time, and used in 1915 by Schrödinger as the time to first passage of a threshold of a Brownian motion (i.e., a random walk).</p>
 <p>A random walk describes a path consisting of a succession of random steps. It has been used by Francis Galton in 1894 to illustrate the <em>Central Limit Theorem</em>, and is now known as the <strong>Galton Board</strong>. The Galton Board is a physical model of a random walk, where balls are dropped from the top and bounce left or right at each peg until they reach the bottom. The distribution of the final position of the balls is a normal distribution.</p>
 <p><img src="media/rt_galtonboard.gif" class="img-fluid"></p>
@@ -292,8 +309,8 @@ Caution
 <p><img src="media/rt_randomwalk.gif" class="img-fluid"></p>
 <p>Random walks are used to model a wide range of phenomena, such as the movement of particules and molecules, the stock market, the behavior of animals and, crucially, <strong>cognitive processes</strong>. For instance, it can be used to approximate <strong>evidence accumulation</strong>: the idea that a decision maker (be it a Human or any other system) accumulates evidence in a “stochastic” (i.e., random) fashion over time until a certain threshold is reached, at which point a decision is made.</p>
 </section>
-<section id="wald-distribution-revisited" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="wald-distribution-revisited"><span class="header-section-number">5.2</span> Wald Distribution (Revisited)</h2>
+<section id="wald-distribution-revisited" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="wald-distribution-revisited"><span class="header-section-number">6.2</span> Wald Distribution (Revisited)</h2>
 <p>This is how the Wald distribution is actually <strong>generated</strong>. It corresponds to the distribution of times that it takes for a stochastic process to reach a certain <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> (a certain amount of “evidence”). The twist is that the process underlying this model is a random walk with a <strong>drift rate</strong> <span class="math inline">\(\nu\)</span>, which corresponds to the average amount of evidence accumulated per unit of time. In other words, the <strong>drift rate</strong> <span class="math inline">\(\nu\)</span> is the “slope” of the evidence accumulation process, representing the <strong>strength of the evidence</strong> (or the <strong>speed</strong> by which the decision maker accumulates evidence). The <strong>threshold</strong> <span class="math inline">\(\alpha\)</span> is the amount of evidence required to reach a decision (“decision” typically meaning making a response).</p>
 <p><img src="media/rt_wald2.gif" class="img-fluid"></p>
 <blockquote class="blockquote">
@@ -314,8 +331,8 @@ Important
 </div>
 </div>
 </section>
-<section id="drift-diffusion-model-ddm" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="drift-diffusion-model-ddm"><span class="header-section-number">5.3</span> Drift Diffusion Model (DDM)</h2>
+<section id="drift-diffusion-model-ddm" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="drift-diffusion-model-ddm"><span class="header-section-number">6.3</span> Drift Diffusion Model (DDM)</h2>
 <p>Interestingly, the <strong>Wald</strong> model is actually a special case of a more general type called the <strong>Drift Diffusion Model (DDM)</strong> (named as such because the evidence accumulation is assumed to be a “diffusion” process, i.e., a random walk). One of the main difference is that in the Wald model, the drift rate <span class="math inline">\(\nu\)</span> must be <em>positive</em>, as it tracks the time taken by the diffusion processes to reach only one “positive” threshold <span class="math inline">\(\alpha\)</span>.</p>
 <p>But what happens if we relax this and allow the drift rate to be null or negative? Many traces might never reach the upper threshold, and might instead reach high “negative” values. The idea is then to also consider a <strong>lower threshold</strong>, which would correspond to a different response. Finally, one could also modulate the starting point of the process relative to the thresholds (i.e., how close to the upper or lower threshold the accumulation process starts). This is, in essence, the core idea behind the <strong>Drift Diffusion Model</strong>.</p>
 <p>Drift Diffusion Models are useful to <strong>jointly model RTs and a binary outcome</strong>, such as 2 different choices or accuracy (e.g., “correct” vs.&nbsp;“error”). They allow, in theory, to delineate various cognitive processes, such as the <strong>speed</strong> of evidence accumulation (drift rate), the <strong>amount of evidence</strong> required to make a decision (threshold), and the starting point of the accumulation process (bias).</p>
@@ -329,32 +346,32 @@ Important
 </ul>
 <p>This basic model is sometimes referred to as a Wiener model, as expanded versions of the DDM exist with additional parameters (e.g., variability of the drift rate).</p>
 </section>
-<section id="linear-ballistic-accumulator-lba" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="linear-ballistic-accumulator-lba"><span class="header-section-number">5.4</span> Linear Ballistic Accumulator (LBA)</h2>
+<section id="linear-ballistic-accumulator-lba" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="linear-ballistic-accumulator-lba"><span class="header-section-number">6.4</span> Linear Ballistic Accumulator (LBA)</h2>
 <p>TODO.</p>
 </section>
-<section id="other-models-lnr-rdm" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="other-models-lnr-rdm"><span class="header-section-number">5.5</span> Other Models (LNR, RDM)</h2>
+<section id="other-models-lnr-rdm" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="other-models-lnr-rdm"><span class="header-section-number">6.5</span> Other Models (LNR, RDM)</h2>
 <p>TODO.</p>
 </section>
-<section id="including-random-effects" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="including-random-effects"><span class="header-section-number">5.6</span> Including Random Effects</h2>
-<section id="random-intercept" class="level3" data-number="5.6.1">
-<h3 data-number="5.6.1" class="anchored" data-anchor-id="random-intercept"><span class="header-section-number">5.6.1</span> Random Intercept</h3>
+<section id="including-random-effects" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="including-random-effects"><span class="header-section-number">6.6</span> Including Random Effects</h2>
+<section id="random-intercept" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="random-intercept"><span class="header-section-number">6.6.1</span> Random Intercept</h3>
 <p>TODO.</p>
 </section>
-<section id="random-slopes" class="level3" data-number="5.6.2">
-<h3 data-number="5.6.2" class="anchored" data-anchor-id="random-slopes"><span class="header-section-number">5.6.2</span> Random Slopes</h3>
+<section id="random-slopes" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="random-slopes"><span class="header-section-number">6.6.2</span> Random Slopes</h3>
 <p>TODO.</p>
 </section>
-<section id="performance-tips" class="level3" data-number="5.6.3">
-<h3 data-number="5.6.3" class="anchored" data-anchor-id="performance-tips"><span class="header-section-number">5.6.3</span> Performance Tips</h3>
+<section id="performance-tips" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="performance-tips"><span class="header-section-number">6.6.3</span> Performance Tips</h3>
 <p>TODO.</p>
 <!-- Gaussian filter? HGF -->
 </section>
 </section>
-<section id="additional-resources" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">5.7</span> Additional Resources</h2>
+<section id="additional-resources" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">6.7</span> Additional Resources</h2>
 <ul>
 <li><a href="https://lindeloev.github.io/shiny-rt/"><strong>Lindelov’s overview of RT models</strong></a>: An absolute must-read.</li>
 <li><a href="https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00102/full"><strong>De Boeck &amp; Jeon (2019)</strong></a>: A paper providing an overview of RT models.</li>
@@ -789,12 +806,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./4a_rt_descriptive.html" class="pagination-link" aria-label="Descriptive Models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./5_individual.html" class="pagination-link" aria-label="Individual Differences">
-        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Differences</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

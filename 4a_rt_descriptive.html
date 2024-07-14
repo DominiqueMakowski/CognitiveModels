@@ -8,7 +8,7 @@
 
 <meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
-<title>4&nbsp; Descriptive Models – Cognitive Models</title>
+<title>5&nbsp; Descriptive Models – Cognitive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -86,7 +86,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./4b_rt_generative.html" rel="next">
-<link href="./3_scales.html" rel="prev">
+<link href="./3b_choices.html" rel="prev">
 <link href="./media/cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -194,7 +194,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -228,7 +228,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1_introduction.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Fundamentals of Bayesian Modeling in Julia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Bayesian Modeling in Julia</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -237,16 +237,10 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Predictors</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./3_scales.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span></a>
-  </div>
-</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Reaction Times</span></a>
+ <span class="menu-text">Scales and Choices</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -254,14 +248,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./3a_scales.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bounded Variables</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3b_choices.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reaction Times</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./4a_rt_descriptive.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4b_rt_generative.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></span></a>
   </div>
 </li>
       </ul>
@@ -269,7 +286,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -288,43 +305,44 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">4.1</span> The Data</a></li>
-  <li><a href="#gaussian-aka-linear-model" id="toc-gaussian-aka-linear-model" class="nav-link" data-scroll-target="#gaussian-aka-linear-model"><span class="header-section-number">4.2</span> Gaussian (aka <em>Linear</em>) Model</a>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">5.1</span> The Data</a></li>
+  <li><a href="#gaussian-aka-linear-model" id="toc-gaussian-aka-linear-model" class="nav-link" data-scroll-target="#gaussian-aka-linear-model"><span class="header-section-number">5.2</span> Gaussian (aka <em>Linear</em>) Model</a>
   <ul class="collapse">
-  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification"><span class="header-section-number">4.2.1</span> Model Specification</a></li>
-  <li><a href="#posterior-predictive-check" id="toc-posterior-predictive-check" class="nav-link" data-scroll-target="#posterior-predictive-check"><span class="header-section-number">4.2.2</span> Posterior Predictive Check</a></li>
+  <li><a href="#model-specification" id="toc-model-specification" class="nav-link" data-scroll-target="#model-specification"><span class="header-section-number">5.2.1</span> Model Specification</a></li>
+  <li><a href="#posterior-predictive-check" id="toc-posterior-predictive-check" class="nav-link" data-scroll-target="#posterior-predictive-check"><span class="header-section-number">5.2.2</span> Posterior Predictive Check</a></li>
   </ul></li>
-  <li><a href="#scaled-gaussian-model" id="toc-scaled-gaussian-model" class="nav-link" data-scroll-target="#scaled-gaussian-model"><span class="header-section-number">4.3</span> Scaled Gaussian Model</a>
+  <li><a href="#scaled-gaussian-model" id="toc-scaled-gaussian-model" class="nav-link" data-scroll-target="#scaled-gaussian-model"><span class="header-section-number">5.3</span> Scaled Gaussian Model</a>
   <ul class="collapse">
-  <li><a href="#solution-1-directional-effect-of-condition" id="toc-solution-1-directional-effect-of-condition" class="nav-link" data-scroll-target="#solution-1-directional-effect-of-condition"><span class="header-section-number">4.3.1</span> Solution 1: Directional Effect of Condition</a></li>
-  <li><a href="#solution-2-avoid-exploring-negative-variance-values" id="toc-solution-2-avoid-exploring-negative-variance-values" class="nav-link" data-scroll-target="#solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">4.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</a></li>
+  <li><a href="#solution-1-directional-effect-of-condition" id="toc-solution-1-directional-effect-of-condition" class="nav-link" data-scroll-target="#solution-1-directional-effect-of-condition"><span class="header-section-number">5.3.1</span> Solution 1: Directional Effect of Condition</a></li>
+  <li><a href="#solution-2-avoid-exploring-negative-variance-values" id="toc-solution-2-avoid-exploring-negative-variance-values" class="nav-link" data-scroll-target="#solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">5.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</a></li>
   </ul></li>
-  <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">4.4</span> The Problem with Linear Models</a></li>
-  <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">4.5</span> Shifted LogNormal Model</a>
+  <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">5.4</span> The Problem with Linear Models</a></li>
+  <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">5.5</span> Shifted LogNormal Model</a>
   <ul class="collapse">
-  <li><a href="#prior-on-minimum-rt" id="toc-prior-on-minimum-rt" class="nav-link" data-scroll-target="#prior-on-minimum-rt"><span class="header-section-number">4.5.1</span> Prior on Minimum RT</a></li>
-  <li><a href="#model-specification-1" id="toc-model-specification-1" class="nav-link" data-scroll-target="#model-specification-1"><span class="header-section-number">4.5.2</span> Model Specification</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="header-section-number">4.5.3</span> Interpretation</a></li>
+  <li><a href="#prior-on-minimum-rt" id="toc-prior-on-minimum-rt" class="nav-link" data-scroll-target="#prior-on-minimum-rt"><span class="header-section-number">5.5.1</span> Prior on Minimum RT</a></li>
+  <li><a href="#model-specification-1" id="toc-model-specification-1" class="nav-link" data-scroll-target="#model-specification-1"><span class="header-section-number">5.5.2</span> Model Specification</a></li>
+  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation"><span class="header-section-number">5.5.3</span> Interpretation</a></li>
   </ul></li>
-  <li><a href="#exgaussian-model" id="toc-exgaussian-model" class="nav-link" data-scroll-target="#exgaussian-model"><span class="header-section-number">4.6</span> ExGaussian Model</a>
+  <li><a href="#exgaussian-model" id="toc-exgaussian-model" class="nav-link" data-scroll-target="#exgaussian-model"><span class="header-section-number">5.6</span> ExGaussian Model</a>
   <ul class="collapse">
-  <li><a href="#conditional-tau-tau-parameter" id="toc-conditional-tau-tau-parameter" class="nav-link" data-scroll-target="#conditional-tau-tau-parameter"><span class="header-section-number">4.6.1</span> Conditional Tau <span class="math inline">\(\tau\)</span> Parameter</a></li>
-  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1"><span class="header-section-number">4.6.2</span> Interpretation</a></li>
+  <li><a href="#conditional-tau-tau-parameter" id="toc-conditional-tau-tau-parameter" class="nav-link" data-scroll-target="#conditional-tau-tau-parameter"><span class="header-section-number">5.6.1</span> Conditional Tau <span class="math inline">\(\tau\)</span> Parameter</a></li>
+  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1"><span class="header-section-number">5.6.2</span> Interpretation</a></li>
   </ul></li>
-  <li><a href="#shifted-wald-model" id="toc-shifted-wald-model" class="nav-link" data-scroll-target="#shifted-wald-model"><span class="header-section-number">4.7</span> Shifted Wald Model</a>
+  <li><a href="#shifted-wald-model" id="toc-shifted-wald-model" class="nav-link" data-scroll-target="#shifted-wald-model"><span class="header-section-number">5.7</span> Shifted Wald Model</a>
   <ul class="collapse">
-  <li><a href="#model-specification-2" id="toc-model-specification-2" class="nav-link" data-scroll-target="#model-specification-2"><span class="header-section-number">4.7.1</span> Model Specification</a></li>
-  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">4.7.2</span> Model Comparison</a></li>
+  <li><a href="#model-specification-2" id="toc-model-specification-2" class="nav-link" data-scroll-target="#model-specification-2"><span class="header-section-number">5.7.1</span> Model Specification</a></li>
+  <li><a href="#model-comparison" id="toc-model-comparison" class="nav-link" data-scroll-target="#model-comparison"><span class="header-section-number">5.7.2</span> Model Comparison</a></li>
   </ul></li>
+  <li><a href="#shifted-lognormal-mixed-model" id="toc-shifted-lognormal-mixed-model" class="nav-link" data-scroll-target="#shifted-lognormal-mixed-model"><span class="header-section-number">5.8</span> Shifted LogNormal Mixed Model</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html">Reaction Times</a></li><li class="breadcrumb-item"><a href="./4a_rt_descriptive.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Descriptive Models</span></h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></h1>
 </div>
 
 
@@ -342,8 +360,8 @@ window.Quarto = {
 
 
 <p><img src="https://img.shields.io/badge/status-up_to_date-brightgreen.png" class="img-fluid"></p>
-<section id="the-data" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
+<section id="the-data" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">5.1</span> The Data</h2>
 <p>For this chapter, we will be using the data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1 <span class="citation" data-cites="heathcote2012linear">(also reanalyzed by <a href="references.html#ref-heathcote2012linear" role="doc-biblioref">Heathcote and Love 2012</a>)</span>, that contains responses and response times for several participants in two conditions (where instructions emphasized either <strong>speed</strong> or <strong>accuracy</strong>). Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (&lt;180 ms) or too slow <span class="citation" data-cites="theriault2024check">(&gt;2 sec instead of &gt;3 sec, see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a> for a discussion on outlier removal)</span>.</p>
 <div id="c9c6a2e2" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Downloads</span>, <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Random</span></span>
@@ -514,8 +532,8 @@ Code Tip
 </div>
 </div>
 </section>
-<section id="gaussian-aka-linear-model" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="gaussian-aka-linear-model"><span class="header-section-number">4.2</span> Gaussian (aka <em>Linear</em>) Model</h2>
+<section id="gaussian-aka-linear-model" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="gaussian-aka-linear-model"><span class="header-section-number">5.2</span> Gaussian (aka <em>Linear</em>) Model</h2>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -536,8 +554,8 @@ Note
 <li><strong>Mu</strong> <span class="math inline">\(\mu\)</span> : The mean for the intercept (i.e., at the reference condition which is in our case <code>"Speed"</code>)</li>
 <li>The effect of the condition (the slope) on the <strong>mean</strong> (<span class="math inline">\(\mu\)</span>) RT.</li>
 </ul>
-<section id="model-specification" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="model-specification"><span class="header-section-number">4.2.1</span> Model Specification</h3>
+<section id="model-specification" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="model-specification"><span class="header-section-number">5.2.1</span> Model Specification</h3>
 <div id="a1e4d2d4" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_Gaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -579,8 +597,8 @@ Note
 </div>
 <p>The effect of Condition is significant, people are on average slower (higher RT) when condition is <code>"Accuracy"</code>. But is our model good?</p>
 </section>
-<section id="posterior-predictive-check" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">4.2.2</span> Posterior Predictive Check</h3>
+<section id="posterior-predictive-check" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">5.2.2</span> Posterior Predictive Check</h3>
 <div id="e02e8564" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
@@ -608,8 +626,8 @@ Note
 <p>As you can see, the linear models are good at predicting the <strong>mean RT</strong> (the center of the distribution), but they are not good at capturing the <strong>spread</strong> and the <strong>shape</strong> of the data.</p>
 </section>
 </section>
-<section id="scaled-gaussian-model" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="scaled-gaussian-model"><span class="header-section-number">4.3</span> Scaled Gaussian Model</h2>
+<section id="scaled-gaussian-model" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="scaled-gaussian-model"><span class="header-section-number">5.3</span> Scaled Gaussian Model</h2>
 <p>The previous model, despite its poor fit to the data, suggests that the mean RT is higher for the <code>Accuracy</code> condition. But it seems like the green distribution is also <em>wider</em> (i.e., the response time is more variable), which is not captured by the our model (the predicted distributions have the same widths). This is expected, as typical linear models estimate only one value for sigma <span class="math inline">\(\sigma\)</span> for the whole model, hence the requirement for <strong>homoscedasticity</strong>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -641,8 +659,8 @@ Important
 </div>
 </div>
 <p>Indeed, even if we set a very narrow prior on the intercept of sigma <span class="math inline">\(\sigma\)</span> to fix it at for instance <strong>0.14</strong>, and a narrow prior on the effect of condition, say <span class="math inline">\(Normal(0, 0.001)\)</span>, an effect of condition of <strong>-0.15</strong> is still possible (albeit with very low probability). And such effect would lead to a sigma <span class="math inline">\(\sigma\)</span> of <strong>0.14 - 0.15 = -0.01</strong>, which would lead to an error (and this will often happen as the sampling process does explore unlikely regions of the parameter space).</p>
-<section id="solution-1-directional-effect-of-condition" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="solution-1-directional-effect-of-condition"><span class="header-section-number">4.3.1</span> Solution 1: Directional Effect of Condition</h3>
+<section id="solution-1-directional-effect-of-condition" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="solution-1-directional-effect-of-condition"><span class="header-section-number">5.3.1</span> Solution 1: Directional Effect of Condition</h3>
 <p>One possible (but not recommended) solution is to simply make it impossible for the effect of condition to be negative by <em>Truncating</em> the prior to a lower bound of 0. This can work in our case, because we know that the comparison condition is likely to have a higher variance than the reference condition (the intercept) - and if it wasn’t the case, we could have changed the reference factor. However, this is not a good practice as we are enforcing a very strong a priori specific direction of the effect, which is not always justified.</p>
 <div id="4424d1e0" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ScaledlGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
@@ -682,8 +700,8 @@ Important
 </div>
 <p>We can see that the effect of condition on sigma <span class="math inline">\(\sigma\)</span> is significantly positive: the variance is higher in the <code>Accuracy</code> condition as compared to the <code>Speed</code> condition.</p>
 </section>
-<section id="solution-2-avoid-exploring-negative-variance-values" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">4.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</h3>
+<section id="solution-2-avoid-exploring-negative-variance-values" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">5.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</h3>
 <p>The other trick is to force the sampling algorithm to avoid exploring negative variance values (when sigma <span class="math inline">\(\sigma\)</span> &lt; 0). This can be done by adding a conditional statement when sigma <span class="math inline">\(\sigma\)</span> is negative to avoid trying this value and erroring, and instead returning an infinitely low model probability (<code>-Inf</code>) to push away the exploration of this impossible region.</p>
 <div id="c4f84607" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ScaledlGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
@@ -750,8 +768,8 @@ IS THAT RIGHT? -->
 <p>Although relaxing the homoscedasticity assumption is a good step forward, allowing us to make <strong>richer conclusions</strong> and better capturing the data. Despite that, the Gaussian model still seem to be a poor fit to the data.</p>
 </section>
 </section>
-<section id="the-problem-with-linear-models" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">4.4</span> The Problem with Linear Models</h2>
+<section id="the-problem-with-linear-models" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="the-problem-with-linear-models"><span class="header-section-number">5.4</span> The Problem with Linear Models</h2>
 <p>Reaction time (RTs) have been traditionally modeled using traditional linear models and their derived statistical tests such as <em>t</em>-test and ANOVAs. Importantly, linear models - by definition - will try to predict the <em>mean</em> of the outcome variable by estimating the “best fitting” <em>Normal</em> distribution. In the context of reaction times (RTs), this is not ideal, as RTs typically exhibit a non-normal distribution, skewed towards the left with a long tail towards the right. This means that the parameters of a Normal distribution (mean <span class="math inline">\(\mu\)</span> and standard deviation <span class="math inline">\(\sigma\)</span>) are not good descriptors of the data.</p>
 <p><img src="media/rt_normal.gif" class="img-fluid"></p>
 <blockquote class="blockquote">
@@ -759,15 +777,15 @@ IS THAT RIGHT? -->
 </blockquote>
 <p>A popular mitigation method to account for the non-normality of RTs is to transform the data, using for instance the popular <em>log-transform</em>. However, this practice should be avoided as it leads to various issues, including loss of power and distorted results interpretation <span class="citation" data-cites="lo2015transform schramm2019reaction">(<a href="references.html#ref-lo2015transform" role="doc-biblioref">Lo and Andrews 2015</a>; <a href="references.html#ref-schramm2019reaction" role="doc-biblioref">Schramm and Rouder 2019</a>)</span>. Instead, rather than applying arbitrary data transformation, it would be better to swap the Normal distribution used by the model for a more appropriate one that can better capture the characteristics of a RT distribution.</p>
 </section>
-<section id="shifted-lognormal-model" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">4.5</span> Shifted LogNormal Model</h2>
+<section id="shifted-lognormal-model" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="shifted-lognormal-model"><span class="header-section-number">5.5</span> Shifted LogNormal Model</h2>
 <p>One of the obvious candidate alternative to the log-transformation would be to use a model with a Log-transformed Normal distribution. A LogNormal distribution is a distribution of a random variable whose logarithm is normally distributed. In this model, the <em>mean</em> <span class="math inline">\(\mu\)</span> and is defined on the log-scale, and effects must be interpreted as multiplicative rather than additive (the condition increases the mean RT by a factor of <span class="math inline">\(\exp(\mu_{condition})\)</span>).</p>
 <p>Note that for LogNormal distributions (as it is the case for many of the models introduced in the rest of the capter), the distribution parameters (<span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>) are not independent with respect to the mean and the standard deviation (SD). The empirical SD increases when the <em>mean</em> <span class="math inline">\(\mu\)</span> increases <span class="citation" data-cites="wagenmakers2005relation">(which is seen as a feature rather than a bug, as it is consistent with typical reaction time data, <a href="references.html#ref-wagenmakers2005relation" role="doc-biblioref">Wagenmakers, Grasman, and Molenaar 2005</a>)</span>.</p>
 <p>A <strong>Shifted</strong> LogNormal model introduces a shift (a delay) parameter <em>tau</em> <span class="math inline">\(\tau\)</span> that corresponds to the minimum “starting time” of the response process.</p>
 <p>We need to set a prior for this parameter, which is usually truncated between 0 (to exclude negative minimum times) and the minimum RT of the data (the logic being that the minimum delay for response must be lower than the faster response actually observed).</p>
 <p>While <span class="math inline">\(Uniform(0, min(RT))\)</span> is a common choice of prior, it is not ideal as it implies that all values between 0 and the minimum RT are equally likely, which is not the case. Indeed, psychology research has shown that such minimum response time for Humans is often betwen 100 and 250 ms. Moreover, in our case, we explicitly removed all RTs below 180 ms, suggesting that the minimum response time is more likely to approach 180 ms than 0 ms.</p>
-<section id="prior-on-minimum-rt" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="prior-on-minimum-rt"><span class="header-section-number">4.5.1</span> Prior on Minimum RT</h3>
+<section id="prior-on-minimum-rt" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="prior-on-minimum-rt"><span class="header-section-number">5.5.1</span> Prior on Minimum RT</h3>
 <p>Instead of a <span class="math inline">\(Uniform\)</span> prior, we will use a <span class="math inline">\(Gamma(1.1, 11)\)</span> distribution (truncated at min. RT), as this particular parameterization reflects the low probability of very low minimum RTs (near 0) and a steadily increasing probability for increasing times.</p>
 <div id="17e367db" class="cell" data-execution_count="14">
 <details class="code-fold">
@@ -787,8 +805,8 @@ IS THAT RIGHT? -->
 </div>
 </div>
 </section>
-<section id="model-specification-1" class="level3" data-number="4.5.2">
-<h3 data-number="4.5.2" class="anchored" data-anchor-id="model-specification-1"><span class="header-section-number">4.5.2</span> Model Specification</h3>
+<section id="model-specification-1" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="model-specification-1"><span class="header-section-number">5.5.2</span> Model Specification</h3>
 <div id="9ea94e70" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_LogNormal</span>(rt; min_rt<span class="op">=</span><span class="fu">minimum</span>(df.RT), condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -816,8 +834,8 @@ IS THAT RIGHT? -->
 <span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>chain_LogNormal <span class="op">=</span> <span class="fu">sample</span>(fit_LogNormal, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="interpretation" class="level3" data-number="4.5.3">
-<h3 data-number="4.5.3" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">4.5.3</span> Interpretation</h3>
+<section id="interpretation" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">5.5.3</span> Interpretation</h3>
 <div id="128186e0" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_LogNormal; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
@@ -872,8 +890,8 @@ LogNormal distributions in nature
 </div>
 </section>
 </section>
-<section id="exgaussian-model" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="exgaussian-model"><span class="header-section-number">4.6</span> ExGaussian Model</h2>
+<section id="exgaussian-model" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="exgaussian-model"><span class="header-section-number">5.6</span> ExGaussian Model</h2>
 <p>Another popular model to describe RTs uses the <strong>ExGaussian</strong> distribution, i.e., the <em>Exponentially-modified Gaussian</em> distribution <span class="citation" data-cites="balota2011moving matzke2009psychological">(<a href="references.html#ref-balota2011moving" role="doc-biblioref">Balota and Yap 2011</a>; <a href="references.html#ref-matzke2009psychological" role="doc-biblioref">Matzke and Wagenmakers 2009</a>)</span>.</p>
 <p>This distribution is a convolution of normal and exponential distributions and has three parameters, namely <em>mu</em> <span class="math inline">\(\mu\)</span> and <em>sigma</em> <span class="math inline">\(\sigma\)</span> - the mean and standard deviation of the Gaussian distribution - and <em>tau</em> <span class="math inline">\(\tau\)</span> - the exponential component of the distribution (note that although denoted by the same letter, it does not correspond directly to a shift of the distribution). Intuitively, these parameters reflect the centrality, the width and the tail dominance, respectively.</p>
 <p><img src="media/rt_exgaussian.gif" class="img-fluid"></p>
@@ -898,8 +916,8 @@ Important
 </div>
 </div>
 <p><img src="media/rt_exgaussian2.gif" class="img-fluid"></p>
-<section id="conditional-tau-tau-parameter" class="level3" data-number="4.6.1">
-<h3 data-number="4.6.1" class="anchored" data-anchor-id="conditional-tau-tau-parameter"><span class="header-section-number">4.6.1</span> Conditional Tau <span class="math inline">\(\tau\)</span> Parameter</h3>
+<section id="conditional-tau-tau-parameter" class="level3" data-number="5.6.1">
+<h3 data-number="5.6.1" class="anchored" data-anchor-id="conditional-tau-tau-parameter"><span class="header-section-number">5.6.1</span> Conditional Tau <span class="math inline">\(\tau\)</span> Parameter</h3>
 <p>In the same way as we modeled the effect of the condition on the variance component <em>sigma</em> <span class="math inline">\(\sigma\)</span>, we can do the same for any other parameters, including the exponential component <em>tau</em> <span class="math inline">\(\tau\)</span>. All wee need is to set a prior on the intercept and the condition effect, and make sure that <span class="math inline">\(\tau &gt; 0\)</span>.</p>
 <div id="95cb602e" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ExGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
@@ -934,8 +952,8 @@ Important
 <span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>chain_ExGaussian <span class="op">=</span> <span class="fu">sample</span>(fit_ExGaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="interpretation-1" class="level3" data-number="4.6.2">
-<h3 data-number="4.6.2" class="anchored" data-anchor-id="interpretation-1"><span class="header-section-number">4.6.2</span> Interpretation</h3>
+<section id="interpretation-1" class="level3" data-number="5.6.2">
+<h3 data-number="5.6.2" class="anchored" data-anchor-id="interpretation-1"><span class="header-section-number">5.6.2</span> Interpretation</h3>
 <div id="b5d258d5" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_ExGaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
@@ -976,8 +994,8 @@ Important
 <p>The ExGaussian model also provides an excellent fit to the data. Moreover, by modeling more parameters (including <em>tau</em> <span class="math inline">\(\tau\)</span>), we can draw more nuanced conclusions. In this case, the <code>Accuracy</code> condition is associated with higher RTs, higher variability, and a heavier tail (i.e., more extreme values).</p>
 </section>
 </section>
-<section id="shifted-wald-model" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="shifted-wald-model"><span class="header-section-number">4.7</span> Shifted Wald Model</h2>
+<section id="shifted-wald-model" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="shifted-wald-model"><span class="header-section-number">5.7</span> Shifted Wald Model</h2>
 <p>The <strong>Wald</strong> distribution, also known as the <strong>Inverse Gaussian</strong> distribution, corresponds to the distribution of the first passage time of a Wiener process with a drift rate <span class="math inline">\(\mu\)</span> and a diffusion rate <span class="math inline">\(\sigma\)</span>. While we will unpack this definition below and emphasize its important consequences, one can first note that it has been described as a potential model for RTs when convoluted with an <em>exponential</em> distribution (in the same way that the ExGaussian distribution is a convolution of a Gaussian and an exponential distribution). However, this <strong>Ex-Wald</strong> model <span class="citation" data-cites="schwarz2001ex">(<a href="references.html#ref-schwarz2001ex" role="doc-biblioref">Schwarz 2001</a>)</span> was shown to be less appropriate than one of its variant, the <strong>Shifted Wald</strong> distribution <span class="citation" data-cites="heathcote2004fitting anders2016shifted">(<a href="references.html#ref-heathcote2004fitting" role="doc-biblioref">Heathcote 2004</a>; <a href="references.html#ref-anders2016shifted" role="doc-biblioref">Anders et al. 2016</a>)</span>.</p>
 <p>Note that the Wald distribution, similarly to the models that we will be covering next (the “generative” models), is different from the previous distributions in that it is not characterized by a “location” and “scale” parameters (<em>mu</em> <span class="math inline">\(\mu\)</span> and <em>sigma</em> <span class="math inline">\(\sigma\)</span>). Instead, the parameters of the Shifted Wald distribution are:</p>
 <ul>
@@ -1000,8 +1018,8 @@ Note
 <p>Explanations regarding these new parameters will be provided in the next chapter.</p>
 </div>
 </div>
-<section id="model-specification-2" class="level3" data-number="4.7.1">
-<h3 data-number="4.7.1" class="anchored" data-anchor-id="model-specification-2"><span class="header-section-number">4.7.1</span> Model Specification</h3>
+<section id="model-specification-2" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="model-specification-2"><span class="header-section-number">5.7.1</span> Model Specification</h3>
 <div id="6a55ec1e" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_Wald</span>(rt; min_rt<span class="op">=</span><span class="fu">minimum</span>(df.RT), condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -1076,8 +1094,8 @@ Note
 </div>
 </div>
 </section>
-<section id="model-comparison" class="level3" data-number="4.7.2">
-<h3 data-number="4.7.2" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">4.7.2</span> Model Comparison</h3>
+<section id="model-comparison" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">5.7.2</span> Model Comparison</h3>
 <p>At this stage, given the multiple options avaiable to model RTs, you might be wondering which model is the best. One can compare the models using the <strong>Leave-One-Out Cross-Validation (LOO-CV)</strong> method, which is a Bayesian method to estimate the out-of-sample predictive accuracy of a model.</p>
 <div id="cf0000af" class="cell" data-execution_count="24">
 <details class="code-fold">
@@ -1129,6 +1147,12 @@ TODO.
 ### Racing Diffusion Model (RDM)
 
 TODO. -->
+</section>
+</section>
+<section id="shifted-lognormal-mixed-model" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="shifted-lognormal-mixed-model"><span class="header-section-number">5.8</span> Shifted LogNormal Mixed Model</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
+<p>Complex example walkthrough. Add Random effects.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -1175,7 +1199,6 @@ Wagenmakers, Eric-Jan, Raoul PPP Grasman, and Peter CM Molenaar. 2005. <span>“
 Wagenmakers, Eric-Jan, Roger Ratcliff, Pablo Gomez, and Gail McKoon. 2008. <span>“A Diffusion Model Account of Criterion Shifts in the Lexical Decision Task.”</span> <em>Journal of Memory and Language</em> 58 (1): 140–59.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1601,13 +1624,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./3_scales.html" class="pagination-link" aria-label="Choices and Scales">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Choices and Scales</span></span>
+      <a href="./3b_choices.html" class="pagination-link" aria-label="Binary Data">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./4b_rt_generative.html" class="pagination-link" aria-label="Generative Models">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Generative Models</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

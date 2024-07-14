@@ -8,7 +8,7 @@
 
 <meta name="description" content="This book provides a comprehensive introduction to cognitive modeling using Bayesian mixed models in Julia.">
 
-<title>7&nbsp; Individual Differences – Cognitive Models</title>
+<title>4&nbsp; Binary Data – Cognitive Models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./4b_rt_generative.html" rel="prev">
+<link href="./4a_rt_descriptive.html" rel="next">
+<link href="./3a_scales.html" rel="prev">
 <link href="./media/cover.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -108,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5_individual.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3a_scales.html">Scales and Choices</a></li><li class="breadcrumb-item"><a href="./3b_choices.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -168,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./3b_choices.html" class="sidebar-item-text sidebar-link">
+  <a href="./3b_choices.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></span></a>
   </div>
 </li>
@@ -199,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./5_individual.html" class="sidebar-item-text sidebar-link active">
+  <a href="./5_individual.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></span></a>
   </div>
 </li>
@@ -219,18 +219,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#extracting-individual-parameters-from-mixed-models" id="toc-extracting-individual-parameters-from-mixed-models" class="nav-link active" data-scroll-target="#extracting-individual-parameters-from-mixed-models"><span class="header-section-number">7.1</span> Extracting Individual Parameters From Mixed Models</a></li>
-  <li><a href="#population-informed-individual-bayesian-models" id="toc-population-informed-individual-bayesian-models" class="nav-link" data-scroll-target="#population-informed-individual-bayesian-models"><span class="header-section-number">7.2</span> Population-informed Individual Bayesian Models</a></li>
-  <li><a href="#task-reliability" id="toc-task-reliability" class="nav-link" data-scroll-target="#task-reliability"><span class="header-section-number">7.3</span> Task reliability</a></li>
+  <li><a href="#logistic-models-for-binary-data" id="toc-logistic-models-for-binary-data" class="nav-link active" data-scroll-target="#logistic-models-for-binary-data"><span class="header-section-number">4.1</span> Logistic models for Binary Data</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./3a_scales.html">Scales and Choices</a></li><li class="breadcrumb-item"><a href="./3b_choices.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Differences</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Binary Data</span></h1>
 </div>
 
 
@@ -247,23 +245,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p><img src="https://img.shields.io/badge/status-not_started-red.png" class="img-fluid"></p>
-<section id="extracting-individual-parameters-from-mixed-models" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="extracting-individual-parameters-from-mixed-models"><span class="header-section-number">7.1</span> Extracting Individual Parameters From Mixed Models</h2>
+<p><img src="https://img.shields.io/badge/status-good_for_contributing-blue.png" class="img-fluid"></p>
+<section id="logistic-models-for-binary-data" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="logistic-models-for-binary-data"><span class="header-section-number">4.1</span> Logistic models for Binary Data</h2>
+<p>Use the speed accuracy data that we use in the next chapter.</p>
 <p>TODO.</p>
-</section>
-<section id="population-informed-individual-bayesian-models" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="population-informed-individual-bayesian-models"><span class="header-section-number">7.2</span> Population-informed Individual Bayesian Models</h2>
-<p>TODO.</p>
-</section>
-<section id="task-reliability" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="task-reliability"><span class="header-section-number">7.3</span> Task reliability</h2>
-<ul>
-<li>Signal to Noise Ratio (https://realitybending.github.io/post/2024-03-18-signaltonoisemixed/)</li>
-<li>https://journals.sagepub.com/doi/10.1177/09637214231220923</li>
-<li><a href="https://osf.io/preprints/psyarxiv/8ktn6">Cronbach’s merger</a></li>
-<li>https://www.nature.com/articles/s44271-024-00114-4</li>
-</ul>
 
 
 </section>
@@ -691,13 +677,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./4b_rt_generative.html" class="pagination-link" aria-label="Generative Models">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Generative Models</span></span>
+      <a href="./3a_scales.html" class="pagination-link" aria-label="Bounded Variables">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bounded Variables</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link" aria-label="References">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./4a_rt_descriptive.html" class="pagination-link" aria-label="Descriptive Models">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Descriptive Models</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
