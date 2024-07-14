@@ -245,7 +245,7 @@ hpd(chain_ScaledGaussian; alpha=0.05)
 ```
 
 
-### Solution 3: Use a "Softplus" Link Function
+### Solution 3: Use a "Softplus" Function
 
 #### Exponential Transformation
 
@@ -256,7 +256,7 @@ We have seen example of applying "non-identity" **link functions** in the previo
 What function could we use to transform any values of *sigma* $\sigma$ into stricly positive values?
 One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an "exponential" transformation to the parameter at the end.
 
-The issue with the **exponential link** (**TODO**: is it actually known as an "exponential" link or a "log" link?) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in "real" values that can be problematic.
+The issue with the **log link** (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in "real" values that can be problematic.
 
 
 ```{julia}
@@ -276,7 +276,7 @@ fig
 #### Softplus Function
 
 Popularized by the machine learning field, the **Softplus** function is an interesting alternative [see @wiemann2023using].
-It is defined as $softplus(x) = \log(1 + \exp(x))$ and its main benefit is to approximate an "identity" link (i.e., a linear relationship), only impacting the values close to 0 (where it is not linear) and negative values.
+It is defined as $softplus(x) = \log(1 + \exp(x))$ and its main benefit is to approximate an "identity" link for larger values (i.e., a linear relationship), only impacting negative values and values close to 0 (where the link is not linear).
 
 ```{julia}
 xaxis = range(-6, 6, length=1000)
