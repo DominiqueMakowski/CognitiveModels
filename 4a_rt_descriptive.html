@@ -315,7 +315,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#solution-1-directional-effect-of-condition" id="toc-solution-1-directional-effect-of-condition" class="nav-link" data-scroll-target="#solution-1-directional-effect-of-condition"><span class="header-section-number">5.3.1</span> Solution 1: Directional Effect of Condition</a></li>
   <li><a href="#solution-2-avoid-exploring-negative-variance-values" id="toc-solution-2-avoid-exploring-negative-variance-values" class="nav-link" data-scroll-target="#solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">5.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</a></li>
-  <li><a href="#solution-3-use-a-softplus-link-function" id="toc-solution-3-use-a-softplus-link-function" class="nav-link" data-scroll-target="#solution-3-use-a-softplus-link-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Link Function</a></li>
+  <li><a href="#solution-3-use-a-softplus-function" id="toc-solution-3-use-a-softplus-function" class="nav-link" data-scroll-target="#solution-3-use-a-softplus-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Function</a></li>
   </ul></li>
   <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">5.4</span> The Problem with Linear Models</a></li>
   <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">5.5</span> Shifted LogNormal Model</a>
@@ -364,7 +364,7 @@ window.Quarto = {
 <section id="the-data" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">5.1</span> The Data</h2>
 <p>For this chapter, we will be using the data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1 <span class="citation" data-cites="heathcote2012linear">(also reanalyzed by <a href="references.html#ref-heathcote2012linear" role="doc-biblioref">Heathcote and Love 2012</a>)</span>, that contains responses and response times for several participants in two conditions (where instructions emphasized either <strong>speed</strong> or <strong>accuracy</strong>). Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (&lt;180 ms) or too slow <span class="citation" data-cites="theriault2024check">(&gt;2 sec instead of &gt;3 sec, see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a> for a discussion on outlier removal)</span>.</p>
-<div id="89f33007" class="cell" data-execution_count="1">
+<div id="89f33007" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Downloads</span>, <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Random</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">StatsFuns</span>, <span class="bu">SequentialSamplingModels</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span></span>
@@ -484,7 +484,7 @@ window.Quarto = {
 </div>
 <p>In the previous chapter, we modelled the error rate (the probability of making an error) using a logistic model, and observed that it was higher in the <code>"Speed"</code> condition. But how about speed? We are going to first take interest in the RT of <strong>Correct</strong> answers only (as we can assume that errors are underpinned by a different <em>generative process</em>).</p>
 <p>After filtering out the errors, we create a new column, <code>Accuracy</code>, which is the “binarization” of the <code>Condition</code> column, and is equal to 1 when the condition is <code>"Accuracy"</code> and 0 when it is <code>"Speed"</code>.</p>
-<div id="6ecfbcc8" class="cell" data-execution_count="2">
+<div id="6ecfbcc8" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df.Error <span class="op">.==</span> <span class="fl">0</span>, <span class="op">:</span>]</span>
@@ -504,7 +504,7 @@ Code Tip
 <p>Note the usage of <em>vectorization</em> <code>.==</code> as we want to compare each element of the <code>Condition</code> vector to the target <code>"Accuracy"</code>.</p>
 </div>
 </div>
-<div id="3f4733f9" class="cell" data-execution_count="3">
+<div id="3f4733f9" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">plot_distribution</span>(df, title<span class="op">=</span><span class="st">"Empirical Distribution of Data from Wagenmakers et al. (2018)"</span>)</span>
@@ -557,7 +557,7 @@ Note
 </ul>
 <section id="model-specification" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="model-specification"><span class="header-section-number">5.2.1</span> Model Specification</h3>
-<div id="42b71893" class="cell" data-execution_count="4">
+<div id="42b71893" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_Gaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Prior on variance </span></span>
@@ -581,7 +581,7 @@ Note
 <span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample results using MCMC</span></span>
 <span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>chain_Gaussian <span class="op">=</span> <span class="fu">sample</span>(fit_Gaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f9c2bb90" class="cell" data-execution_count="5">
+<div id="f9c2bb90" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_Gaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
@@ -600,14 +600,14 @@ Note
 </section>
 <section id="posterior-predictive-check" class="level3" data-number="5.2.2">
 <h3 data-number="5.2.2" class="anchored" data-anchor-id="posterior-predictive-check"><span class="header-section-number">5.2.2</span> Posterior Predictive Check</h3>
-<div id="3101f89d" class="cell" data-execution_count="6">
+<div id="3101f89d" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_Gaussian</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)], condition<span class="op">=</span>df.Accuracy), chain_Gaussian)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">Array</span>(pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="84537d0f" class="cell" data-fig-height="7" data-fig-width="10" data-execution_count="7">
+<div id="84537d0f" class="cell" data-fig-height="7" data-fig-width="10" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">plot_distribution</span>(df, <span class="st">"Predictions made by Gaussian (aka Linear) Model"</span>)</span>
@@ -663,7 +663,7 @@ Important
 <section id="solution-1-directional-effect-of-condition" class="level3" data-number="5.3.1">
 <h3 data-number="5.3.1" class="anchored" data-anchor-id="solution-1-directional-effect-of-condition"><span class="header-section-number">5.3.1</span> Solution 1: Directional Effect of Condition</h3>
 <p>One possible (but not recommended) solution is to simply make it impossible for the effect of condition to be negative by <em>Truncating</em> the prior to a lower bound of 0. This can work in our case, because we know that the comparison condition is likely to have a higher variance than the reference condition (the intercept) - and if it wasn’t the case, we could have changed the reference factor. However, this is not a good practice as we are enforcing a very strong a priori specific direction of the effect, which is not always justified.</p>
-<div id="4e9da49b" class="cell" data-execution_count="8">
+<div id="4e9da49b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ScaledlGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
@@ -683,7 +683,7 @@ Important
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>fit_ScaledlGaussian <span class="op">=</span> <span class="fu">model_ScaledlGaussian</span>(df.RT; condition<span class="op">=</span>df.Accuracy)</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>chain_ScaledGaussian <span class="op">=</span> <span class="fu">sample</span>(fit_ScaledlGaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0b8e6492" class="cell" data-execution_count="9">
+<div id="0b8e6492" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary (95% CI)</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_ScaledGaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
@@ -704,7 +704,7 @@ Important
 <section id="solution-2-avoid-exploring-negative-variance-values" class="level3" data-number="5.3.2">
 <h3 data-number="5.3.2" class="anchored" data-anchor-id="solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">5.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</h3>
 <p>The other trick is to force the sampling algorithm to avoid exploring negative variance values (when sigma <span class="math inline">\(\sigma\)</span> &lt; 0). This can be done by adding a conditional statement when sigma <span class="math inline">\(\sigma\)</span> is negative to avoid trying this value and erroring, and instead returning an infinitely low model probability (<code>-Inf</code>) to push away the exploration of this impossible region.</p>
-<div id="767151f6" class="cell" data-execution_count="10">
+<div id="767151f6" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ScaledlGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
@@ -728,7 +728,7 @@ Important
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>fit_ScaledlGaussian <span class="op">=</span> <span class="fu">model_ScaledlGaussian</span>(df.RT; condition<span class="op">=</span>df.Accuracy)</span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>chain_ScaledGaussian <span class="op">=</span> <span class="fu">sample</span>(fit_ScaledlGaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="7c5ba912" class="cell" data-execution_count="11">
+<div id="7c5ba912" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_ScaledGaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="12">
 <div class="ansi-escaped-output">
@@ -744,14 +744,14 @@ Important
 </div>
 </div>
 </section>
-<section id="solution-3-use-a-softplus-link-function" class="level3" data-number="5.3.3">
-<h3 data-number="5.3.3" class="anchored" data-anchor-id="solution-3-use-a-softplus-link-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Link Function</h3>
+<section id="solution-3-use-a-softplus-function" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="solution-3-use-a-softplus-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Function</h3>
 <section id="exponential-transformation" class="level4">
 <h4 class="anchored" data-anchor-id="exponential-transformation">Exponential Transformation</h4>
 <p>Using the previous solution feels like a “hack” and a workaround a misspecified model. One alternative approach is to apply a function to <em>sigma</em> <span class="math inline">\(\sigma\)</span> to “transform” it into a positive value. We have seen example of applying “non-identity” <strong>link functions</strong> in the previous chapters with the <strong>logistic</strong> function that transforms any value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span> into a value between 0 and 1.</p>
 <p>What function could we use to transform any values of <em>sigma</em> <span class="math inline">\(\sigma\)</span> into stricly positive values? One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an “exponential” transformation to the parameter at the end.</p>
-<p>The issue with the <strong>exponential link</strong> (<strong>TODO</strong>: is it actually known as an “exponential” link or a “log” link?) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in “real” values that can be problematic.</p>
-<div id="059cb42b" class="cell" data-execution_count="12">
+<p>The issue with the <strong>log link</strong> (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in “real” values that can be problematic.</p>
+<div id="059cb42b" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>xaxis <span class="op">=</span> <span class="fu">range</span>(<span class="op">-</span><span class="fl">6</span>, <span class="fl">6</span>, length<span class="op">=</span><span class="fl">1000</span>)</span>
@@ -777,8 +777,8 @@ Important
 </section>
 <section id="softplus-function" class="level4">
 <h4 class="anchored" data-anchor-id="softplus-function">Softplus Function</h4>
-<p>Popularized by the machine learning field, the <strong>Softplus</strong> function is an interesting alternative <span class="citation" data-cites="wiemann2023using">(see <a href="references.html#ref-wiemann2023using" role="doc-biblioref">Wiemann, Kneib, and Hambuckers 2023</a>)</span>. It is defined as <span class="math inline">\(softplus(x) = \log(1 + \exp(x))\)</span> and its main benefit is to approximate an “identity” link (i.e., a linear relationship), only impacting the values close to 0 (where it is not linear) and negative values.</p>
-<div id="2f7b619d" class="cell" data-execution_count="13">
+<p>Popularized by the machine learning field, the <strong>Softplus</strong> function is an interesting alternative <span class="citation" data-cites="wiemann2023using">(see <a href="references.html#ref-wiemann2023using" role="doc-biblioref">Wiemann, Kneib, and Hambuckers 2023</a>)</span>. It is defined as <span class="math inline">\(softplus(x) = \log(1 + \exp(x))\)</span> and its main benefit is to approximate an “identity” link for larger values (i.e., a linear relationship), only impacting negative values and values close to 0 (where the link is not linear).</p>
+<div id="2f7b619d" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>xaxis <span class="op">=</span> <span class="fu">range</span>(<span class="op">-</span><span class="fl">6</span>, <span class="fl">6</span>, length<span class="op">=</span><span class="fl">1000</span>)</span>
@@ -805,7 +805,7 @@ Important
 <section id="the-model" class="level4">
 <h4 class="anchored" data-anchor-id="the-model">The Model</h4>
 <p>Let us apply the Softplus transformation (available from the <code>StatsFuns</code> package) to the sigma <span class="math inline">\(\sigma\)</span> parameter.</p>
-<div id="5d9f0735" class="cell" data-execution_count="14">
+<div id="5d9f0735" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ScaledlGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
@@ -825,7 +825,7 @@ Important
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>fit_ScaledlGaussian <span class="op">=</span> <span class="fu">model_ScaledlGaussian</span>(df.RT; condition<span class="op">=</span>df.Accuracy)</span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>chain_ScaledGaussian <span class="op">=</span> <span class="fu">sample</span>(fit_ScaledlGaussian, <span class="fu">NUTS</span>(), <span class="fl">400</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fc5d4ae2" class="cell" data-execution_count="15">
+<div id="fc5d4ae2" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_ScaledGaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <div class="ansi-escaped-output">
@@ -851,7 +851,7 @@ Code Tip
 </div>
 <div class="callout-body-container callout-body">
 <p>Note that one can use call the <code>softplus()</code> to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).</p>
-<div id="c61fb9f3" class="cell" data-execution_count="16">
+<div id="c61fb9f3" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>σ_condition0 <span class="op">=</span> <span class="fu">mean</span>(chain_ScaledGaussian[<span class="op">:</span>σ_intercept])</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>σ_condition1 <span class="op">=</span> σ_condition0 <span class="op">+</span>  <span class="fu">mean</span>(chain_ScaledGaussian[<span class="op">:</span>σ_condition])</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -868,7 +868,7 @@ Code Tip
 </section>
 <section id="conclusion" class="level4">
 <h4 class="anchored" data-anchor-id="conclusion">Conclusion</h4>
-<div id="50ba1813" class="cell" data-execution_count="17">
+<div id="50ba1813" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_ScaledlGaussian</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)], condition<span class="op">=</span>df.Accuracy), chain_ScaledGaussian)</span>
@@ -911,7 +911,7 @@ Code Tip
 <section id="prior-on-minimum-rt" class="level3" data-number="5.5.1">
 <h3 data-number="5.5.1" class="anchored" data-anchor-id="prior-on-minimum-rt"><span class="header-section-number">5.5.1</span> Prior on Minimum RT</h3>
 <p>Instead of a <span class="math inline">\(Uniform\)</span> prior, we will use a <span class="math inline">\(Gamma(1.1, 11)\)</span> distribution (truncated at min. RT), as this particular parameterization reflects the low probability of very low minimum RTs (near 0) and a steadily increasing probability for increasing times.</p>
-<div id="a06ec458" class="cell" data-execution_count="18">
+<div id="a06ec458" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>xaxis <span class="op">=</span> <span class="fu">range</span>(<span class="fl">0</span>, <span class="fl">0.3</span>, <span class="fl">1000</span>)</span>
@@ -931,7 +931,7 @@ Code Tip
 </section>
 <section id="model-specification-1" class="level3" data-number="5.5.2">
 <h3 data-number="5.5.2" class="anchored" data-anchor-id="model-specification-1"><span class="header-section-number">5.5.2</span> Model Specification</h3>
-<div id="547bfe72" class="cell" data-execution_count="19">
+<div id="547bfe72" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_LogNormal</span>(rt; min_rt<span class="op">=</span><span class="fu">minimum</span>(df.RT), condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors </span></span>
@@ -960,7 +960,7 @@ Code Tip
 </section>
 <section id="interpretation" class="level3" data-number="5.5.3">
 <h3 data-number="5.5.3" class="anchored" data-anchor-id="interpretation"><span class="header-section-number">5.5.3</span> Interpretation</h3>
-<div id="618db966" class="cell" data-execution_count="20">
+<div id="618db966" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_LogNormal; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <div class="ansi-escaped-output">
@@ -976,7 +976,7 @@ Code Tip
 </div>
 </div>
 </div>
-<div id="0b3676c3" class="cell" data-execution_count="21">
+<div id="0b3676c3" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_LogNormal</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)]; condition<span class="op">=</span>df.Accuracy), chain_LogNormal)</span>
@@ -1043,7 +1043,7 @@ Important
 <section id="conditional-tau-tau-parameter" class="level3" data-number="5.6.1">
 <h3 data-number="5.6.1" class="anchored" data-anchor-id="conditional-tau-tau-parameter"><span class="header-section-number">5.6.1</span> Conditional Tau <span class="math inline">\(\tau\)</span> Parameter</h3>
 <p>In the same way as we modeled the effect of the condition on the variance component <em>sigma</em> <span class="math inline">\(\sigma\)</span>, we can do the same for any other parameters, including the exponential component <em>tau</em> <span class="math inline">\(\tau\)</span>. All wee need is to set a prior on the intercept and the condition effect, and make sure that <span class="math inline">\(\tau &gt; 0\)</span>.</p>
-<div id="a56080b3" class="cell" data-execution_count="22">
+<div id="a56080b3" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_ExGaussian</span>(rt; condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors </span></span>
@@ -1078,7 +1078,7 @@ Important
 </section>
 <section id="interpretation-1" class="level3" data-number="5.6.2">
 <h3 data-number="5.6.2" class="anchored" data-anchor-id="interpretation-1"><span class="header-section-number">5.6.2</span> Interpretation</h3>
-<div id="8fa3f407" class="cell" data-execution_count="23">
+<div id="8fa3f407" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_ExGaussian; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
 <div class="ansi-escaped-output">
@@ -1095,7 +1095,7 @@ Important
 </div>
 </div>
 </div>
-<div id="0074e53b" class="cell" data-execution_count="24">
+<div id="0074e53b" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_ExGaussian</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)]; condition<span class="op">=</span>df.Accuracy), chain_ExGaussian)</span>
@@ -1144,7 +1144,7 @@ Note
 </div>
 <section id="model-specification-2" class="level3" data-number="5.7.1">
 <h3 data-number="5.7.1" class="anchored" data-anchor-id="model-specification-2"><span class="header-section-number">5.7.1</span> Model Specification</h3>
-<div id="58b03fce" class="cell" data-execution_count="25">
+<div id="58b03fce" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_Wald</span>(rt; min_rt<span class="op">=</span><span class="fu">minimum</span>(df.RT), condition<span class="op">=</span><span class="cn">nothing</span>)</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors </span></span>
@@ -1180,7 +1180,7 @@ Note
 <span id="cb34-33"><a href="#cb34-33" aria-hidden="true" tabindex="-1"></a>fit_Wald <span class="op">=</span> <span class="fu">model_Wald</span>(df.RT; condition<span class="op">=</span>df.Accuracy)</span>
 <span id="cb34-34"><a href="#cb34-34" aria-hidden="true" tabindex="-1"></a>chain_Wald <span class="op">=</span> <span class="fu">sample</span>(fit_Wald, <span class="fu">NUTS</span>(), <span class="fl">600</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9210576b" class="cell" data-execution_count="26">
+<div id="9210576b" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(chain_Wald; alpha<span class="op">=</span><span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="27">
 <div class="ansi-escaped-output">
@@ -1197,7 +1197,7 @@ Note
 </div>
 </div>
 </div>
-<div id="f1f511cf" class="cell" data-execution_count="27">
+<div id="f1f511cf" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_Wald</span>([(<span class="cn">missing</span>) for i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(df.RT)]; condition<span class="op">=</span>df.Accuracy), chain_Wald)</span>
@@ -1221,7 +1221,7 @@ Note
 <section id="model-comparison" class="level3" data-number="5.7.2">
 <h3 data-number="5.7.2" class="anchored" data-anchor-id="model-comparison"><span class="header-section-number">5.7.2</span> Model Comparison</h3>
 <p>At this stage, given the multiple options avaiable to model RTs, you might be wondering which model is the best. One can compare the models using the <strong>Leave-One-Out Cross-Validation (LOO-CV)</strong> method, which is a Bayesian method to estimate the out-of-sample predictive accuracy of a model.</p>
-<div id="b9a9f998" class="cell" data-execution_count="28">
+<div id="b9a9f998" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">ParetoSmooth</span></span>
