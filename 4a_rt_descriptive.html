@@ -750,7 +750,7 @@ Important
 <h4 class="anchored" data-anchor-id="exponential-transformation">Exponential Transformation</h4>
 <p>Using the previous solution feels like a “hack” and a workaround a misspecified model. One alternative approach is to apply a function to <em>sigma</em> <span class="math inline">\(\sigma\)</span> to “transform” it into a positive value. We have seen example of applying “non-identity” <strong>link functions</strong> in the previous chapters with the <strong>logistic</strong> function that transforms any value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span> into a value between 0 and 1.</p>
 <p>What function could we use to transform any values of <em>sigma</em> <span class="math inline">\(\sigma\)</span> into stricly positive values? One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an “exponential” transformation to the parameter at the end.</p>
-<p>The issue with the <strong>log link</strong> (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in “real” values that can be problematic.</p>
+<p>The issue with the <strong>log link</strong> (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it generates big numbers (which can slow down sampling efficiency), 2) the interpretation of the effects are not linear (i.e., not additive plus multiplicative), which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in “real” values at 1 that can be problematic.</p>
 <div id="059cb42b" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
@@ -850,7 +850,7 @@ Code Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Note that one can use call the <code>softplus()</code> to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).</p>
+<p>You can use call the <code>softplus()</code> to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).</p>
 <div id="c61fb9f3" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>σ_condition0 <span class="op">=</span> <span class="fu">mean</span>(chain_ScaledGaussian[<span class="op">:</span>σ_intercept])</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>σ_condition1 <span class="op">=</span> σ_condition0 <span class="op">+</span>  <span class="fu">mean</span>(chain_ScaledGaussian[<span class="op">:</span>σ_condition])</span>
