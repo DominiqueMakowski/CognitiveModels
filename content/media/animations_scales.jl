@@ -202,3 +202,59 @@ end
 # animation settings
 frames = range(0, 1, length=240)
 record(make_animation, fig, "scales_BetaMuPhi.gif", frames; framerate=15)
+
+
+
+# Logistic Regression =====================================================================================
+
+intercept = Observable(1.0)
+slope = Observable(1.0)
+σ = Observable(0.1)
+
+function generate_data(intercept, slope, σ; n=100)
+    x = repeat([0, 1]; inner=n ÷ 2)
+    y = intercept[] .+ slope[] .* x .+ rand(Normal(0, σ[]), n)
+    return x, y
+end
+
+x, y = generate_data(intercept, slope, σ)
+
+fig = Figure()
+ax1 = Axis(fig[1, 1], xlabel="x", ylabel="y", title=@lift("y = $(round($intercept, digits=3))"))
+
+# Intercept
+lines!(ax1, [0, 0], @lift([0, $intercept]); color=:orange)
+scatter!(ax1, [0], @lift([$intercept]),
+    color=:orange, markersize=10, marker=:cross)
+
+# scatter!(ax1, x + rand(Uniform(-0.1, 0.1), length(x)), y)
+# boxplot!(ax1, x, y)
+
+# axislegend(position=:rt)
+Legend(fig[1, 1],
+    [MarkerElement(color=:orange, marker='+', markersize=15)],
+    [@lift("Intercept = $(round($intercept, digits=3))")],
+    tellheight=false,
+    tellwidth=false,
+    halign=:right,
+    valign=:top)
+fig
+
+
+function make_animation(frame)
+    if frame < 0.20
+        intercept[] = change_param(frame; frame_range=(0.0, 0.20), param_range=(0.0, 1.0))
+    end
+    # if frame >= 0.25 && frame < 0.45
+    #     μ[] = change_param(frame; frame_range=(0.25, 0.45), param_range=(0.5, 0.2))
+    #     ϕ[] = change_param(frame; frame_range=(0.25, 0.45), param_range=(0.1, 5))
+    # end
+    # Return to normal
+    if frame >= 0.7 && frame < 0.9
+        intercept[] = change_param(frame; frame_range=(0.7, 0.9), param_range=(1.00, 0.0))
+    end
+end
+
+# animation settings
+frames = range(0, 1, length=240)
+record(make_animation, fig, "intro_regression.gif", frames; framerate=15)

@@ -256,7 +256,7 @@ We have seen example of applying "non-identity" **link functions** in the previo
 What function could we use to transform any values of *sigma* $\sigma$ into stricly positive values?
 One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an "exponential" transformation to the parameter at the end.
 
-The issue with the **log link** (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it quickly generates very big numbers (which can slow down sampling efficiency), 2) The interpretation of the parameters and effects are not linear, which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in "real" values that can be problematic.
+The issue with the **log link** (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it generates big numbers (which can slow down sampling efficiency), 2) the interpretation of the effects are not linear (i.e., not additive plus multiplicative), which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in "real" values at 1 that can be problematic.
 
 
 ```{julia}
@@ -328,7 +328,7 @@ hpd(chain_ScaledGaussian; alpha=0.05)
 
 
 ::: {.callout-tip title="Code Tip"}
-Note that one can use call the `softplus()` to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).
+You can use call the `softplus()` to transform the parameter back to the original scale, which can be useful for negative or small values (as for larger values, it becomes a 1-to-1 relationship).
 
 ```{julia}
 #| code-fold: false

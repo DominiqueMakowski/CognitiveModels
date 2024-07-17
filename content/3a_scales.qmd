@@ -175,6 +175,7 @@ df.Disinhibition3 = data_rescale(df.Disinhibition; old_range=[0, 3], new_range=[
 
 For the priors, we will use a Beta distribution $Beta(1.25, 1.25)$ for *mu* $\mu$ that is naturally bounded at $]0, 1[$, peaks at 0.5, and assign less plausibility to extreme values.
 A Gamma distribution $Gamma(1.5, 15)$ for *phi* $\phi$ is a good choice for the precision, as it is naturally bounded at $]0, +\infty[$.
+That said, as we demonstrate below, it is often more convenient to express *phi* $\phi$ on the log scale (making it more convenient to express priors).
 
 
 ```{julia}
@@ -254,6 +255,8 @@ Let's create a new variable without the extreme values.
 var_noextreme = df.Disinhibition2[(df.Disinhibition2 .> 0) .& (df.Disinhibition2 .< 1)]
 ```
 
+### Logit Link for *Mu* $\mu$
+
 This time, we will add another trick to make the model more robust (note that this is a general improvement that we are introducing here but that is not related to the current issue at hand of the extreme values). 
 The current parameter *mu* $\mu$ is defined on the $]0, 1[$ range. Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
 For example, imagine that the algorithm pics a value of $0.45$ for *mu* $\mu$ from the prior, and then picks a value of $+0.30$ for the effect of a potential predictor (e.g., an experimental condition). 
@@ -276,19 +279,17 @@ lines!(ax3, logistic.(xaxis), pdf.(Normal(0, 3), xaxis), color=:green, linewidth
 fig
 ```
 
-
-
 ```{julia}
 #| code-fold: false
 #| output: false
 
 @model function model_Beta(x)
-    μ ~ Normal(0, 3)
+    μ ~ Normal(0, 3)  # On the logit scale
     ϕ ~ Gamma(1.5, 15)
     
     for i in 1:length(x)
-        norm_μ = logistic(μ)  # Normalize (0-1) the μ parameter
-        x[i] ~ BetaMuPhi(norm_μ, ϕ)
+        μ_norm = logistic(μ)  # Normalize (0-1) the μ parameter
+        x[i] ~ BetaMuPhi(μ_norm, ϕ)
     end
 end
 
@@ -296,6 +297,51 @@ end
 fit_Beta = model_Beta(var_noextreme)
 chain_Beta = sample(fit_Beta, NUTS(), 500)
 ```
+
+### Log Link for *Phi* $\phi$
+
+Because precision *phi* $\phi$ is a positive parameter that can go from 0 to big values, with a particular threshold value at `1` (where the distribution becomes flat), it is often more convenient to **express it on the log scale**. 
+This means that **the value will be exponentiated** before being used in the Beta distribution.
+Similarly to above, **changing the link function** does not change the model *per se*, but it makes it more convenient to set priors and often makes the model more efficient.
+
+Expressing *phi* $\phi$ on the log scale is convenient because we can set a $Normal$ prior centered around zero, which will result (after the exponential transformation) in a distribution peaking at 1.
+
+```{julia}
+xaxis = range(-10, 10, length=1000)
+
+fig = Figure()
+ax1 = Axis(fig[1:2, 1], xlabel="Value of ϕ on the log scale", ylabel="Actual value of ϕ", title="Exponential function")
+lines!(ax1, xaxis, exp.(xaxis), color=:red, linewidth=2)
+xlims!(-10, 10)
+ax2 = Axis(fig[1, 2], xlabel="Value of ϕ on the log scale", ylabel="Plausibility", title="Prior for ϕ ~ Normal(0, 2)", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax2, xaxis, pdf.(Normal(0, 2), xaxis), color=:blue, linewidth=2)
+ax3 = Axis(fig[2, 2], xlabel="Value of ϕ after exponential transformation", ylabel="Plausibility", yticksvisible=false, yticklabelsvisible=false,)
+lines!(ax3, exp.(xaxis), pdf.(Normal(0, 2), xaxis), color=:green, linewidth=2)
+xlims!(-1, 20)
+fig
+```
+
+The final model is then:
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_Beta(x)
+    μ ~ Normal(0, 3)  # On the logit scale
+    ϕ ~ Normal(0, 2)  # On the log scale
+    
+    for i in 1:length(x)
+        x[i] ~ BetaMuPhi(logistic(μ), exp(ϕ))
+    end
+end
+
+# Refit
+fit_Beta = model_Beta(var_noextreme)
+chain_Beta = sample(fit_Beta, NUTS(), 500)
+```
+
+### Conclusion
 
 Let us now make a posterior predictive check to see how well the model fits the data.
 

@@ -2,9 +2,70 @@
 
 ![](https://img.shields.io/badge/status-good_for_contributing-blue)
 
+## The Data
+
+For this chapter, we will be using the data from @wagenmakers2008diffusion - Experiment 1 [also reanalyzed by @heathcote2012linear], that contains responses and response times for several participants in two conditions (where instructions emphasized either **speed** or **accuracy**).
+Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (<180 ms) or too slow [>2 sec instead of >3 sec, see @theriault2024check for a discussion on outlier removal].
+
+In this chapter, we will focus on the "amount" of **errors** between the two conditions (response times will be the focus of the next chapter).
+
+
+```{julia}
+#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, StatsFuns, SequentialSamplingModels
+using GLMakie
+
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"), DataFrame)
+
+# Show 10 first rows
+first(df, 10)
+```
+
+Let us first compute the average number of errors for each condition.
+
+```{julia}
+#| code-fold: false
+
+combine(groupby(df, :Condition), :Error => mean)
+```
+
+```{julia}
+dat = combine(groupby(df, :Condition), :Error => mean)
+
+fig = Figure()
+ax = Axis(fig[1, 1], ylabel="Average error rate", xticks =([0, 1], ["Speed", "Accuracy"]))
+barplot!(ax, [0], [dat.Error_mean[1]], label="Speed", color=:red)
+barplot!(ax, [1], [dat.Error_mean[2]], label="Accuracy", color=:green)
+axislegend()
+fig
+```
+
 
 ## Logistic models for Binary Data
 
-Use the speed accuracy data that we use in the next chapter.
+The statistical models that we use aim at uncovering the **parameters of the distribution** that best predicts the data.
+In a standard linear regression, this means estimating the mean *mu* $\mu$ (which often is expressed as a function of another variable, such as the `Condition`) and the standard deviation *sigma* $\sigma$ of the normal distribution that best fits the data.
 
-TODO.
+However, when the dependent variable is binary (e.g., 0 or 1), we cannot use a normal distribution, as it would predict values outside the [0, 1] range.
+We saw in the previous chapter how to model probabilities using $Beta$ distributions, but in this part we will use another distribution: the **Bernoulli** distribution.
+The Bernoulli distribution is a distribution that generates zeros and ones (or True and False) with a single parameter: the probability of success *p*.
+
+In the data above, we saw that the error rate (the proportion - or the "probability" - of errors) in the `Speed` condition was `0.11` (11%).
+This would potentially translate into a distribution $Bernoulli(0.11)$.
+In our model, we will estimate this probability at this reference condition (*aka* the **intercept**), as well as the effect of the `Accuracy` condition (which, in this case, we expect to be **negative**, as that condition seems to **lower** the error rate).
+We will set **priors** for these two parameters (intercept and the effect of accuracy) that will get explored by the sampling algorithm.
+
+But here is the **catch**.
+Imagine the sampling algorithm picks a value of $0.11$ for the intercept (close to the true value) and then decides to explore a value of $-0.20$.
+This would lead to a tentative value of $0.11 - 0.20 = -0.09$... but this parameter is **impossible** (the *p* parameter of the $Bernouilli$ distribution must be betwen 0 and 1).
+
+Similarly to the previous chapter, we will avoid these issues by expressing our probability *p* on the **log scale**. 
+This way, the effect of `Accuracy` will be expressed as a **log-odds** (i.e., the log of the odds ratio), which can take any value between $-\infty$ and $+\infty$.
+We will then convert this log-odds back to a probability using the **logistic function** which maps any value to the [0, 1] range.
+
+
+<!-- BernoulliLogit -->

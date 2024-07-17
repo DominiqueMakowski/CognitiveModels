@@ -8,7 +8,7 @@ Importantly, it is currently the only language in which we can fit all the cogni
 ## Why Bayesian?
 
 Unfortunately, cognitive models often involve distributions for which Frequentist estimations are not yet implemented, and usually contain a lot of parameters (due to the presence of **random effects**), which makes traditional algorithms fail to converge.
-Simply put, the Bayesian approach is the only one currently robust enough to fit these somewhat models.
+Simply put, the Bayesian approach is the only one currently robust enough to fit these complex models.
 
 ## Looking for Coauthors
 
