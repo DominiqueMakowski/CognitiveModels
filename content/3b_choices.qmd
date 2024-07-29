@@ -1,4 +1,4 @@
-# Binary Data
+# Binary Data and Choices
 
 ![](https://img.shields.io/badge/status-good_for_contributing-blue)
 
@@ -69,3 +69,134 @@ We will then convert this log-odds back to a probability using the **logistic fu
 
 
 <!-- BernoulliLogit -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- CHOCO -->
+
+<!-- 
+## Real Data Example
+
+### Data Preprocessing 
+
+
+```@example choco2
+using DataFrames, CSV, Downloads
+using Random
+using Turing
+using CairoMakie
+using StatsFuns: logistic
+using SubjectiveScalesModels
+```
+
+```@example choco2
+Random.seed!(123)
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/FakeFace/main/data/data.csv"), DataFrame)
+df = df[:, [:Participant, :Stimulus, :Real, :Attractive]]
+
+hist(df.Real, bins=30,  normalization=:pdf, color=:darkred)
+```
+
+Many zeros and ones, which will create problems with the simple Choco model.
+
+```@example choco2
+df = df[(df.Real .> 0.001) .& (df.Real .< 0.999), :];
+```
+
+In order to decrease the duration of the sampling (for demonstration), we will also keep only the first 1000 rows.
+
+```@example choco2
+df = df[1:1000, :]
+
+hist(df.Real, bins=30,  normalization=:pdf, color=:crimson)
+```
+
+### Basic Model 
+
+Fit model:
+
+```@example choco2
+@model function model_choco(y)
+    p1 ~ Normal(0, 2)
+    μ0 ~ Normal(0, 1)
+    μ1 ~ Normal(0, 1)
+    ϕ0 ~ Normal(0, 1)
+    ϕ1 ~ Normal(0, 1)
+
+    for i in 1:length(y)
+        y[i] ~ Choco(logistic(p1), logistic(μ0), exp(ϕ0), logistic(μ1), exp(ϕ1))
+    end
+end
+
+fit = model_choco(y)
+posteriors = sample(fit, NUTS(), 500)
+
+# 95% CI
+hpd(posteriors)
+```
+
+### Effect of Attractiveness
+
+
+```@example choco2
+@model function model_choco2(Real, Attractive)
+    # Priors at intercept
+    p0_intercept ~ Normal(0, 2)
+    μ0_intercept ~ Normal(0, 1)
+    μ1_intercept ~ Normal(0, 1)
+    ϕ0_intercept ~ Normal(0, 1)
+    ϕ1_intercept ~ Normal(0, 1)
+
+    # Priors over attractiveness effect
+    p0_attractiveness ~ Normal(0, 0.5)
+    μ0_attractiveness ~ Normal(0, 0.5)
+    μ1_attractiveness ~ Normal(0, 0.5)
+    ϕ0_attractiveness ~ Normal(0, 0.1)
+    ϕ1_attractiveness ~ Normal(0, 0.1)
+
+    # Inference
+    for i in 1:length(Real)
+        p0 = logistic(p0_intercept + p0_attractiveness * Attractive[i])
+        μ0 = logistic(μ0_intercept + μ0_attractiveness * Attractive[i])
+        μ1 = logistic(μ1_intercept + μ1_attractiveness * Attractive[i])
+        ϕ0 = exp(ϕ0_intercept + ϕ0_attractiveness * Attractive[i])
+        ϕ1 = exp(ϕ1_intercept + ϕ1_attractiveness * Attractive[i])
+        
+        Real[i] ~ Choco(p0, μ0, ϕ0, μ1, ϕ1)
+    end
+end
+
+fit = model_choco2(df.Real, df.Attractive)
+posteriors = sample(fit, NUTS(), 500)
+
+# 95% CI
+hpd(posteriors)
+```
+
+```@example choco2
+pred = predict(model_choco2(
+    [(missing) for _ in 1:1000],
+    repeat([0, 1]; inner=500)
+), posteriors)
+pred = Array(pred)
+
+fig = hist(df.Real, normalization=:pdf, color=:grey, bins=50)
+for i in 1:length(posteriors)
+    density!(pred[i, 1:500], color=(:black, 0), strokecolor=(:brown, 0.1), strokewidth=3, boundary=(0, 1))
+    density!(pred[i, 501:1000], color=(:black, 0), strokecolor=(:blue, 0.1), strokewidth=3, boundary=(0, 1))
+end
+fig
+```
+ -->

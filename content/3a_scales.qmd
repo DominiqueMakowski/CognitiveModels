@@ -24,6 +24,7 @@ Note that altough it is usually computed as the average of items a 4-point Liker
 using Downloads, CSV, DataFrames, Random
 using Turing, Distributions, StatsFuns
 using GLMakie
+using SubjectiveScalesModels
 
 Random.seed!(123)  # For reproducibility
 
@@ -87,23 +88,27 @@ pred = Array(pred)
 ```{julia}
 fig = hist(df.Disinhibition, normalization = :pdf, color=:darkred, bins=40)
 for i in 1:length(chain_Gaussian)
-    lines!(Makie.KernelDensity.kde(pred[i, :]), alpha=0.1, color=:black)
+    density!(pred[i, :], color=(:black, 0.0), strokecolor = (:black, 0.1), strokewidth = 1)
 end
 fig
 ```
 
-As we can see, the model assumes that the data is normally distributed, in a way that allows for negative values and values above 3, which **are not possible** because our variable is, **by design**, bounded between 0 and 3 (at it is the result of the mean of variables between 0 and 3).
+::: {.callout-tip title="Code Tip"}
+The plotting functions from the `Makie` package can take a tuple of a color and an alpha value (e.g., `color=(:red, 0.3)`) to set the transparency of the plotted elements.
+:::
+
+As we can see, the model assumes that the data is normally distributed, in a way that allows for negative values and values above 3, which **are not possible** as our variable is - **by design** - bounded between 0 and 3 (at it is the result of the mean of variables between 0 and 3).
 The linear model might thus not be the best choice for this type of data.
 
 ## Rescaling
 
 Continuous variables can be trivially rescaled, which is often done to improve the interpretability of the results. 
-For instance, a *z*-score is a rescaled variable with a mean of 0 and a standard deviation of 1.
+For instance, a *z*-score is a rescaled variable with a mean of 0 and a standard deviation of 1 that allows for an interpretation in terms of deviation from the mean.
 Importantly, rescaling variables does not change the variable's distribution or the absolute relationship between variables. 
-It does not alter the fundamental conclusions from an analysis, but can help with the interpretation of the results (or computational performance).
+In other words, it does not alter the fundamental conclusions from an analysis, but can help with the interpretation of the results (or computational performance).
 
-Two common rescalings are **standardization** (mean=0, SD=1) and **normalization** (range 0-1).
-The benefits of standardization are the interpretation in terms of deviation (which can be compared across variables).
+Two common rescalings are **standardization** (mean=0, SD=1) and **normalization** (to a 0-1 range).
+The benefits of standardization are the interpretation in terms of the magnitude of deviation relative to its own sample (which can be compared across variables).
 The benefits of normalization are the interpretation in terms of **"proportion"** (percentage): a value of $0.5$ (i.e., $50\%$) means that the value is in the middle of the range.
 The latter is particularly useful for bounded variables, as it redefines their bounds to 0 and 1 and allows for a more intuitive interpretation (e.g., "Condition B led to an increase of 20% of the rating on that scale").
 
@@ -131,31 +136,18 @@ fig
 
 ## Modified Beta Distribution 
 
-One good potential alternative to linear models for bounded variables is to use a **Beta distribution** instead of a Gaussian distribution, as the Beta distribution is bounded between 0 and 1 (**not including them**).
-Moreover, Beta distributions are powerful and can model a wide range of shapes, including normal-like distributions, but also uniformly spread data and data clustered at one or both ends.
+One good potential alternative to linear models for bounded variables is to use a **Beta distribution** instead of a Gaussian distribution, as the Beta distribution is naturally bounded between 0 and 1 (**not including them**).
+Moreover, Beta distributions are powerful and can model a wide variety of shapes, including normal-like distributions, but also uniformly spread data and data clustered at one or both ends.
 
 The Beta distribution is typically defined by two parameters, *alpha* $\alpha$ and *beta* $\beta$, which are the shape parameters. 
 Unfortunately, these parameters are not very intuitive, and so we often use a "reparametrization" of the Beta distribution to define it by its mean *mu* $\mu$ and "precision" *phi* $\phi$ (referring to the narrowness of the distribution).
 This is particularly convenient in the context of regressions, as these parameters are more interpretable and can be directly linked to the predictors.
 
-Here is the code to redefine a Beta distribution based on the mean *mu* $\mu$ and precision *phi* $\phi$, that converts them to the shape parameters *alpha* $\alpha$ and *beta* $\beta$.
+We will use a reparametrization of the Beta distribution based on the mean *mu* $\mu$ and precision *phi* $\phi$, that converts them to the shape parameters *alpha* $\alpha$ and *beta* $\beta$.
+You can find details about this reparametrization in the documentation of the [**BetaPhi2()**](https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/BetaPhi2/) function of the `SubjectiveScalesModels.jl` package.
 
-```{julia}
-#| code-fold: false
-#| output: false
+![](https://github.com/DominiqueMakowski/SubjectiveScalesModels.jl/blob/main/docs/img/animation_BetaPhi2.gif?raw=true)
 
-function BetaMuPhi(μ, ϕ)
-    return Beta(μ * ϕ, (1 - μ) * ϕ)
-end
-```
-
-::: {.callout-caution}
-TODO: Replace if it is supported somewhere (e.g., [Distributions.jl](https://github.com/JuliaStats/Distributions.jl/issues/1877))
-:::
-
-Note that for this modified Beta distribution, the mean *mu* $\mu$ and precision *phi* $\phi$ can impact the distribution in suprising ways. 
-
-![](media/scales_BetaMuPhi.gif)
 
 ## Beta Models
 
@@ -175,7 +167,7 @@ df.Disinhibition3 = data_rescale(df.Disinhibition; old_range=[0, 3], new_range=[
 
 For the priors, we will use a Beta distribution $Beta(1.25, 1.25)$ for *mu* $\mu$ that is naturally bounded at $]0, 1[$, peaks at 0.5, and assign less plausibility to extreme values.
 A Gamma distribution $Gamma(1.5, 15)$ for *phi* $\phi$ is a good choice for the precision, as it is naturally bounded at $]0, +\infty[$.
-That said, as we demonstrate below, it is often more convenient to express *phi* $\phi$ on the log scale (making it more convenient to express priors).
+
 
 
 ```{julia}
@@ -183,9 +175,8 @@ fig = Figure()
 ax1 = Axis(fig[1, 1], xlabel="Value of μ", ylabel="Plausibility", title="Prior for μ ~ Beta(1.25, 1.25)", yticksvisible=false, yticklabelsvisible=false,)
 band!(ax1, range(0, 1, length=1000), 0, pdf.(Beta(1.25, 1.25), range(0, 1, length=1000)), color=:red)
 ylims!(0, 1.25)
-ax1 = Axis(fig[1, 2], xlabel="Value of ϕ", ylabel="Plausibility", title="Prior for ϕ ~ Gamma(1.5, 15)", yticksvisible=false, yticklabelsvisible=false,)
+ax1 = Axis(fig[1, 2], xlabel="Value of ϕ", title="Prior for ϕ ~ Gamma(1.5, 15)", yticksvisible=false, yticklabelsvisible=false,)
 band!(ax1, range(0, 120, length=1000), 0, pdf.(Gamma(1.5, 15), range(0, 120, length=1000)), color=:blue)
-# ylims!(0, 0.06)
 fig
 ```
 
@@ -199,46 +190,53 @@ We can now fit a Beta model to the rescaled variable.
     ϕ ~ Gamma(1.5, 15)
     
     for i in 1:length(x)
-        x[i] ~ BetaMuPhi(μ, ϕ)
+        x[i] ~ BetaPhi2(μ, ϕ)
     end
 end
 
 fit_Beta = model_Beta(df.Disinhibition3)
-chain_Beta = sample(fit_Beta, NUTS(), 500)
+posteriors_Beta = sample(fit_Beta, NUTS(), 500)
 ```
 
 ::: {.callout-note}
-Note that it is also common to express *mu* $\mu$ on the logit scale. 
-In other words, the prior on *mu* $\mu$ can be specified using any unbounded distributions (e.g., $Normal(0, 1)$), which is convenient to set effect coefficients. 
-The resulting value is passed through a *logistic* function that transforms any values to the [0, 1] range (suited for *mu* $\mu$).
-We will demonstrate this below.
+Note that it is actually convenient to express the parameters with constraints such as a specific range or sign (e.g., positive) on **transformed** scales (e.g., the log scale) rather than the original scale.
+We will demonstrate this better way of parametrizing a model below.
 :::
 
 
-Let us see make a posterior predictive check to see how well the model fits the data.   
+Let us see make a posterior predictive check to see how well the model fits the data.
 
 ```{julia}
-pred = predict(model_Beta([(missing) for i in 1:nrow(df)]), chain_Beta)
+pred = predict(model_Beta([(missing) for i in 1:nrow(df)]), posteriors_Beta)
 pred = Array(pred)
 
-fig = hist(df.Disinhibition3, normalization = :pdf, color=:darkred, bins=40)
-for i in 1:length(chain_Beta)
-    density!(pred[i, :], color=(:black, 0), strokecolor = (:black, 0.1), strokewidth = 3, boundary=(0, 1))
+bins = range(0, 1, length=40)
+
+fig = hist(df.Disinhibition3, normalization = :pdf, color=:darkred, bins=bins)
+for i in 1:length(posteriors_Beta)
+    hist!(pred[i, :], normalization = :pdf, bins=bins, color=(:black, 0.01))
 end
 fig
 ```
 
+::: {.callout-tip title="Code Tip"}
+The distribution of bounded data is typically difficult to visualize.
+Density plots will tend to be very distorted at the edges (due to the Gaussian kernel used), and histograms will be dependent on the binning. 
+One option is to specify the bin edges in a consistent way.
+:::
 
-It is... **quite terrible**. Why? 
+As we can see, the model produced a distribution that appears to be collapsed to the left, not reflecting the actual data. 
+The model fit appears **quite terrible**. Why? 
 
 
 ## Excluding Extreme Observations
 
 One of the main issues is that, as you can se from the histogram, there is a high number of observations clumped at zero. 
-This creates a **bimodal** distribution which makes standard unimodal distributions fail to capture the data (note this issues is not addressed by linear models, which estimates will get biased by this configuration away from the actual "mean" of the variable).
+This is a **very common and often overlooked issue** in psychological science, where participants tend to use the extreme values of the scale (0 and 1) more often than the intermediate values.
+This creates a **bimodal** distribution which makes standard unimodal distributions fail to capture the data (note this issue is also present with linear models, which estimates will get biased by this configuration away from the actual "mean" of the variable).
 
-One simple, although not ideal, solution is to **exclude extreme values** (zeros or ones). 
-Beyond the statistical sanitization benefits, one could argue that these "floor" and "ceiling" effects might correspond to a **different cognitive process** (this will be important in the later part of this chapter).
+One simple, although not ideal, solution could be to **exclude extreme values** (zeros or ones). 
+Beyond the statistical sanitization benefits, one could argue that these "floor" and "ceiling" effects might correspond to a **different cognitive process** (this will be important in the latter part of this chapter).
 
 ::: {.callout-note}
 For instance, in the case of a bounded scale type of trials, participants might actually use a dual strategy in order to lower the cognitive load.
@@ -258,13 +256,16 @@ var_noextreme = df.Disinhibition2[(df.Disinhibition2 .> 0) .& (df.Disinhibition2
 ### Logit Link for *Mu* $\mu$
 
 This time, we will add another trick to make the model more robust (note that this is a general improvement that we are introducing here but that is not related to the current issue at hand of the extreme values). 
-The current parameter *mu* $\mu$ is defined on the $]0, 1[$ range. Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
+The current parameter *mu* $\mu$ is defined on the $]0, 1[$ range. 
+Although this is not an issue in our model where we don't have any predictors, these types of bounded parameters can be a bit problematic in the context of regressions, where the effect of predictors can push the parameter outside of its bounds.
 For example, imagine that the algorithm pics a value of $0.45$ for *mu* $\mu$ from the prior, and then picks a value of $+0.30$ for the effect of a potential predictor (e.g., an experimental condition). 
 This would result in a value of $0.75$, which is outside the range of possible, and would make the model fail to converge.
 
-One common solution (at the heard of the so-called **logistic models**) is to express *mu* $\mu$ on the logit scale using the **logistic** function (available in the `StatsFuns` package).
-The logistic function is a simple transformation that maps any value (from the unbounded range $]-\infty, +\infty[$)) to the 0, 1 range. 
-We can now specify the prior for *mu* $\mu$ on the logit scale as a normal distribution (e.g., $Normal(0, 3)$) without worrying about the estimates going out of bounds.
+One common solution (at the heard of the so-called **logistic models**) is to express *mu* $\mu$ on the logit scale, which transforms from a bounded [0, 1] range it to an unbounded $]-\infty, +\infty[$ range.
+The priors on *mu* $\mu$ can then be specified using any unbounded distributions (e.g., $Normal(0, 3)$), without worrying about the estimates going out of bounds.
+The parameter is then transformed back to the $]0, 1[$ range using the **logistic** function (available in the `StatsFuns` package) before being evaluated.
+
+The logistic function is a simple transformation that maps any value from the unbounded range $]-\infty, +\infty[$) back to the 0, 1 range. 
 
 ```{julia}
 xaxis = range(-10, 10, length=1000)
@@ -279,32 +280,15 @@ lines!(ax3, logistic.(xaxis), pdf.(Normal(0, 3), xaxis), color=:green, linewidth
 fig
 ```
 
-```{julia}
-#| code-fold: false
-#| output: false
-
-@model function model_Beta(x)
-    μ ~ Normal(0, 3)  # On the logit scale
-    ϕ ~ Gamma(1.5, 15)
-    
-    for i in 1:length(x)
-        μ_norm = logistic(μ)  # Normalize (0-1) the μ parameter
-        x[i] ~ BetaMuPhi(μ_norm, ϕ)
-    end
-end
-
-# Refit
-fit_Beta = model_Beta(var_noextreme)
-chain_Beta = sample(fit_Beta, NUTS(), 500)
-```
-
 ### Log Link for *Phi* $\phi$
 
-Because precision *phi* $\phi$ is a positive parameter that can go from 0 to big values, with a particular threshold value at `1` (where the distribution becomes flat), it is often more convenient to **express it on the log scale**. 
-This means that **the value will be exponentiated** before being used in the Beta distribution.
-Similarly to above, **changing the link function** does not change the model *per se*, but it makes it more convenient to set priors and often makes the model more efficient.
+Similarly, because precision *phi* $\phi$ is a positive parameter that can go from 0 to big values, with a particular threshold value at `1` (where the distribution becomes flat), it is often more convenient to **express it on the log scale** to be able to set priors on effects without worrying about potential combinations of the parameters that would result in negative values of *phi* $\phi$, which would make the model fail to converge.
 
-Expressing *phi* $\phi$ on the log scale is convenient because we can set a $Normal$ prior centered around zero, which will result (after the exponential transformation) in a distribution peaking at 1.
+Having the parameter on the log scale simply means that **its value will be exponentiated** before being used in the Beta distribution (the log transformation being the *inverse* transformation of the exponential function).
+Expressing *phi* $\phi$ on the log scale is convenient because we can set a $Normal$ prior centered around zero, which will result (after the exponential transformation) in a distribution peaking at 1 (which is a good prior for the precision parameter).
+
+Importantly, **changing the link function** of parameters does not change the model *per se*, but it makes it more convenient to set priors and often makes the model more efficient.
+
 
 ```{julia}
 xaxis = range(-10, 10, length=1000)
@@ -321,7 +305,7 @@ xlims!(-1, 20)
 fig
 ```
 
-The final model is then:
+Let us now refit the Beta model using these link functions.
 
 ```{julia}
 #| code-fold: false
@@ -332,31 +316,43 @@ The final model is then:
     ϕ ~ Normal(0, 2)  # On the log scale
     
     for i in 1:length(x)
-        x[i] ~ BetaMuPhi(logistic(μ), exp(ϕ))
+        x[i] ~ BetaPhi2(logistic(μ), exp(ϕ))
     end
 end
 
 # Refit
 fit_Beta = model_Beta(var_noextreme)
-chain_Beta = sample(fit_Beta, NUTS(), 500)
+posteriors_Beta = sample(fit_Beta, NUTS(), 500)
 ```
+
+
+The only caveat is that we need to **transform the parameters back** to the original scale when interpreting the results.
+
+```{julia}
+params = DataFrame(mean(posteriors_Beta))
+params.values_raw = [logistic(params.mean[1]), exp(params.mean[2])]
+params
+```
+
 
 ### Conclusion
 
 Let us now make a posterior predictive check to see how well the model fits the data.
 
 ```{julia}
-pred = predict(model_Beta([(missing) for i in 1:length(var_noextreme)]), chain_Beta)
+pred = predict(model_Beta([(missing) for i in 1:length(var_noextreme)]), posteriors_Beta)
 pred = Array(pred)
 
-fig = hist(var_noextreme, normalization = :pdf, color=:darkred, bins=40)
-for i in 1:length(chain_Beta)
-    density!(pred[i, :], color=(:black, 0), strokecolor = (:black, 0.1), strokewidth = 3, boundary=(0, 1))
+bins = range(0, 1, length=40)
+
+fig = hist(var_noextreme, normalization = :pdf, color=:darkred, bins=bins)
+for i in 1:length(posteriors_Beta)
+    hist!(pred[i, :], normalization = :pdf, bins=bins, color=(:black, 0.01))
 end
 fig
 ```
 
-Removing the extreme values improved the fit. However, it is not a perfect solution.
+Although removing the extreme values did improve the fit, it is not a perfect solution, as it neglects the importance of these values and the potential cognitive processes behind them.
 
 ## Ordered Beta Models
 

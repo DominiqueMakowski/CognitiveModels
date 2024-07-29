@@ -32,51 +32,51 @@ import SpecialFunctions: logbeta
 import Random
 
 logit(0.5)
-
+logistic(0.0)
 
 """
-    OrderedBeta(μ, ϕ, k1, k2)
+    OrderedBeta(μ, ϕ, cut0, cut1)
 
 Ordered Beta distribution with parameters:
-- `μ`: location parameter [0, 1]
+- `μ`: location parameter ]0, 1[
 - `ϕ`: precision parameter (must be positive)
-- `k1`: first cutpoint
-- `k2`: log of the difference between the second and first cutpoints
+- `cut0`: first cutpoint
+- `cut1`: log of the difference between the second and first cutpoints
 
 The distribution is defined on the interval [0, 1] with additional point masses at 0 and 1.
 """
 struct OrderedBeta{T<:Real} <: ContinuousUnivariateDistribution
     μ::T
     ϕ::T
-    k1::T
-    k2::T
+    cut0::T
+    cut1::T
     beta_dist::Beta{T}
 
-    function OrderedBeta{T}(μ::T, ϕ::T, k1::T, k2::T) where {T<:Real}
+    function OrderedBeta{T}(μ::T, ϕ::T, cut0::T, cut1::T) where {T<:Real}
         @assert ϕ > 0 "ϕ must be positive"
-        @assert k1 < k2 "k1 must be less than k2"
-        new{T}(μ, ϕ, k1, k2, Beta(μ * ϕ, (1 - μ) * ϕ))
+        @assert cut0 < cut1 "cut0 must be less than cut1"
+        new{T}(μ, ϕ, cut0, cut1, Beta(μ * ϕ, (1 - μ) * ϕ))
     end
 end
 
-OrderedBeta(μ::T, ϕ::T, k1::T, k2::T) where {T<:Real} = OrderedBeta{T}(μ, ϕ, k1, k2)
+OrderedBeta(μ::T, ϕ::T, cut0::T, cut1::T) where {T<:Real} = OrderedBeta{T}(μ, ϕ, cut0, cut1)
 
-function OrderedBeta(μ::Real, ϕ::Real, k1::Real, k2::Real)
-    T = promote_type(typeof(μ), typeof(ϕ), typeof(k1), typeof(k2))
-    OrderedBeta(T(μ), T(ϕ), T(k1), T(k2))
+function OrderedBeta(μ::Real, ϕ::Real, cut0::Real, cut1::Real)
+    T = promote_type(typeof(μ), typeof(ϕ), typeof(cut0), typeof(cut1))
+    OrderedBeta(T(μ), T(ϕ), T(cut0), T(cut1))
 end
 
 
 # Methods ------------------------------------------------------------------------------------------
-params(d::OrderedBeta) = (d.μ, d.ϕ, d.k1, d.k2)
+params(d::OrderedBeta) = (d.μ, d.ϕ, d.cut0, d.cut1)
 minimum(::OrderedBeta) = 0
 maximum(::OrderedBeta) = 1
 insupport(::OrderedBeta, x::Real) = 0 ≤ x ≤ 1
 
 function logpdf(d::OrderedBeta, x::Real)
-    μ, ϕ, k1, k2 = params(d)
+    μ, ϕ, cut0, cut1 = params(d)
     μ_logit = logit(μ)
-    thresh = [k1, k1 + exp(k2)]
+    thresh = [cut0, cut0 + exp(cut1)]
 
     if x == 0
         # Stan: log1m_inv_logit(mu_logit - thresh[1])
@@ -98,8 +98,8 @@ pdf(d::OrderedBeta, x::Real) = exp(logpdf(d, x))
 loglikelihood(d::OrderedBeta, x::Real) = logpdf(d, x)
 
 # function Random.rand(rng::Random.AbstractRNG, d::OrderedBeta)
-#     μ, ϕ, k1, k2 = params(d)
-#     thresh = [k1, k1 + exp(k2)]
+#     μ, ϕ, cut0, cut1 = params(d)
+#     thresh = [cut0, cut0 + exp(cut1)]
 #     u = Random.rand(rng)
 
 #     if u <= 1 - logistic(μ - thresh[1])
@@ -118,8 +118,8 @@ loglikelihood(d::OrderedBeta, x::Real) = logpdf(d, x)
 # sampler(d::OrderedBeta) = d
 
 # function cdf(d::OrderedBeta, x::Real)
-#     μ, ϕ, k1, k2 = params(d)
-#     thresh = [k1, k1 + exp(k2)]
+#     μ, ϕ, cut0, cut1 = params(d)
+#     thresh = [cut0, cut0 + exp(cut1)]
 
 #     if x <= 0
 #         return zero(μ)
@@ -134,8 +134,8 @@ loglikelihood(d::OrderedBeta, x::Real) = logpdf(d, x)
 
 # function quantile(d::OrderedBeta, q::Real)
 #     0 <= q <= 1 || throw(DomainError(q, "quantile must be in [0, 1]"))
-#     μ, ϕ, k1, k2 = params(d)
-#     thresh = [k1, k1 + exp(k2)]
+#     μ, ϕ, cut0, cut1 = params(d)
+#     thresh = [cut0, cut0 + exp(cut1)]
 
 #     p_0 = 1 - logistic(μ - thresh[1])
 #     p_1 = logistic(μ - thresh[2])
@@ -151,15 +151,14 @@ loglikelihood(d::OrderedBeta, x::Real) = logpdf(d, x)
 #     end
 # end
 
-# mean(d::OrderedBeta) = logistic(d.μ)
-# var(d::OrderedBeta) = logistic(d.μ) * (1 - logistic(d.μ)) / (1 + d.ϕ)
+
 
 
 # Simulation =======================================================================================
 using GLMakie
 
 xaxis = range(0, 1, length=1000)
-fig = lines(xaxis, pdf.(OrderedBeta(0.5, 10, 0, 0), xaxis); color=:yellow)
+fig = lines(xaxis, pdf.(OrderedBeta(0.5, 10, 0, 0.1), xaxis); color=:yellow)
 lines!(xaxis, pdf.(OrderedBeta(0.5, 10, 0.7, 1), xaxis); color=:orange)
 lines!(xaxis, pdf.(OrderedBeta(0.5, 10, 0.5, 1), xaxis); color=:red)
 lines!(xaxis, pdf.(OrderedBeta(0.5, 10, 0.2, 1), xaxis); color=:purple)
