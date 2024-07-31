@@ -1,5 +1,14 @@
 # Preface {.unnumbered}
 
+## Why Cognitive Models?
+
+Psychological and behavioural data that typically result from cognitive processes are often exhibiting characteristics that are not well captured by traditional statistical models.
+This issue has been simply ignored for a long time, with researchers using simple linear models without even thinking about whether they are appropriate, contributing to the **replication crisis**.
+Recent advances have underlined the need for statistical models that better reflect the data at hand.
+
+**Cognitive models** are statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...) and can offer new insights by enabling inferences about the underlying cognitive processes that led to its generation.
+
+
 ## Why Julia?
 
 [**Julia**](https://julialang.org/) - the new cool kid on the scientific block - is a modern programming language with many benefits when compared with R or Python.

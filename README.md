@@ -5,8 +5,15 @@
 [![](https://img.shields.io/badge/status-looking_for_collaborators-orange)](https://github.com/DominiqueMakowski/CognitiveModels/issues)
 [![](https://img.shields.io/badge/access-open-brightgreen)](https://dominiquemakowski.github.io/CognitiveModels/)
 
-The project is to write an open-access book on **cognitive models**, i.e., statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...). 
-This framework aims at moving away from a mere description of the data, to make inferences about the underlying cognitive processes that led to its generation.
+This project aims at writing an open-access book on cognitive statistical models in Julia.
+
+## Why Cognitive Models?
+
+Psychological and behavioural data that typically result from cognitive processes are often exhibiting characteristics that are not well captured by traditional statistical models.
+This issue has been simply ignored for a long time, with researchers using simple linear models without even thinking about whether they are appropriate, contributing to the **replication crisis**.
+Recent advances have underlined the need for statistical models that better reflect the data at hand.
+
+**Cognitive models** are statistical models that best fit **psychological data** (e.g., reaction times, scales from surveys, ...) and can offer new insights by enabling inferences about the underlying cognitive processes that led to its generation.
 
 ## Why Julia?
 

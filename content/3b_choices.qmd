@@ -68,7 +68,7 @@ This way, the effect of `Accuracy` will be expressed as a **log-odds** (i.e., th
 We will then convert this log-odds back to a probability using the **logistic function** which maps any value to the [0, 1] range.
 
 
-<!-- BernoulliLogit -->
+<!-- Use BernoulliLogit -->
 
 
 
