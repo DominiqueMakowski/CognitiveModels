@@ -14,7 +14,7 @@ In this chapter, we will focus on the "amount" of **errors** between the two con
 #| code-fold: false
 
 using Downloads, CSV, DataFrames, Random
-using Turing, Distributions, StatsFuns, SequentialSamplingModels
+using Turing, Distributions, StatsFuns, SubjectiveScalesModels
 using GLMakie
 
 Random.seed!(123)  # For reproducibility
@@ -44,6 +44,18 @@ axislegend()
 fig
 ```
 
+Let us then format the data for the model by transforming the `Condition` column into a binary variable (0 for `Speed` and 1 for `Accuracy`).
+This means that the intercept of the model will represent the error rate in the `Speed` condition, and we will be able to estimate the effect of the `Accuracy` condition on the error rate.
+
+
+
+```{julia}
+#| code-fold: false
+
+df.Accuracy = ifelse.(df.Condition .== "Accuracy", 1, 0)
+```
+
+Our hypothesis is that the `Accuracy` condition will **decrease** the error rate compared to the `Speed` condition.
 
 ## Logistic models for Binary Data
 
@@ -51,8 +63,8 @@ The statistical models that we use aim at uncovering the **parameters of the dis
 In a standard linear regression, this means estimating the mean *mu* $\mu$ (which often is expressed as a function of another variable, such as the `Condition`) and the standard deviation *sigma* $\sigma$ of the normal distribution that best fits the data.
 
 However, when the dependent variable is binary (e.g., 0 or 1), we cannot use a normal distribution, as it would predict values outside the [0, 1] range.
-We saw in the previous chapter how to model probabilities using $Beta$ distributions, but in this part we will use another distribution: the **Bernoulli** distribution.
-The Bernoulli distribution is a distribution that generates zeros and ones (or True and False) with a single parameter: the probability of success *p*.
+We saw in the previous chapter how to model "probabilities" (values between 0 and 1) using $Beta$ distributions, but in this part we will use another distribution: the **Bernoulli** distribution.
+The Bernoulli distribution is a distribution that generates only zeros and ones (or True and False) with a single parameter: the probability of success *p*.
 
 In the data above, we saw that the error rate (the proportion - or the "probability" - of errors) in the `Speed` condition was `0.11` (11%).
 This would potentially translate into a distribution $Bernoulli(0.11)$.
@@ -63,27 +75,122 @@ But here is the **catch**.
 Imagine the sampling algorithm picks a value of $0.11$ for the intercept (close to the true value) and then decides to explore a value of $-0.20$.
 This would lead to a tentative value of $0.11 - 0.20 = -0.09$... but this parameter is **impossible** (the *p* parameter of the $Bernouilli$ distribution must be betwen 0 and 1).
 
-Similarly to the previous chapter, we will avoid these issues by expressing our probability *p* on the **log scale**. 
+Similarly to the previous chapter, we will avoid these issues by expressing our probability *p* on the **logit scale**. 
 This way, the effect of `Accuracy` will be expressed as a **log-odds** (i.e., the log of the odds ratio), which can take any value between $-\infty$ and $+\infty$.
-We will then convert this log-odds back to a probability using the **logistic function** which maps any value to the [0, 1] range.
+We will then convert this log-odds back to a probability using the **logistic function** (the "inverse" of the logit transformation) which maps any value to the [0, 1] range.
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_logistic(y; condition=df.Accuracy)
+    # Priors
+    p_intercept ~ Normal(0, 1)
+    p_condition ~ Normal(0, 1)
+    
+    # Likelihood
+    for i in 1:length(y)
+        # Linear model equation
+        p = p_intercept + p_condition * condition[i]
+        
+        # Inference
+        y[i] ~ BernoulliLogit(p)
+    end
+end
+
+fit_logistic = model_logistic(df.Error, condition=df.Accuracy)
+posteriors_logistic = sample(fit_logistic, NUTS(), 500)
+```
+
+::: {.callout-tip title="Code Tip"}
+Note the use of `BernoulliLogit(p)`, which is equivalent to `Bernoulli(logistic(p))` but more efficient. 
+:::
+
+```{julia}
+#| code-fold: false
+
+# 95% CI
+hpd(posteriors_logistic)
+```
+
+In order to visualize the results, we are going to errors and then overlay the predicted error rates for each condition for each posterior draw.
+
+```{julia}
+#| output: false
+
+pred = predict(model_logistic(fill(missing, length(df.Error)), condition=df.Accuracy), posteriors_logistic)
+pred = Array(pred)
+
+for i in 1:length(posteriors_logistic)
+    mean_speed = mean(pred[i, :][df.Accuracy .== 0])
+    mean_accuracy = mean(pred[i, :][df.Accuracy .== 1])
+    lines!([0, 1], [mean_speed, mean_accuracy], color=(:black, 0.1), linewidth=1)
+end
+
+fig
+```
 
 
-<!-- Use BernoulliLogit -->
+The model appears to successfully recover the average error rates for each condition.
+
+
+## Mixed Logistic models
+
+However, this model overlooks the fact that the data has **repeated measures**. In other words, each individual observation is nested within an overarching cluster that is a "participant".
+Taking into account this structure can lead to more accurate estimates of the fixed effects (the intercept and the effect of `Accuracy`), as well as a quantification of the variability between participants.
+
+Setting a mixed model in Turing requires, for each "random" effect (that can be added to any of the "fixed" parameters):
+- A prior for the **standard deviation** of the random effects (i.e., the variability between participants). This will determine how much each participant are assumed (and allowed) to deviate from the average effect.
+- A series of priors for each participant. These priors are typically centered at 0 (i.e., no deviation from the average effect) and have a standard deviation equal to the one defined above.
+
+
+```{julia}
+#| code-fold: false
+#| output: false
+
+@model function model_logistic(y; condition=df.Accuracy, participant=df.Participant)
+    # Priors for  fixed effects
+    p_intercept_fixed ~ Normal(0, 1)
+    p_condition_fixed ~ Normal(0, 1)
+
+    # Priors for the SD of the random effects 
+    p_intercept_participant_sd ~ truncated(Normal(0, 0.5); lower=0)
+    p_condition_participant_sd ~ truncated(Normal(0, 0.5); lower=0)
+
+    # Priors for each participant
+    p_intercept_participant ~ filldist(Normal(0, p_intercept_participant_sd), length(unique(participant)))
+    p_condition_participant ~ filldist(Normal(0, p_condition_participant_sd), length(unique(participant)))
+    
+    # Likelihood
+    for i in 1:length(y)
+        # Random components
+        p_intercept = p_intercept_fixed + p_intercept_participant[participant[i]]
+        p_condition = p_condition_fixed + p_condition_participant[participant[i]]
+
+        # Linear model equation
+        p = p_intercept + p_condition * condition[i]
+        
+        # Inference
+        y[i] ~ BernoulliLogit(p)
+    end
+end
+
+fit_logistic = model_logistic(df.Error, condition=df.Accuracy, participant=df.Participant)
+posteriors_logistic = sample(fit_logistic, NUTS(), 500)
+# using MicroCanonicalHMC
+# posteriors_logistic = sample(fit_logistic, externalsampler(MCHMC(1000, 0.001)), 500)
+```
+
+Unfortunately, mixed models are very slow in Julia for now.
+
+## Choice-Confidence (Choco) Models
+
+See [here](https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/Choco/).
+TODO.
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-<!-- CHOCO -->
 
 <!-- 
 ## Real Data Example
@@ -108,95 +215,3 @@ df = df[:, [:Participant, :Stimulus, :Real, :Attractive]]
 
 hist(df.Real, bins=30,  normalization=:pdf, color=:darkred)
 ```
-
-Many zeros and ones, which will create problems with the simple Choco model.
-
-```@example choco2
-df = df[(df.Real .> 0.001) .& (df.Real .< 0.999), :];
-```
-
-In order to decrease the duration of the sampling (for demonstration), we will also keep only the first 1000 rows.
-
-```@example choco2
-df = df[1:1000, :]
-
-hist(df.Real, bins=30,  normalization=:pdf, color=:crimson)
-```
-
-### Basic Model 
-
-Fit model:
-
-```@example choco2
-@model function model_choco(y)
-    p1 ~ Normal(0, 2)
-    μ0 ~ Normal(0, 1)
-    μ1 ~ Normal(0, 1)
-    ϕ0 ~ Normal(0, 1)
-    ϕ1 ~ Normal(0, 1)
-
-    for i in 1:length(y)
-        y[i] ~ Choco(logistic(p1), logistic(μ0), exp(ϕ0), logistic(μ1), exp(ϕ1))
-    end
-end
-
-fit = model_choco(y)
-posteriors = sample(fit, NUTS(), 500)
-
-# 95% CI
-hpd(posteriors)
-```
-
-### Effect of Attractiveness
-
-
-```@example choco2
-@model function model_choco2(Real, Attractive)
-    # Priors at intercept
-    p0_intercept ~ Normal(0, 2)
-    μ0_intercept ~ Normal(0, 1)
-    μ1_intercept ~ Normal(0, 1)
-    ϕ0_intercept ~ Normal(0, 1)
-    ϕ1_intercept ~ Normal(0, 1)
-
-    # Priors over attractiveness effect
-    p0_attractiveness ~ Normal(0, 0.5)
-    μ0_attractiveness ~ Normal(0, 0.5)
-    μ1_attractiveness ~ Normal(0, 0.5)
-    ϕ0_attractiveness ~ Normal(0, 0.1)
-    ϕ1_attractiveness ~ Normal(0, 0.1)
-
-    # Inference
-    for i in 1:length(Real)
-        p0 = logistic(p0_intercept + p0_attractiveness * Attractive[i])
-        μ0 = logistic(μ0_intercept + μ0_attractiveness * Attractive[i])
-        μ1 = logistic(μ1_intercept + μ1_attractiveness * Attractive[i])
-        ϕ0 = exp(ϕ0_intercept + ϕ0_attractiveness * Attractive[i])
-        ϕ1 = exp(ϕ1_intercept + ϕ1_attractiveness * Attractive[i])
-        
-        Real[i] ~ Choco(p0, μ0, ϕ0, μ1, ϕ1)
-    end
-end
-
-fit = model_choco2(df.Real, df.Attractive)
-posteriors = sample(fit, NUTS(), 500)
-
-# 95% CI
-hpd(posteriors)
-```
-
-```@example choco2
-pred = predict(model_choco2(
-    [(missing) for _ in 1:1000],
-    repeat([0, 1]; inner=500)
-), posteriors)
-pred = Array(pred)
-
-fig = hist(df.Real, normalization=:pdf, color=:grey, bins=50)
-for i in 1:length(posteriors)
-    density!(pred[i, 1:500], color=(:black, 0), strokecolor=(:brown, 0.1), strokewidth=3, boundary=(0, 1))
-    density!(pred[i, 501:1000], color=(:black, 0), strokecolor=(:blue, 0.1), strokewidth=3, boundary=(0, 1))
-end
-fig
-```
- -->
