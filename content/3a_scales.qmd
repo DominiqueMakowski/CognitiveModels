@@ -130,10 +130,14 @@ df.Disinhibition2 = data_rescale(df.Disinhibition; old_range=[0, 3], new_range=[
 
 ```{julia}
 # Visualize
-fig = hist(df.Disinhibition2, normalization=:pdf, color=:darkred, bins=40)
+fig = hist(df.Disinhibition2, normalization=:pdf, color=:darkred, bins=beta_bins(30))
 xlims!(-0.1, 1.1)
 fig
 ```
+
+::: {.callout-tip title="Code Tip"}
+We can use the `beta_bins()` function from the SubjectiveScaleModels.jl package to create bin edges that work nicely with the Beta distribution.
+:::
 
 ## Modified Beta Distribution
 
@@ -211,11 +215,9 @@ Let us see make a posterior predictive check to see how well the model fits the 
 pred = predict(model_Beta([(missing) for i in 1:nrow(df)]), posteriors_Beta)
 pred = Array(pred)
 
-bins = range(0, 1, length=40)
-
-fig = hist(df.Disinhibition3, normalization=:pdf, color=:darkred, bins=bins)
+fig = hist(df.Disinhibition3, normalization=:pdf, color=:darkred, bins=beta_bins(30))
 for i in 1:length(posteriors_Beta)
-    hist!(pred[i, :], normalization=:pdf, bins=bins, color=(:black, 0.01))
+    hist!(pred[i, :], normalization=:pdf, bins=beta_bins(30), color=(:black, 0.01))
 end
 fig
 ```
@@ -223,7 +225,7 @@ fig
 ::: {.callout-tip title="Code Tip"}
 The distribution of bounded data is typically difficult to visualize.
 Density plots will tend to be very distorted at the edges (due to the Gaussian kernel used), and histograms will be dependent on the binning.
-One option is to specify the bin edges in a consistent way.
+One option is to specify the bin edges in a consistent way (for instance, using `beta_bins(30)`).
 :::
 
 As we can see, the model produced a distribution that appears to be collapsed to the left, not reflecting the actual data.
@@ -345,11 +347,9 @@ Let us now make a posterior predictive check to see how well the model fits the 
 pred = predict(model_Beta([(missing) for i in 1:length(var_noextreme)]), posteriors_Beta)
 pred = Array(pred)
 
-bins = range(0, 1, length=40)
-
-fig = hist(var_noextreme, normalization=:pdf, color=:darkred, bins=bins)
+fig = hist(var_noextreme, normalization=:pdf, color=:darkred, bins=beta_bins(30))
 for i in 1:length(posteriors_Beta)
-    hist!(pred[i, :], normalization=:pdf, bins=bins, color=(:black, 0.01))
+    hist!(pred[i, :], normalization=:pdf, bins=beta_bins(30), color=(:black, 0.01))
 end
 fig
 ```
@@ -396,11 +396,9 @@ posteriors_OrderedBeta = sample(fit_OrderedBeta, NUTS(), 500)
 pred = predict(model_OrderedBeta([(missing) for i in 1:length(df.Disinhibition2)]), posteriors_OrderedBeta)
 pred = Array(pred)
 
-bins = range(0, 1, length=40)
-
-fig = hist(df.Disinhibition2, normalization=:pdf, color=:darkred, bins=bins)
+fig = hist(df.Disinhibition2, normalization=:pdf, color=:darkred, bins=beta_bins(30))
 for i in 1:length(posteriors_OrderedBeta)
-    hist!(pred[i, :], normalization=:pdf, bins=bins, color=(:black, 0.01))
+    hist!(pred[i, :], normalization=:pdf, bins=beta_bins(30), color=(:black, 0.01))
 end
 fig
 ```
@@ -483,23 +481,21 @@ pred1 = Array(predict(m1, posteriors_OrderedBeta))
 pred2 = Array(predict(m2, posteriors_OrderedBeta))
 
 # Plot
-bins = range(0, 1, length=40)
-
 fig = Figure()
 ax1 = Axis(fig[1, 1], title="High Conscientiousness", xlabel="Disinhibition", 
     ylabelvisible=false, yticklabelsvisible=false, yticksvisible=false)
-ax1 = hist!(df.Disinhibition2, normalization=:pdf, color=:grey, bins=bins)
+ax1 = hist!(df.Disinhibition2, normalization=:pdf, color=:grey, bins=beta_bins(30))
 for i in 1:size(pred1)[1]
-    hist!(ax1, pred1[i, :], normalization=:pdf, bins=bins, color=(:blue, 0.01))
+    hist!(ax1, pred1[i, :], normalization=:pdf, bins=beta_bins(30), color=(:blue, 0.01))
 end
 ax2 = Axis(fig[1, 2], title="Low Conscientiousness", xlabel="Disinhibition", 
     ylabelvisible=false, yticklabelsvisible=false, yticksvisible=false)
-ax2 = hist!(df.Disinhibition2, normalization=:pdf, color=:grey, bins=bins)
+ax2 = hist!(df.Disinhibition2, normalization=:pdf, color=:grey, bins=beta_bins(30))
 for i in 1:size(pred2)[1]
-    hist!(ax2, pred2[i, :], normalization=:pdf, bins=bins, color=(:red, 0.01))
+    hist!(ax2, pred2[i, :], normalization=:pdf, bins=beta_bins(30), color=(:red, 0.01))
 end
 fig
 ```
 
-As we can see, **Ordered Beta models** are lexible and more appropriate to the type of data often observed in psychology. 
+As we can see, **Ordered Beta models** are flexible and more appropriate to the type of data often observed in psychology. 
 Moreover, by modelling all the parameters of the distribution, we managed to assess more subtle effects of the predictor on various aspects of the distribution of the dependent variable, possibly corresponding to various cognitive processes.

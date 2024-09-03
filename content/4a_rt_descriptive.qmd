@@ -22,8 +22,8 @@ df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMak
 first(df, 10)
 ```
 
-In the previous chapter, we modelled the error rate (the probability of making an error) using a logistic model, and observed that it was higher in the `"Speed"` condition. 
-But how about speed? We are going to first take interest in the RT of **Correct** answers only (as we can assume that errors are underpinned by a different *generative process*). 
+In the previous chapter, we modeled the error rate (the probability of making an error) using a logistic model, and observed that it was higher in the `"Speed"` condition. 
+But how about speed? We are going to first take interest in the response times (RT) of **Correct** answers only (as we can assume that errors are underpinned by a different *generative process*). 
 
 After filtering out the errors, we create a new column, `Accuracy`, which is the "binarization" of the `Condition` column, and is equal to 1 when the condition is `"Accuracy"` and 0 when it is `"Speed"`.
 
@@ -245,11 +245,13 @@ hpd(chain_ScaledGaussian; alpha=0.05)
 ```
 
 
-### Solution 3: Use a "Softplus" Function
+### Solution 3: Change the Link-Function
+
+Using the previous solution feels like a "hack" and a workaround for a misspecified model.
+One common practice in regression modelling is to express the parameters on a different, typically unbounded scale.
 
 #### Exponential Transformation
 
-Using the previous solution feels like a "hack" and a workaround a misspecified model.
 One alternative approach is to apply a function to *sigma* $\sigma$ to "transform" it into a positive value.
 We have seen example of applying "non-identity" **link functions** in the previous chapters with the **logistic** function that transforms any value between $-\infty$ and $+\infty$ into a value between 0 and 1.
 

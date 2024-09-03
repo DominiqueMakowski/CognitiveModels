@@ -37,7 +37,7 @@ combine(groupby(df, :Condition), :Error => mean)
 dat = combine(groupby(df, :Condition), :Error => mean)
 
 fig = Figure()
-ax = Axis(fig[1, 1], ylabel="Average error rate", xticks =([0, 1], ["Speed", "Accuracy"]))
+ax = Axis(fig[1, 1], ylabel="Average error rate", xticks=([0, 1], ["Speed", "Accuracy"]))
 barplot!(ax, [0], [dat.Error_mean[1]], label="Speed", color=:red)
 barplot!(ax, [1], [dat.Error_mean[2]], label="Accuracy", color=:green)
 axislegend()
@@ -87,12 +87,12 @@ We will then convert this log-odds back to a probability using the **logistic fu
     # Priors
     p_intercept ~ Normal(0, 1)
     p_condition ~ Normal(0, 1)
-    
+
     # Likelihood
     for i in 1:length(y)
         # Linear model equation
         p = p_intercept + p_condition * condition[i]
-        
+
         # Inference
         y[i] ~ BernoulliLogit(p)
     end
@@ -122,8 +122,8 @@ pred = predict(model_logistic(fill(missing, length(df.Error)), condition=df.Accu
 pred = Array(pred)
 
 for i in 1:length(posteriors_logistic)
-    mean_speed = mean(pred[i, :][df.Accuracy .== 0])
-    mean_accuracy = mean(pred[i, :][df.Accuracy .== 1])
+    mean_speed = mean(pred[i, :][df.Accuracy.==0])
+    mean_accuracy = mean(pred[i, :][df.Accuracy.==1])
     lines!([0, 1], [mean_speed, mean_accuracy], color=(:black, 0.1), linewidth=1)
 end
 
@@ -160,7 +160,7 @@ Setting a mixed model in Turing requires, for each "random" effect (that can be 
     # Priors for each participant
     p_intercept_participant ~ filldist(Normal(0, p_intercept_participant_sd), length(unique(participant)))
     p_condition_participant ~ filldist(Normal(0, p_condition_participant_sd), length(unique(participant)))
-    
+
     # Likelihood
     for i in 1:length(y)
         # Random components
@@ -169,7 +169,7 @@ Setting a mixed model in Turing requires, for each "random" effect (that can be 
 
         # Linear model equation
         p = p_intercept + p_condition * condition[i]
-        
+
         # Inference
         y[i] ~ BernoulliLogit(p)
     end
@@ -185,33 +185,85 @@ Unfortunately, mixed models are very slow in Julia for now.
 
 ## Choice-Confidence (Choco) Models
 
-See [here](https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/Choco/).
-TODO.
 
 
 
+### Real Data Example
+
+#### Data Preprocessing
+
+```{julia}
+#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, StatsFuns, SubjectiveScalesModels
+using GLMakie
 
 
-<!-- 
-## Real Data Example
-
-### Data Preprocessing 
-
-
-```@example choco2
-using DataFrames, CSV, Downloads
-using Random
-using Turing
-using CairoMakie
-using StatsFuns: logistic
-using SubjectiveScalesModels
-```
-
-```@example choco2
 Random.seed!(123)
 
 df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/FakeFace/main/data/data.csv"), DataFrame)
 df = df[:, [:Participant, :Stimulus, :Real, :Attractive]]
 
-hist(df.Real, bins=30,  normalization=:pdf, color=:darkred)
+# Show 10 first rows
+first(df, 10)
+```
+
+Our variable of interest is `Real`, for which participants had to indicate on an analog scale whether they thought the face stimulus was **fake** (on the left) or **real** (on the right).
+
+```{julia}
+#| code-fold: false
+
+println("min: ", minimum(df.Real), " max: ", maximum(df.Real))
+```
+
+As the data has been modelled using a $Beta$ regression, the data has been **nudged** to avoid having any value of `0` anbd `1`.
+As extreme values are not a problem for the **Choco** model, we can re-scale the data back to its original form.
+
+```{julia}
+#| code-fold: false
+
+df.Real = data_rescale(df.Real; new_range=[0, 1])
+```
+
+```{julia}
+#| code-fold: false
+
+hist(df.Real, bins=beta_bins(30), normalization=:pdf, color=:darkred)
+```
+
+We can see that the distribution is quite particular: it seems **bimodal** (with mass on both sides of the scale) with a lot of zeros and ones ("zero-and-one inflation").
+This type of data, while common in psychology, is not well captured by standard models (e.g., linear regression) and requires more advanced models, such as the Choco model.
+
+#### The Choco Model
+
+
+See [here](https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/Choco/).
+**TODO.** Present the Choco model.
+
+
+#### Bayesian Choco
+
+
+```{julia}
+# @model function model_choco(y)
+#     p1 ~ Normal(0, 2)
+#     μ0 ~ Normal(0, 1)
+#     μ1 ~ Normal(0, 1)
+#     ϕ0 ~ Normal(0, 1)
+#     ϕ1 ~ Normal(0, 1)
+#     k0 ~ -Gamma(3, 3)
+#     k1 ~ Gamma(3, 3)
+
+#     for i in 1:length(y)
+#         y[i] ~ Choco(logistic(p1), logistic(μ0), exp(ϕ0), logistic(μ1), exp(ϕ1), 0.0, 200, logistic(k0), logistic(k1))
+#     end
+# end
+
+# fit_choco = model_choco(df.Real)
+# posteriors = sample(fit_choco, NUTS(; init_ϵ=0.1), 1000,
+#     initial_params=[0, 0, 0, 0, 0, -9, 9])
+
+# # 95% CI
+# hpd(posteriors)
 ```
