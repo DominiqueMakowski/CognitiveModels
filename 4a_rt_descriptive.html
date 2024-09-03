@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -315,7 +315,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#solution-1-directional-effect-of-condition" id="toc-solution-1-directional-effect-of-condition" class="nav-link" data-scroll-target="#solution-1-directional-effect-of-condition"><span class="header-section-number">5.3.1</span> Solution 1: Directional Effect of Condition</a></li>
   <li><a href="#solution-2-avoid-exploring-negative-variance-values" id="toc-solution-2-avoid-exploring-negative-variance-values" class="nav-link" data-scroll-target="#solution-2-avoid-exploring-negative-variance-values"><span class="header-section-number">5.3.2</span> Solution 2: Avoid Exploring Negative Variance Values</a></li>
-  <li><a href="#solution-3-use-a-softplus-function" id="toc-solution-3-use-a-softplus-function" class="nav-link" data-scroll-target="#solution-3-use-a-softplus-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Function</a></li>
+  <li><a href="#solution-3-change-the-link-function" id="toc-solution-3-change-the-link-function" class="nav-link" data-scroll-target="#solution-3-change-the-link-function"><span class="header-section-number">5.3.3</span> Solution 3: Change the Link-Function</a></li>
   </ul></li>
   <li><a href="#the-problem-with-linear-models" id="toc-the-problem-with-linear-models" class="nav-link" data-scroll-target="#the-problem-with-linear-models"><span class="header-section-number">5.4</span> The Problem with Linear Models</a></li>
   <li><a href="#shifted-lognormal-model" id="toc-shifted-lognormal-model" class="nav-link" data-scroll-target="#shifted-lognormal-model"><span class="header-section-number">5.5</span> Shifted LogNormal Model</a>
@@ -482,7 +482,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>In the previous chapter, we modelled the error rate (the probability of making an error) using a logistic model, and observed that it was higher in the <code>"Speed"</code> condition. But how about speed? We are going to first take interest in the RT of <strong>Correct</strong> answers only (as we can assume that errors are underpinned by a different <em>generative process</em>).</p>
+<p>In the previous chapter, we modeled the error rate (the probability of making an error) using a logistic model, and observed that it was higher in the <code>"Speed"</code> condition. But how about speed? We are going to first take interest in the response times (RT) of <strong>Correct</strong> answers only (as we can assume that errors are underpinned by a different <em>generative process</em>).</p>
 <p>After filtering out the errors, we create a new column, <code>Accuracy</code>, which is the “binarization” of the <code>Condition</code> column, and is equal to 1 when the condition is <code>"Accuracy"</code> and 0 when it is <code>"Speed"</code>.</p>
 <div id="6ecfbcc8" class="cell" data-execution_count="3">
 <details class="code-fold">
@@ -744,11 +744,12 @@ Important
 </div>
 </div>
 </section>
-<section id="solution-3-use-a-softplus-function" class="level3" data-number="5.3.3">
-<h3 data-number="5.3.3" class="anchored" data-anchor-id="solution-3-use-a-softplus-function"><span class="header-section-number">5.3.3</span> Solution 3: Use a “Softplus” Function</h3>
+<section id="solution-3-change-the-link-function" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="solution-3-change-the-link-function"><span class="header-section-number">5.3.3</span> Solution 3: Change the Link-Function</h3>
+<p>Using the previous solution feels like a “hack” and a workaround for a misspecified model. One common practice in regression modelling is to express the parameters on a different, typically unbounded scale.</p>
 <section id="exponential-transformation" class="level4">
 <h4 class="anchored" data-anchor-id="exponential-transformation">Exponential Transformation</h4>
-<p>Using the previous solution feels like a “hack” and a workaround a misspecified model. One alternative approach is to apply a function to <em>sigma</em> <span class="math inline">\(\sigma\)</span> to “transform” it into a positive value. We have seen example of applying “non-identity” <strong>link functions</strong> in the previous chapters with the <strong>logistic</strong> function that transforms any value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span> into a value between 0 and 1.</p>
+<p>One alternative approach is to apply a function to <em>sigma</em> <span class="math inline">\(\sigma\)</span> to “transform” it into a positive value. We have seen example of applying “non-identity” <strong>link functions</strong> in the previous chapters with the <strong>logistic</strong> function that transforms any value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span> into a value between 0 and 1.</p>
 <p>What function could we use to transform any values of <em>sigma</em> <span class="math inline">\(\sigma\)</span> into stricly positive values? One option that has been used is to express the parameter on the log-scale (which can include negative values) for priors and effects, and apply an “exponential” transformation to the parameter at the end.</p>
 <p>The issue with the <strong>log link</strong> (i.e., expressing parameters on the log-scale and then transforming them using the exponential function) is that 1) it generates big numbers (which can slow down sampling efficiency), 2) the interpretation of the effects are not linear (i.e., not additive plus multiplicative), which can add up to the complexity, and 3) normal priors on the log scale lead to a sharp peak in “real” values at 1 that can be problematic.</p>
 <div id="059cb42b" class="cell" data-execution_count="13">

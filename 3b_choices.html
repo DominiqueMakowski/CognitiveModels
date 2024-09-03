@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.55">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -78,7 +44,7 @@ div.csl-indent {
 }</style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -124,9 +90,6 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
-
-<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -310,7 +273,7 @@ window.Quarto = {
   <li><a href="#mixed-logistic-models" id="toc-mixed-logistic-models" class="nav-link" data-scroll-target="#mixed-logistic-models"><span class="header-section-number">4.3</span> Mixed Logistic models</a></li>
   <li><a href="#choice-confidence-choco-models" id="toc-choice-confidence-choco-models" class="nav-link" data-scroll-target="#choice-confidence-choco-models"><span class="header-section-number">4.4</span> Choice-Confidence (Choco) Models</a>
   <ul class="collapse">
-  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing"><span class="header-section-number">4.4.1</span> Data Preprocessing</a></li>
+  <li><a href="#real-data-example" id="toc-real-data-example" class="nav-link" data-scroll-target="#real-data-example"><span class="header-section-number">4.4.1</span> Real Data Example</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -342,207 +305,34 @@ window.Quarto = {
 <h2 data-number="4.1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">4.1</span> The Data</h2>
 <p>For this chapter, we will be using the data from <span class="citation" data-cites="wagenmakers2008diffusion">Wagenmakers et al. (<a href="references.html#ref-wagenmakers2008diffusion" role="doc-biblioref">2008</a>)</span> - Experiment 1 <span class="citation" data-cites="heathcote2012linear">(also reanalyzed by <a href="references.html#ref-heathcote2012linear" role="doc-biblioref">Heathcote and Love 2012</a>)</span>, that contains responses and response times for several participants in two conditions (where instructions emphasized either <strong>speed</strong> or <strong>accuracy</strong>). Using the same procedure as the authors, we excluded all trials with uninterpretable response time, i.e., responses that are too fast (&lt;180 ms) or too slow <span class="citation" data-cites="theriault2024check">(&gt;2 sec instead of &gt;3 sec, see <a href="references.html#ref-theriault2024check" role="doc-biblioref">Thériault et al. 2024</a> for a discussion on outlier removal)</span>.</p>
 <p>In this chapter, we will focus on the “amount” of <strong>errors</strong> between the two conditions (response times will be the focus of the next chapter).</p>
-<div id="27db495d" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Downloads</span>, <span class="bu">CSV</span>, <span class="bu">DataFrames</span>, <span class="bu">Random</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">Turing</span>, <span class="bu">Distributions</span>, <span class="bu">StatsFuns</span>, <span class="bu">SubjectiveScalesModels</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">using</span> <span class="bu">GLMakie</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="bu">Random</span>.<span class="fu">seed!</span>(<span class="fl">123</span>)  <span class="co"># For reproducibility</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> CSV.<span class="fu">read</span>(<span class="bu">Downloads</span>.<span class="fu">download</span>(<span class="st">"https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"</span>), DataFrame)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Show 10 first rows</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">first</span>(df, <span class="fl">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
-<div><div style="float: left;"><span>10×5 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Participant</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Condition</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">RT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Error</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Frequency</th>
-</tr>
-<tr class="odd subheader headerLastRow">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Int64">Int64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Bool">Bool</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.7</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.392</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">3</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.46</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">4</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.455</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Very Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">5</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.505</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">6</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.773</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">7</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.39</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">8</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.587</td>
-<td style="text-align: right;">true</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">9</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.603</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">Low</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">10</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.435</td>
-<td style="text-align: right;">false</td>
-<td style="text-align: left;">High</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, StatsFuns, SubjectiveScalesModels
+using GLMakie
+
+Random.seed!(123)  # For reproducibility
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/DominiqueMakowski/CognitiveModels/main/data/wagenmakers2008.csv"), DataFrame)
+
+# Show 10 first rows
+first(df, 10)</code></pre>
 <p>Let us first compute the average number of errors for each condition.</p>
-<div id="8ef016c2" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">combine</span>(<span class="fu">groupby</span>(df, <span class="op">:</span><span class="dt">Condition</span>), <span class="op">:</span>Error <span class="op">=&gt;</span> mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div><div style="float: left;"><span>2×2 DataFrame</span></div><div style="clear: both;"></div></div><div class="data-frame" style="overflow-x: scroll;">
-<table class="data-frame caption-top table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;">Row</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Condition</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Error_mean</th>
-</tr>
-<tr class="odd subheader headerLastRow">
-<th class="rowNumber" data-quarto-table-cell-role="th" style="text-align: right; font-weight: bold;"></th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="String15">String15</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th" title="Float64">Float64</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">1</td>
-<td style="text-align: left;">Speed</td>
-<td style="text-align: right;">0.110407</td>
-</tr>
-<tr class="even">
-<td class="rowNumber" style="text-align: right; font-weight: bold;">2</td>
-<td style="text-align: left;">Accuracy</td>
-<td style="text-align: right;">0.0451463</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="63ca47a6" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dat <span class="op">=</span> <span class="fu">combine</span>(<span class="fu">groupby</span>(df, <span class="op">:</span><span class="dt">Condition</span>), <span class="op">:</span>Error <span class="op">=&gt;</span> mean)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> <span class="fu">Figure</span>()</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> <span class="fu">Axis</span>(fig[<span class="fl">1</span>, <span class="fl">1</span>], ylabel<span class="op">=</span><span class="st">"Average error rate"</span>, xticks <span class="op">=</span>([<span class="fl">0</span>, <span class="fl">1</span>], [<span class="st">"Speed"</span>, <span class="st">"Accuracy"</span>]))</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot!</span>(ax, [<span class="fl">0</span>], [dat.Error_mean[<span class="fl">1</span>]], label<span class="op">=</span><span class="st">"Speed"</span>, color<span class="op">=:</span>red)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot!</span>(ax, [<span class="fl">1</span>], [dat.Error_mean[<span class="fl">2</span>]], label<span class="op">=</span><span class="st">"Accuracy"</span>, color<span class="op">=:</span>green)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">axislegend</span>()</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<img width="600" height="450" style="object-fit: contain; height: auto;" src="data:image/png;base64, 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IiKq2wSsIIRwdnZOT09v27YtqqSnp7u7u9vY2ICIiKjOE7CCEGLMmDHTpk27efMmgPLy8g8//HDx4sXTp08XQoCIiKjOE7BObGysSqVavnz5pUuXDh486OfnN2vWrJEjR4KIiKg+ELDO+fPnn3nmmUGDBhUUFJjNZgcHh+zs7IyMjCeeeAJERER1nsDjKiwsBDBhwoSZM2fa2toKIQCUlpamp6cvWrRo3759ICIiqvMEHlf//v0vXbpUVFQUExODaoxGY7du3UBERFQfCDyuuLg4APPmzZswYYKtrS2qCQoKAhERUX0g8Lg6d+4MoLKy0sfHJyAgAFXOnj377bff9u/fH0RERHWegHU6duy4adOmPXv2oEpubm5ycnK/fv1kMhmIiIjqNgHrvPPOO2vXrvX39z958mRYWFhlZeWNGzfmz58vk8lARERU5wlYwWAw7Nu3b9GiRf3793/hhRdiY2O7desWFxd39epVEBER1QcCVjCbzWVlZX5+fnK5vGnTphcvXuzVq9egQYPGjh07YcIEpVIJIiKiuk3ACkql0t3d/dixYy1atNDr9QcOHABgNBoLCwsrKiqUSiWIiIjqNgEryOXy0aNHv/766/n5+YMHD541a9aoUaMuXLjQrl07W1tbEBER1XkC1hk6dGhwcHB2dnbz5s0//fTTjRs3durUacKECSAiIqoPBKxQXl4+fvz4Ll26DBw4EEBPCxAREdUfAlZQKBRXr149f/48iIiI6icBKwghZs+enZCQsGjRopCQELlcjioREREgIiKq8wSsM2fOnPPnz589e1Ymk6FKcHBwREQEiIiI6jwB66xbtw5ERET1loB1HBwcQEREVG8JEBERSZgAERGRhAlYJzs7W6lUuru7g4iIqB4SsEJZWVm3bt3efPPN2NhYEBER1UMCVlCr1YMGDdqxY0e/fv0cHR1BRERU3whY5/bt246Ojk899VTTpk1RxdbWdu3atSAiIqrzBKzj4eFRWVnp7e2NahQKBYiIiOoDAevMmjULgMlkKi4uBmBnZyeXy0FERFRPCFjHbDavXbt2zZo1V65cMZlMfn5+I0aMGDp0KIiIiOoDAessX7585syZo0aNeu2118xm84kTJ6ZMmVJaWjpmzBgQERHVeQJWMBqNX375ZWJi4qhRo2ARHR3t5+e3atWqESNGCCFARERUtwlYwWg05ufn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AxH9I5QZy+6V3VtxegWI/gqpN1NRJfVmKqqMbjO6zFimVClRuwSsM3/+/NOnT69bt27VqlUABg8ePH369Llz577//vsgIiKq8wSsUF5evnPnzrlz50ZGRq5atQpA27Ztp02b9sYbb5SXl9vY2ICI/hHySvNAVMPySvPwdxCwgtlsNhqN9vb2qMbGxsZgMJhMJhAREdV5AlZQq9UdO3ZcvHixn58fLG7duvXZZ5+FhYVpNBoQ0T9FVkEWiGpYVkEW/g4C1omLixszZkx4eLi7u/vly5enTZvm4+OzcuVKEBER1QcC1vHx8dm6dWtKSkp6enplZaVer4+IiLC3twcREVF9IGCdmJiYbhZdu3YFERFRfSNgHRcXl7lz586aNatXr16DBg168sknbWxsQET/LBl3M0BUwzLuZuDvIGCdxYsX37t379ixY1u2bBk9erSrq+vzzz/ft2/fZs2agYiIqM4TsJpOp+ttcfv27SNHjnz00UeHDx/esWMHiIiI6jwBq5WXl587d27Pnj27d+++du1acHBw//79QUREVB8IWGf27Nm7du26dOlS69atX3jhhW7duvn7+8tkMhAREdUHAtZJS0uLjo7u3bt3YGCgEAIWRqNRCAEiIqI6T8A669evVyqVsDCZTL/88suePXuOHj26ZcsWEBER1XkC1lEqlQCuXbuWlJS0efPmY8eOaTSayMhIEBER1QcCVrh169bhw4c3bdqUkpJiMBhCQkIWL14cFRXl7e0NIiKi+kDgsezateubb745ePBgSUlJeHh4YmJiQUHBiRMnYmNjQUREVH8IPJbk5ORvv/12ypQp3bt3b9asmUwmW7hwIYiIiOobgcfSoEEDDw+PuLi4jRs39u/fv1evXiAiIqqHBB7L5MmTx48f/+OPP27ZsmXlypXz5s0LCwvTarUXLlzw9/eXyWQgIiKqDwQel0qlam8RFxf3/fffb9q06cCBA+Hh4R07dhwwYMCwYcNARERU5wlYzd7evptFTk5OcnLy5s2b16xZM2zYMBAREdV5An8dNze3gRbXrl0DERFRfSBQA3x9fUFERFQfCBAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAkQERFJmAAREZGECRAREUmYABERkYQJEBERSZgAERGRhAnQ/6TXIzUVRDVKr0cdpnfVp95MBVFN0rvq8XcQICIikjABIiIiCRP4mxgMBqVSKZPJ8Agmk8loNKpUKjyosrLSZDIplUoQERFZTaDWpaWlzZkzJz09vWHDhhMnTuzduzcesn79+s8++yw/Pz84OHjWrFlNmzYFUFFRsWjRok2bNhmNxq5du86YMcPBwQG1wMcHqakgqlE+PqjDfBx9Um+mgqgm+Tj64O8gULvy8/NHjRrVunXrZcuWHTlyZNSoUbt3727Tpg2qSUpKmjhx4syZMwMDA5csWfLKK69s375drVYvXbr0008/nT9/vkajmTVrVnl5+cKFC0FERGQFgdq1d+/e3NzcxMREDw+PDh06HDlyZP369W3atEE1K1eu7NGjx7hx4wB4enpGRkYeP368Xbt2q1evnjhx4r/+9S8ABoPhtddemzJlSsOGDVHTnJ1BVNOcnVGHOWucQVTDnDXO+DsI1K7jx48HBgZ6eHgAEEJEREQkJyebzWaZ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19PS0lQqldFoLCwsdHJyAnD9+vW0tLTw8HBUU1RUZDQa8ZD33nsvJSVl8eLFzZs3t7W1jYyMBKBSqWxtbfPz82FhMBj27dvXqFGj1q1bd+jQYffu3ZcvX46OjtZqtaAaIED0CGFhYXfv3v3888/Hjh1rZ2dnNpt/+eWXkydPDh48GBZfffVVp06dbGxskpKSfvrpp4SEhAYNGuTk5KSkpDz77LMAtm/fnpCQ8O233z711FOvvfbalStXAgMDTSbTkiVLzpw5s3379qCgoHXr1kVERNjY2Pzwww+nT59++umnQVS7Tp8+ff78+Xnz5j355JOwKCgo8Pb23rZt2/Tp011cXLZt2zZ+/HgAe/fuXbJkye7du11cXLZt2zZ+/HgAe/fuXbJkyXfffSeTybKzs2Gxe/fu4uJiPOTSpUvt2rXr0KEDgHPnzv36668AXFxcQkNDv/7666ioKJVKderUqdGjRyclJQF47rnnZs+efe/evbi4OFDNECB6hMDAwDlz5rzzzjurV69u0KBBRUVFZmZmeHj4q6++ajKZ5HJ5SUlJz549XVxcjh49+uKLL0ZERMjl8smTJ7/88str1641m83ff/99QkKCq6trr169tm3bFh0dHR4enpube+HChdWrVysUijfffDM2NjY6OtrX1zclJeWll14CUa3bunVr48aN27ZtiyqOjo7du3ffs2fPzJkz33rrralTpyYnJyuVymPHjs2ePdvHx+ett96aOnVqcnKyUqk8duzY7Nmz7e3tu3btumDBgszMzFILT09PPKR79+5xcXEFBQUAfvrpp9DQ0C+++MLb23v69OnDhg3r2bOnl5fXd99998ILL7Rq1QpAREREfn6+v79/69atQTVDgOjRXnrppW7duqWmpt68edPBwSEwMDA0NFShUOTm5gKYNm3apUuXrl69OmrUqK5du8rlcgBTpkzp2LHjqVOnFArFtGnT2rRpA0CpVH722WcHDx786aefXFxcOnfu3KRJEwCRkZG7d+/ev39/aWnp8OHDCwoKhBAgql2dOnV66qmnbG1tUc0LL7zQpUuXO3fuDB06tGXLlkePHjWbzW+88Ubbtm0BDB06tGXLlkePHjWbzW+88Ubbtm0BxMXFtWnT5ty5c40bN+7Zs+fp06d1Op1arf7qq6+cnZ1hMXr0aD8/v9OnT7u7uyckJAD4/vvvvby8AgMD9+/fn5SUlJubO3To0KioKFjodDpvb+8BAwYIIUA1Q4Dov2psgf9ELpcPGDAADwm3wIOUSmUPCzwo0AJEf58+ffrgIe3bt0eVYAs8KNgC1SgUij4WsIiMjIRFVFQUqomyQJXnn38eFo0aNRo5ciSqKSkpOX78+JUrV3r27AmqMQJERFQnRUdHX7x48cUXX2zSpAmoxggQ/XkqlerTTz+1s7MDEdWYt956q7Ky8qmnngLVJAGiP8/e3r5fv34gopoUGRkJqnkCREREEiZAREQkYQJEREQSJkBERCRhAkRERBImQEREJGECREREEiZAREQkYQJEREQSJkBERCRhAkRERBImQEREJGECREREEvb/Ae36vv/yu4xRAAAAAElFTkSuQmCC">
-</div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+
+combine(groupby(df, :Condition), :Error =&gt; mean)</code></pre>
+<pre class="{julia}"><code>dat = combine(groupby(df, :Condition), :Error =&gt; mean)
+
+fig = Figure()
+ax = Axis(fig[1, 1], ylabel="Average error rate", xticks=([0, 1], ["Speed", "Accuracy"]))
+barplot!(ax, [0], [dat.Error_mean[1]], label="Speed", color=:red)
+barplot!(ax, [1], [dat.Error_mean[2]], label="Accuracy", color=:green)
+axislegend()
+fig</code></pre>
 <p>Let us then format the data for the model by transforming the <code>Condition</code> column into a binary variable (0 for <code>Speed</code> and 1 for <code>Accuracy</code>). This means that the intercept of the model will represent the error rate in the <code>Speed</code> condition, and we will be able to estimate the effect of the <code>Accuracy</code> condition on the error rate.</p>
-<div id="faf993ed" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df.Accuracy <span class="op">=</span> <span class="fu">ifelse</span>.(df.<span class="dt">Condition</span> <span class="op">.==</span> <span class="st">"Accuracy"</span>, <span class="fl">1</span>, <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>10369-element Vector{Int64}:
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- 0
- ⋮
- 1
- 1
- 1
- 1
- 1
- 1
- 1
- 1
- 1
- 1
- 1
- 1</code></pre>
-</div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+
+df.Accuracy = ifelse.(df.Condition .== "Accuracy", 1, 0)</code></pre>
 <p>Our hypothesis is that the <code>Accuracy</code> condition will <strong>decrease</strong> the error rate compared to the <code>Speed</code> condition.</p>
 </section>
 <section id="logistic-models-for-binary-data" class="level2" data-number="4.2">
@@ -552,25 +342,26 @@ window.Quarto = {
 <p>In the data above, we saw that the error rate (the proportion - or the “probability” - of errors) in the <code>Speed</code> condition was <code>0.11</code> (11%). This would potentially translate into a distribution <span class="math inline">\(Bernoulli(0.11)\)</span>. In our model, we will estimate this probability at this reference condition (<em>aka</em> the <strong>intercept</strong>), as well as the effect of the <code>Accuracy</code> condition (which, in this case, we expect to be <strong>negative</strong>, as that condition seems to <strong>lower</strong> the error rate). We will set <strong>priors</strong> for these two parameters (intercept and the effect of accuracy) that will get explored by the sampling algorithm.</p>
 <p>But here is the <strong>catch</strong>. Imagine the sampling algorithm picks a value of <span class="math inline">\(0.11\)</span> for the intercept (close to the true value) and then decides to explore a value of <span class="math inline">\(-0.20\)</span>. This would lead to a tentative value of <span class="math inline">\(0.11 - 0.20 = -0.09\)</span>… but this parameter is <strong>impossible</strong> (the <em>p</em> parameter of the <span class="math inline">\(Bernouilli\)</span> distribution must be betwen 0 and 1).</p>
 <p>Similarly to the previous chapter, we will avoid these issues by expressing our probability <em>p</em> on the <strong>logit scale</strong>. This way, the effect of <code>Accuracy</code> will be expressed as a <strong>log-odds</strong> (i.e., the log of the odds ratio), which can take any value between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(+\infty\)</span>. We will then convert this log-odds back to a probability using the <strong>logistic function</strong> (the “inverse” of the logit transformation) which maps any value to the [0, 1] range.</p>
-<div id="0475c9ba" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_logistic</span>(y; condition<span class="op">=</span>df.Accuracy)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    p_intercept <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    p_condition <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(y)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Linear model equation</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> p_intercept <span class="op">+</span> p_condition <span class="op">*</span> condition[i]</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Inference</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="op">~</span> <span class="fu">BernoulliLogit</span>(p)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>fit_logistic <span class="op">=</span> <span class="fu">model_logistic</span>(df.Error, condition<span class="op">=</span>df.Accuracy)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>posteriors_logistic <span class="op">=</span> <span class="fu">sample</span>(fit_logistic, <span class="fu">NUTS</span>(), <span class="fl">500</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+#| output: false
+
+@model function model_logistic(y; condition=df.Accuracy)
+    # Priors
+    p_intercept ~ Normal(0, 1)
+    p_condition ~ Normal(0, 1)
+
+    # Likelihood
+    for i in 1:length(y)
+        # Linear model equation
+        p = p_intercept + p_condition * condition[i]
+
+        # Inference
+        y[i] ~ BernoulliLogit(p)
+    end
+end
+
+fit_logistic = model_logistic(df.Error, condition=df.Accuracy)
+posteriors_logistic = sample(fit_logistic, NUTS(), 500)</code></pre>
 <div class="callout callout-style-default callout-tip callout-titled" title="Code Tip">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -584,87 +375,124 @@ Code Tip
 <p>Note the use of <code>BernoulliLogit(p)</code>, which is equivalent to <code>Bernoulli(logistic(p))</code> but more efficient.</p>
 </div>
 </div>
-<div id="35729348" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 95% CI</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hpd</span>(posteriors_logistic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="7">
-<div class="ansi-escaped-output">
-<pre>HPD
- <span class="ansi-bold">  parameters </span> <span class="ansi-bold">   lower </span> <span class="ansi-bold">   upper </span>
- <span class="ansi-bright-black-fg">      Symbol </span> <span class="ansi-bright-black-fg"> Float64 </span> <span class="ansi-bright-black-fg"> Float64 </span>
-  p_intercept   -2.1812   -2.0035
-  p_condition   -1.0957   -0.8047
-</pre>
-</div>
-</div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+
+# 95% CI
+hpd(posteriors_logistic)</code></pre>
 <p>In order to visualize the results, we are going to errors and then overlay the predicted error rates for each condition for each posterior draw.</p>
-<div id="6a7ddf32" class="cell" data-execution_count="8">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">predict</span>(<span class="fu">model_logistic</span>(<span class="fu">fill</span>(<span class="cn">missing</span>, <span class="fu">length</span>(df.Error)), condition<span class="op">=</span>df.Accuracy), posteriors_logistic)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pred <span class="op">=</span> <span class="fu">Array</span>(pred)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(posteriors_logistic)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    mean_speed <span class="op">=</span> <span class="fu">mean</span>(pred[i, <span class="op">:</span>][df.Accuracy <span class="op">.==</span> <span class="fl">0</span>])</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    mean_accuracy <span class="op">=</span> <span class="fu">mean</span>(pred[i, <span class="op">:</span>][df.Accuracy <span class="op">.==</span> <span class="fl">1</span>])</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lines!</span>([<span class="fl">0</span>, <span class="fl">1</span>], [mean_speed, mean_accuracy], color<span class="op">=</span>(<span class="op">:</span>black, <span class="fl">0.1</span>), linewidth<span class="op">=</span><span class="fl">1</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="cf">end</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>fig</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+<pre class="{julia}"><code>#| output: false
+
+pred = predict(model_logistic(fill(missing, length(df.Error)), condition=df.Accuracy), posteriors_logistic)
+pred = Array(pred)
+
+for i in 1:length(posteriors_logistic)
+    mean_speed = mean(pred[i, :][df.Accuracy.==0])
+    mean_accuracy = mean(pred[i, :][df.Accuracy.==1])
+    lines!([0, 1], [mean_speed, mean_accuracy], color=(:black, 0.1), linewidth=1)
+end
+
+fig</code></pre>
 <p>The model appears to successfully recover the average error rates for each condition.</p>
 </section>
 <section id="mixed-logistic-models" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="mixed-logistic-models"><span class="header-section-number">4.3</span> Mixed Logistic models</h2>
 <p>However, this model overlooks the fact that the data has <strong>repeated measures</strong>. In other words, each individual observation is nested within an overarching cluster that is a “participant”. Taking into account this structure can lead to more accurate estimates of the fixed effects (the intercept and the effect of <code>Accuracy</code>), as well as a quantification of the variability between participants.</p>
 <p>Setting a mixed model in Turing requires, for each “random” effect (that can be added to any of the “fixed” parameters): - A prior for the <strong>standard deviation</strong> of the random effects (i.e., the variability between participants). This will determine how much each participant are assumed (and allowed) to deviate from the average effect. - A series of priors for each participant. These priors are typically centered at 0 (i.e., no deviation from the average effect) and have a standard deviation equal to the one defined above.</p>
-<div id="3bbd4446" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode julia code-with-copy"><code class="sourceCode julia"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="pp">@model</span> <span class="kw">function</span> <span class="fu">model_logistic</span>(y; condition<span class="op">=</span>df.Accuracy, participant<span class="op">=</span>df.Participant)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors for  fixed effects</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    p_intercept_fixed <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    p_condition_fixed <span class="op">~</span> <span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">1</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors for the SD of the random effects </span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    p_intercept_participant_sd <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">0.5</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    p_condition_participant_sd <span class="op">~</span> <span class="fu">truncated</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, <span class="fl">0.5</span>); lower<span class="op">=</span><span class="fl">0</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Priors for each participant</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    p_intercept_participant <span class="op">~</span> <span class="fu">filldist</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, p_intercept_participant_sd), <span class="fu">length</span>(<span class="fu">unique</span>(participant)))</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    p_condition_participant <span class="op">~</span> <span class="fu">filldist</span>(<span class="fu">Normal</span>(<span class="fl">0</span>, p_condition_participant_sd), <span class="fu">length</span>(<span class="fu">unique</span>(participant)))</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Likelihood</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu">length</span>(y)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Random components</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        p_intercept <span class="op">=</span> p_intercept_fixed <span class="op">+</span> p_intercept_participant[participant[i]]</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        p_condition <span class="op">=</span> p_condition_fixed <span class="op">+</span> p_condition_participant[participant[i]]</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Linear model equation</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>        p <span class="op">=</span> p_intercept <span class="op">+</span> p_condition <span class="op">*</span> condition[i]</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Inference</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        y[i] <span class="op">~</span> <span class="fu">BernoulliLogit</span>(p)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">end</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>fit_logistic <span class="op">=</span> <span class="fu">model_logistic</span>(df.Error, condition<span class="op">=</span>df.Accuracy, participant<span class="op">=</span>df.Participant)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>posteriors_logistic <span class="op">=</span> <span class="fu">sample</span>(fit_logistic, <span class="fu">NUTS</span>(), <span class="fl">500</span>)</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co"># using MicroCanonicalHMC</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co"># posteriors_logistic = sample(fit_logistic, externalsampler(MCHMC(1000, 0.001)), 500)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<pre class="{julia}"><code>#| code-fold: false
+#| output: false
+
+@model function model_logistic(y; condition=df.Accuracy, participant=df.Participant)
+    # Priors for  fixed effects
+    p_intercept_fixed ~ Normal(0, 1)
+    p_condition_fixed ~ Normal(0, 1)
+
+    # Priors for the SD of the random effects 
+    p_intercept_participant_sd ~ truncated(Normal(0, 0.5); lower=0)
+    p_condition_participant_sd ~ truncated(Normal(0, 0.5); lower=0)
+
+    # Priors for each participant
+    p_intercept_participant ~ filldist(Normal(0, p_intercept_participant_sd), length(unique(participant)))
+    p_condition_participant ~ filldist(Normal(0, p_condition_participant_sd), length(unique(participant)))
+
+    # Likelihood
+    for i in 1:length(y)
+        # Random components
+        p_intercept = p_intercept_fixed + p_intercept_participant[participant[i]]
+        p_condition = p_condition_fixed + p_condition_participant[participant[i]]
+
+        # Linear model equation
+        p = p_intercept + p_condition * condition[i]
+
+        # Inference
+        y[i] ~ BernoulliLogit(p)
+    end
+end
+
+fit_logistic = model_logistic(df.Error, condition=df.Accuracy, participant=df.Participant)
+posteriors_logistic = sample(fit_logistic, NUTS(), 500)
+# using MicroCanonicalHMC
+# posteriors_logistic = sample(fit_logistic, externalsampler(MCHMC(1000, 0.001)), 500)</code></pre>
 <p>Unfortunately, mixed models are very slow in Julia for now.</p>
 </section>
 <section id="choice-confidence-choco-models" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="choice-confidence-choco-models"><span class="header-section-number">4.4</span> Choice-Confidence (Choco) Models</h2>
-<p>See <a href="https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/Choco/">here</a>. TODO.</p>
-<p>&lt;!– ## Real Data Example</p>
-<section id="data-preprocessing" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="data-preprocessing"><span class="header-section-number">4.4.1</span> Data Preprocessing</h3>
-<p><code>@example choco2 using DataFrames, CSV, Downloads using Random using Turing using CairoMakie using StatsFuns: logistic using SubjectiveScalesModels</code></p>
-<p>```<span class="citation" data-cites="example">(<a href="references.html#ref-example" role="doc-biblioref"><strong>example?</strong></a>)</span> choco2 Random.seed!(123)</p>
-<p>df = CSV.read(Downloads.download(“https://raw.githubusercontent.com/RealityBending/FakeFace/main/data/data.csv”), DataFrame) df = df[:, [:Participant, :Stimulus, :Real, :Attractive]]</p>
-<p>hist(df.Real, bins=30, normalization=:pdf, color=:darkred) ```</p>
+<section id="real-data-example" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="real-data-example"><span class="header-section-number">4.4.1</span> Real Data Example</h3>
+<section id="data-preprocessing" class="level4">
+<h4 class="anchored" data-anchor-id="data-preprocessing">Data Preprocessing</h4>
+<pre class="{julia}"><code>#| code-fold: false
+
+using Downloads, CSV, DataFrames, Random
+using Turing, Distributions, StatsFuns, SubjectiveScalesModels
+using GLMakie
+
+
+Random.seed!(123)
+
+df = CSV.read(Downloads.download("https://raw.githubusercontent.com/RealityBending/FakeFace/main/data/data.csv"), DataFrame)
+df = df[:, [:Participant, :Stimulus, :Real, :Attractive]]
+
+# Show 10 first rows
+first(df, 10)</code></pre>
+<p>Our variable of interest is <code>Real</code>, for which participants had to indicate on an analog scale whether they thought the face stimulus was <strong>fake</strong> (on the left) or <strong>real</strong> (on the right).</p>
+<pre class="{julia}"><code>#| code-fold: false
+
+println("min: ", minimum(df.Real), " max: ", maximum(df.Real))</code></pre>
+<p>As the data has been modelled using a <span class="math inline">\(Beta\)</span> regression, the data has been <strong>nudged</strong> to avoid having any value of <code>0</code> anbd <code>1</code>. As extreme values are not a problem for the <strong>Choco</strong> model, we can re-scale the data back to its original form.</p>
+<pre class="{julia}"><code>#| code-fold: false
+
+df.Real = data_rescale(df.Real; new_range=[0, 1])</code></pre>
+<pre class="{julia}"><code>#| code-fold: false
+
+hist(df.Real, bins=beta_bins(30), normalization=:pdf, color=:darkred)</code></pre>
+<p>We can see that the distribution is quite particular: it seems <strong>bimodal</strong> (with mass on both sides of the scale) with a lot of zeros and ones (“zero-and-one inflation”). This type of data, while common in psychology, is not well captured by standard models (e.g., linear regression) and requires more advanced models, such as the Choco model.</p>
+</section>
+<section id="the-choco-model" class="level4">
+<h4 class="anchored" data-anchor-id="the-choco-model">The Choco Model</h4>
+<p>See <a href="https://dominiquemakowski.github.io/SubjectiveScalesModels.jl/dev/Choco/">here</a>. <strong>TODO.</strong> Present the Choco model.</p>
+</section>
+<section id="bayesian-choco" class="level4">
+<h4 class="anchored" data-anchor-id="bayesian-choco">Bayesian Choco</h4>
+<pre class="{julia}"><code># @model function model_choco(y)
+#     p1 ~ Normal(0, 2)
+#     μ0 ~ Normal(0, 1)
+#     μ1 ~ Normal(0, 1)
+#     ϕ0 ~ Normal(0, 1)
+#     ϕ1 ~ Normal(0, 1)
+#     k0 ~ -Gamma(3, 3)
+#     k1 ~ Gamma(3, 3)
+
+#     for i in 1:length(y)
+#         y[i] ~ Choco(logistic(p1), logistic(μ0), exp(ϕ0), logistic(μ1), exp(ϕ1), 0.0, 200, logistic(k0), logistic(k1))
+#     end
+# end
+
+# fit_choco = model_choco(df.Real)
+# posteriors = sample(fit_choco, NUTS(; init_ϵ=0.1), 1000,
+#     initial_params=[0, 0, 0, 0, 0, -9, 9])
+
+# # 95% CI
+# hpd(posteriors)</code></pre>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
@@ -678,6 +506,7 @@ Thériault, Rémi, Mattan S Ben-Shachar, Indrajeet Patil, Daniel Lüdecke, Brent
 Wagenmakers, Eric-Jan, Roger Ratcliff, Pablo Gomez, and Gail McKoon. 2008. <span>“A Diffusion Model Account of Criterion Shifts in the Lexical Decision Task.”</span> <em>Journal of Memory and Language</em> 58 (1): 140–59.
 </div>
 </div>
+</section>
 </section>
 </section>
 
